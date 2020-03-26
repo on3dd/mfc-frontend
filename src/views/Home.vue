@@ -15,6 +15,7 @@
     </div>
     <div v-else :key="screen" class="screen">
       <ScreenComputedResult/>
+      <ScreenOtherOptions/>
     </div>
   </div>
 </template>
@@ -27,6 +28,7 @@
   import ScreenSelectTravelWay from '@/components/ScreenSelectTravelWay.vue';
   import ScreenSelectService from "@/components/ScreenSelectService.vue";
   import ScreenComputedResult from "@/components/ScreenComputedResult.vue";
+  import ScreenOtherOptions from "@/components/ScreenOtherOptions.vue";
 
   @Component({
     components: {
@@ -35,6 +37,7 @@
       ScreenSelectTravelWay,
       ScreenSelectService,
       ScreenComputedResult,
+      ScreenOtherOptions,
     }
   })
   export default class Home extends Vue {

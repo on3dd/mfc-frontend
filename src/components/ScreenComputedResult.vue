@@ -1,12 +1,15 @@
 <template>
-  <div class="screen-inner">
-    <MFCLogo style="margin-bottom: 25px;"/>
-    <div class="ready">
-      <h2 class="ready__text">Готово!</h2>
-    </div>
-    <ScreenComputedResultInfo/>
-    <div class="change-data">
-      <button class="change-data__button">Изменить данные для поиска</button>
+  <div>
+    <div class="screen-inner">
+      <MFCLogo style="margin-bottom: 25px;"/>
+      <div class="ready">
+        <h2 class="ready__text">Готово!</h2>
+      </div>
+      <ScreenComputedResultInfo/>
+      <div class="change-data">
+        <button class="change-data__button">Изменить данные для поиска</button>
+      </div>
+      <div class="map-placeholder"></div>
     </div>
   </div>
 </template>
@@ -63,6 +66,12 @@
         padding: 20px 30px;
       }
     }
-  }
 
+    .map-placeholder {
+      width: 100%;
+      height: 622px;
+      border: 1px solid #000000;
+      margin-bottom: 70px;
+    }
+  }
 </style>
