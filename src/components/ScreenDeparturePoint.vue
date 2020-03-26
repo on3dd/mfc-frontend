@@ -2,9 +2,9 @@
   <div class="screen-inner">
     <MFCLogo style="margin-bottom: 100px;"/>
     <div class="title">
-      <div class="title__text">
+      <h2 class="title__text">
         Откуда вы планируете добираться?
-      </div>
+      </h2>
     </div>
     <div class="input">
       <BaseInput/>

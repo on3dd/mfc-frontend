@@ -7,6 +7,9 @@
     <div v-else-if="screen === 1" class="screen">
       <ScreenDeparturePoint/>
     </div>
+    <div v-else-if="screen === 2" class="screen">
+      <ScreenTravelWay/>
+    </div>
   </div>
 </template>
 
@@ -15,11 +18,13 @@
   import {Getter} from 'vuex-class';
   import ScreenHome from '@/components/ScreenHome.vue';
   import ScreenDeparturePoint from '@/components/ScreenDeparturePoint.vue';
+  import ScreenTravelWay from  '@/components/ScreenTravelWay.vue';
 
   @Component({
     components: {
       ScreenHome,
       ScreenDeparturePoint,
+      ScreenTravelWay,
     }
   })
   export default class Home extends Vue {
