@@ -4,7 +4,7 @@ interface ScreensState {
 
 export default {
   state: {
-    screen: 4,
+    screen: 0,
   },
   mutations: {
     increaseScreen(state: ScreensState) {

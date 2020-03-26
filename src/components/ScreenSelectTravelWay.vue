@@ -12,11 +12,11 @@
         <span class="travel-ways-group__item__text">Пешком</span>
       </IconTravelWay>
       <IconTravelWay name="car" @changeTravelWay="changeTravelWay($event)">
-        <img class="travel-ways-group__item__image" src="../assets/images/afoot-icon.svg" alt="Пешком">
+        <img class="travel-ways-group__item__image" src="../assets/images/car-icon.svg" alt="Пешком">
         <span class="travel-ways-group__item__text">Авто</span>
       </IconTravelWay>
       <IconTravelWay name="bus" @changeTravelWay="changeTravelWay($event)">
-        <img class="travel-ways-group__item__image" src="../assets/images/afoot-icon.svg" alt="Пешком">
+        <img class="travel-ways-group__item__image" src="../assets/images/bus-icon.svg" alt="Пешком">
         <span class="travel-ways-group__item__text">Общественный транспорт</span>
       </IconTravelWay>
     </div>
