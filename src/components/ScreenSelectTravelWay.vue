@@ -45,7 +45,7 @@
       IconTravelWay,
     }
   })
-  export default class ScreenTravelWay extends Vue {
+  export default class ScreenSelectTravelWay extends Vue {
     $refs!: {
       travelWaysGroup: HTMLElement;
     };

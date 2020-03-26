@@ -1,7 +1,7 @@
 <template>
   <div class="input-placeholder">
     <img src="../assets/images/search-icon.svg" class="input__icon" alt="Поиск">
-    <input class="input" type="text" placeholder="Опа гангнам стайл">
+    <input class="input" type="text">
   </div>
 </template>
 

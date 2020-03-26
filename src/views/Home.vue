@@ -4,11 +4,17 @@
       <ScreenHome/>
       <img class="mfc-logo" src="../assets/images/mfc-logo.svg" alt="Лого МФЦ">
     </div>
-    <div v-else-if="screen === 1" class="screen">
+    <div v-else-if="screen === 1" :key="screen" class="screen">
       <ScreenDeparturePoint/>
     </div>
-    <div v-else-if="screen === 2" class="screen">
-      <ScreenTravelWay/>
+    <div v-else-if="screen === 2" :key="screen" class="screen">
+      <ScreenSelectTravelWay/>
+    </div>
+    <div v-else-if="screen === 3" :key="screen" class="screen">
+      <ScreenSelectService/>
+    </div>
+    <div v-else :key="screen" class="screen">
+      <ScreenComputedResult/>
     </div>
   </div>
 </template>
@@ -18,13 +24,17 @@
   import {Getter} from 'vuex-class';
   import ScreenHome from '@/components/ScreenHome.vue';
   import ScreenDeparturePoint from '@/components/ScreenDeparturePoint.vue';
-  import ScreenTravelWay from  '@/components/ScreenTravelWay.vue';
+  import ScreenSelectTravelWay from '@/components/ScreenSelectTravelWay.vue';
+  import ScreenSelectService from "@/components/ScreenSelectService.vue";
+  import ScreenComputedResult from "@/components/ScreenComputedResult.vue";
 
   @Component({
     components: {
       ScreenHome,
       ScreenDeparturePoint,
-      ScreenTravelWay,
+      ScreenSelectTravelWay,
+      ScreenSelectService,
+      ScreenComputedResult,
     }
   })
   export default class Home extends Vue {
