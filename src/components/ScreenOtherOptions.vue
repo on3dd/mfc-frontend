@@ -87,7 +87,7 @@
     &__list {
       display: flex;
       flex-wrap: wrap;
-      /*max-width: 1000px;*/
+      max-width: 1200px;
       justify-content: center;
       margin-bottom: 120px;
 
