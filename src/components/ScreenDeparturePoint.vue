@@ -2,33 +2,36 @@
   <div class="screen-inner">
     <MFCLogo style="margin-bottom: 100px;"/>
     <div class="title">
-      <h1 class="title__text">
-        Загруженность <br> МФЦ
-      </h1>
+      <div class="title__text">
+        Откуда вы планируете добираться?
+      </div>
     </div>
-    <div class="description">
-      <h2 class="description__text">Здесь вы можете узнать, какое
-        <span class="orange">отделение мфц</span>
-        будет наиболее удобным для вас в данный момент</h2>
+    <div class="input">
+      <BaseInput/>
     </div>
     <div class="button-group">
+      <PrevButton/>
       <NextButton/>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
   import {Component, Vue} from "vue-property-decorator";
   import MFCLogo from "./MFCLogo.vue";
+  import BaseInput from "./BaseInput.vue";
+  import PrevButton from "./PrevButton.vue";
   import NextButton from "./NextButton.vue";
 
   @Component({
     components: {
       MFCLogo,
+      BaseInput,
+      PrevButton,
       NextButton,
     }
   })
-  export default class ScreenHome extends Vue {}
+  export default class ScreenDeparturePoint extends Vue {}
 </script>
 
 <style scoped lang="scss">
@@ -45,25 +48,10 @@
 
       &__text {
         @include bold-text;
-        color: $mfc-brown;
-        font-size: 90px;
-        line-height: 75px;
-      }
-    }
-
-    .description {
-      margin-bottom: 20px;
-
-      &__text {
-        @include bold-text;
         color: #000000;
-        font-size: 50px;
-        line-height: 60px;
-        width: 800px;
-
-        .orange {
-          color: $mfc-orange;
-        }
+        font-size: 36px;
+        line-height: 1.5em;
+        text-align: center;
       }
     }
   }

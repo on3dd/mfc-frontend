@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <slot></slot>
-  </div>
+  <button @click="increaseScreen" class="button">Далее</button>
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from "vue-property-decorator";
+  import {Component} from "vue-property-decorator";
+  import {Mutation} from "vuex-class";
+  import BaseButton from './BaseButton.vue';
 
   @Component
-  export default class BaseButton extends Vue {}
+  export default class NextButton extends BaseButton {
+    @Mutation increaseScreen!: void;
+  }
 </script>
 
 <style scoped lang="scss">
@@ -19,7 +21,7 @@
     @include base-button;
     background: $mfc-orange;
     line-height: 60px;
-    padding: 0px 30px;
+    padding: 0 30px;
     border-radius: 44px;
     font-size: 36px;
     transition: all .1s ease-out;

@@ -1,33 +1,46 @@
 <template>
   <div class="home">
-    <ScreenHome/>
-    <img class="mfc-logo" src="../assets/images/mfc-logo.svg" alt="Лого МФЦ">
+    <div v-if="screen === 0" class="screen">
+      <ScreenHome/>
+      <img class="mfc-logo" src="../assets/images/mfc-logo.svg" alt="Лого МФЦ">
+    </div>
+    <div v-else-if="screen === 1" class="screen">
+      <ScreenDeparturePoint/>
+    </div>
   </div>
 </template>
 
-<script>
-  // @ is an alias to /src
+<script lang="ts">
+  import {Component, Vue} from 'vue-property-decorator';
+  import {Getter} from 'vuex-class';
   import ScreenHome from '@/components/ScreenHome.vue';
+  import ScreenDeparturePoint from '@/components/ScreenDeparturePoint.vue';
 
-  export default {
-    name: 'Home',
+  @Component({
     components: {
       ScreenHome,
+      ScreenDeparturePoint,
     }
+  })
+  export default class Home extends Vue {
+    @Getter screen!: number;
   }
 </script>
 
 <style scoped lang="scss">
   .home {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    .screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
     .mfc-logo {
       position: absolute;
       top: 50%;
       right: 0;
       transform: translateY(-50%);
+      z-index: -1;
     }
   }
 </style>

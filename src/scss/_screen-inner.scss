@@ -1,0 +1,15 @@
+@mixin screen-inner {
+  margin: 0;
+  padding: 90px 120px;
+  width: 100%;
+  max-width: 1440px;
+  height: 100vh;
+
+  .button-group {
+    position: absolute;
+    bottom: 90px;
+    display: flex;
+    width: calc(100% - 240px);
+    justify-content: space-between;
+  }
+}
