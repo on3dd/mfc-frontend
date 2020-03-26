@@ -55,16 +55,16 @@
       &__image {
         margin-bottom: 13px;
         cursor: pointer;
-        transition: all .1s ease-out;
+        transition: all .2s ease-out;
+        filter: grayscale(100%) brightness(150%);
 
         &:hover {
-          filter: brightness(90%);
+          filter: grayscale(100%) brightness(125%);
         }
 
         &.active {
-          filter: brightness(75%);
+          filter: none;
         }
-      ;
       }
 
       &__text {
