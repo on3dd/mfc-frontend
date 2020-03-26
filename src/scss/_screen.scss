@@ -1,0 +1,8 @@
+@mixin base-screen {
+  margin: 0;
+  padding: 90px 120px;
+  width: 100%;
+  max-width: 1440px;
+  height: 100vh;
+  //overflow: hidden;
+}
