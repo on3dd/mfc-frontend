@@ -17,6 +17,10 @@
       <ScreenComputedResult/>
       <ScreenOtherOptions/>
     </div>
+    <ModalChangeSelectionOptions/>
+    <ModalChangeDeparturePoint/>
+    <ModalChangeTravelWay/>
+    <ModalChangeService/>
   </div>
 </template>
 
@@ -29,6 +33,10 @@
   import ScreenSelectService from "@/components/ScreenSelectService.vue";
   import ScreenComputedResult from "@/components/ScreenComputedResult.vue";
   import ScreenOtherOptions from "@/components/ScreenOtherOptions.vue";
+  import ModalChangeSelectionOptions from "@/components/ModalChangeSelectionOptions.vue";
+  import ModalChangeDeparturePoint from "@/components/ModalChangeDeparturePoint.vue";
+  import ModalChangeTravelWay from "@/components/ModalChangeTravelWay.vue";
+  import ModalChangeService from "@/components/ModalChangeService.vue";
 
   @Component({
     components: {
@@ -38,6 +46,10 @@
       ScreenSelectService,
       ScreenComputedResult,
       ScreenOtherOptions,
+      ModalChangeSelectionOptions,
+      ModalChangeDeparturePoint,
+      ModalChangeTravelWay,
+      ModalChangeService,
     }
   })
   export default class Home extends Vue {
