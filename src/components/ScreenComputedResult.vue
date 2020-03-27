@@ -14,7 +14,9 @@
           Изменить данные для поиска
         </button>
       </div>
-      <div class="map-placeholder"></div>
+      <div class="map-placeholder">
+        <ScreenComputedResultMap/>
+      </div>
     </div>
   </div>
 </template>
@@ -23,11 +25,13 @@
   import {Component, Vue} from "vue-property-decorator";
   import MFCLogo from "./MFCLogo.vue";
   import ScreenComputedResultInfo from "./ScreenComputedResultInfo.vue";
+  import ScreenComputedResultMap from "./ScreenComputedResultMap.vue";
 
   @Component({
     components: {
       MFCLogo,
       ScreenComputedResultInfo,
+      ScreenComputedResultMap,
     }
   })
   export default class ScreenComputedResult extends Vue {}
@@ -75,7 +79,8 @@
     .map-placeholder {
       width: 100%;
       height: 622px;
-      border: 1px solid #000000;
+      border-radius: 40px;
+      overflow: hidden;
       margin-bottom: 70px;
     }
   }
