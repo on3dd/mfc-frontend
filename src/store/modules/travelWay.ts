@@ -1,17 +1,17 @@
 interface TravelWayState {
-  name: string;
+  travelWay: string;
 }
 
 export default {
   state: {
-    name: 'afoot',
+    travelWay: 'afoot',
   },
   mutations: {
-    updateTravelWay(state: TravelWayState, name: string) {
-      state.name = name;
+    updateTravelWay(state: TravelWayState, travelWay: string) {
+      state.travelWay = travelWay;
     },
   },
   getters: {
-    name: (state: TravelWayState) => state.name,
+    travelWay: (state: TravelWayState) => state.travelWay,
   },
 }

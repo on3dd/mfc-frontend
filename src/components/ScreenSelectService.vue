@@ -10,7 +10,7 @@
       <h3 class="description__text">* ДЛЯ БОЛЕЕ ТОЧНОГО РАСЧЁТА ВРЕМЕНИ РЕКОМЕНДУЕТСЯ выбрать необходимую услугу</h3>
     </div>
     <div class="input">
-      <BaseDatalist name="select-service" :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"/>
+      <BaseDatalist @select="changeService" name="select-service" :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"/>
     </div>
     <div class="button-group">
       <PrevButton/>
@@ -19,8 +19,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
+  import {Mutation} from "vuex-class";
   import MFCLogo from "./MFCLogo.vue";
   import BaseInput from "./BaseInput.vue";
   import BaseDatalist from "./BaseDatalist.vue";
@@ -36,7 +37,13 @@
       NextButton,
     }
   })
-  export default class ScreenSelectService extends Vue {}
+  export default class ScreenSelectService extends Vue {
+    @Mutation updateService!: (service: string) => void;
+
+    private changeService(service: string) {
+      this.updateService(service);
+    }
+  }
 </script>
 
 <style scoped lang="scss">
