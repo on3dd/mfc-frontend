@@ -25,16 +25,13 @@
   import {Getter, Mutation} from "vuex-class";
   import DeparturePoint from "@/types/departurePoint";
   import Position from "@/types/position";
-  // TODO Add declarations
-  // FIXME: Linter issues with global 'google' variable
-  // import google from 'vue2-google-maps'
   import { google, googleMaps } from 'vue2-google-maps'
 
   declare global {
     interface Window {
       google: {
-        maps: googleMaps,
-      }
+        maps: googleMaps;
+      };
     }
   }
 

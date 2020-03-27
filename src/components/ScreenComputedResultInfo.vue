@@ -26,7 +26,7 @@
             </span>
             <div class="info__data__statistics__list__item__data">
               <img src="../assets/images/human-icon.svg" alt="" class="info__data__statistics__list__item__data__image">
-              <span class="info__data__statistics__list__item__data__amount">3</span>
+              <span class="info__data__statistics__list__item__data__amount">{{statistics.pendingTicketsCount || 0}}</span>
             </div>
           </div>
           <div class="info__data__statistics__list__item">
@@ -35,7 +35,7 @@
             </span>
             <div class="info__data__statistics__list__item__data">
               <img src="../assets/images/human-icon.svg" alt="" class="info__data__statistics__list__item__data__image">
-              <span class="info__data__statistics__list__item__data__amount">253</span>
+              <span class="info__data__statistics__list__item__data__amount">{{statistics.completedTicketsCount || 0}}</span>
             </div>
           </div>
         </div>
@@ -46,11 +46,18 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
-  import {Getter} from "vuex-class";
+  import {Getter, Action} from "vuex-class";
+  import StatisticsItem from "@/types/statisticsItem";
 
   @Component
   export default class ScreenComputedResultInfo extends Vue {
     @Getter time!: number;
+    @Getter statistics!: StatisticsItem;
+    @Action fetchStatistics!: () => void;
+
+    async mounted() {
+      this.fetchStatistics();
+    }
   }
 </script>
 
