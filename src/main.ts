@@ -13,6 +13,8 @@ Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyC0zt4dGxQo4j_dt9z8dofi1UHQOApc8S0',
     libraries: ["directions", "places", "geocoder"], // This is required if you use the Autocomplete plugin
+    region: 'RU',
+    language: 'ru',
     // OR: libraries: 'places,drawing'
     // OR: libraries: 'places,drawing,visualization'
     // (as you require)
