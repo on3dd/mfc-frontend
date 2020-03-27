@@ -26,9 +26,7 @@
   import DeparturePoint from "@/types/departurePoint";
   import Position from "@/types/position";
   // TODO Add declarations
-  //@ts-ignore
-  // import DirectionsRenderer from './DirectionsRenderer.js';
-  import {gmapApi} from 'vue2-google-maps';
+  // FIXME: Linter issues with global 'google' variable
 
   @Component({})
   export default class ScreenComputedResultMap extends Vue {
@@ -70,18 +68,21 @@
       scaledSize: {width: 36, height: 36, f: 'px', b: 'px'},
     };
 
+    // Google Maps API stuff
     private trafficLayer!: any;
     private directionsService!: any;
     private directionsDisplay!: any;
+    private geocoder!: any;
 
     mounted() {
       // @ts-ignore
       this.$gmapApiPromiseLazy().then(() => {
-        this.getRoute();
+        this.drawRoute();
+        this.drawMFCMarkers();
       })
     }
 
-    private getRoute() {
+    private drawRoute() {
       console.log('g:', google);
 
       this.trafficLayer = new google.maps.TrafficLayer();
@@ -94,6 +95,7 @@
       this.directionsDisplay = new google.maps.DirectionsRenderer();
       console.log('directionsDisplay:', this.directionsDisplay);
       this.directionsDisplay.setMap(this.$refs.map.$mapObject);
+      this.directionsDisplay.setOptions({suppressMarkers: true});
 
       const vm = this;
       vm.directionsService.route({
@@ -109,11 +111,50 @@
       })
     }
 
-    get google(): Function {
-      console.log(gmapApi);
-      return gmapApi;
+    private drawMFCMarkers() {
+      this.geocoder = new google.maps.Geocoder();
+
+      const mfcs = [
+        '​100-летия Владивостока проспект, 44, Владивосток',
+        '​Невельского, 13, Владивосток',
+        '​Давыдова, 9, Владивосток',
+        '​Верхнепортовая, 76а, Владивосток',
+        '​Борисенко, 102, Владивосток',
+        'Экипажная, 10, пос. Русский, Владивостокский городской округ, Приморский край',
+      ];
+
+      mfcs.map(async (currentMFC: string) => {
+        console.log(currentMFC);
+        this.geocoder.geocode(
+            {address: currentMFC},
+            (results: any, status: any) => {
+              if (status === "OK") {
+                const marker = new google.maps.Marker({
+                  icon: this.marker(),
+                  map: this.$refs.map.$mapObject,
+                  position: results[0].geometry.location,
+                });
+              } else {
+                console.log("Address error:" + status);
+              }
+            }
+        );
+      });
     }
 
+    marker() {
+      const x = Math.round(Math.random() * 3);
+      console.log('x:', x);
+
+      switch (x) {
+        case 1:
+          return this.mfcMarkerGreen;
+        case 2:
+          return this.mfcMarkerYellow;
+        default:
+          return this.mfcMarkerRed;
+      }
+    }
   }
 </script>
 
