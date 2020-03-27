@@ -1,19 +1,38 @@
 <template>
   <div class="home">
-    <div v-if="screen === 0" class="screen">
+    <div
+        v-if="screen === 0"
+        :class="{'screen': true, active: screen === 0}"
+    >
       <ScreenHome/>
       <img class="mfc-logo" src="../assets/images/mfc-logo.svg" alt="Лого МФЦ">
     </div>
-    <div v-else-if="screen === 1" :key="screen" class="screen">
+    <div
+        v-else-if="screen === 1"
+        :key="screen"
+        :class="{'screen': true, active: screen === 1}"
+    >
       <ScreenDeparturePoint/>
     </div>
-    <div v-else-if="screen === 2" :key="screen" class="screen">
+    <div
+        v-else-if="screen === 2"
+        :key="screen"
+        :class="{'screen': true, active: screen === 2}"
+    >
       <ScreenSelectTravelWay/>
     </div>
-    <div v-else-if="screen === 3" :key="screen" class="screen">
+    <div
+        v-else-if="screen === 3"
+        :key="screen"
+        :class="{'screen': true, active: screen === 3}"
+    >
       <ScreenSelectService/>
     </div>
-    <div v-else :key="screen" class="screen">
+    <div
+        v-else
+        :key="screen"
+        :class="{'screen': true, active: screen === 4}"
+    >
       <ScreenComputedResult/>
       <ScreenOtherOptions/>
     </div>
@@ -60,9 +79,16 @@
 <style scoped lang="scss">
   .home {
     .screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: none;
+      opacity: 0;
+      transition: opacity .2s ease-out;
+
+      &.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 1;
+      }
     }
 
     .mfc-logo {
