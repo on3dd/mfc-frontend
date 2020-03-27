@@ -1,5 +1,7 @@
+import DeparturePoint from "@/types/position";
+
 interface DeparturePointState {
-  departurePoint: string;
+  departurePoint: DeparturePoint;
 }
 
 export default {
@@ -7,8 +9,9 @@ export default {
     departurePoint: '',
   },
   mutations: {
-    updateDeparturePoint(state: DeparturePointState, point: string) {
+    updateDeparturePoint(state: DeparturePointState, point: DeparturePoint) {
       state.departurePoint = point;
+      console.log(state.departurePoint);
     },
   },
   getters: {

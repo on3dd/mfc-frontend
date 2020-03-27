@@ -9,7 +9,7 @@
         <div class="modal__options-list__item">
           <h3 class="modal__options-list__item__header">Адрес отправления</h3>
           <div class="modal__options-list__item__control">
-            <span class="modal__options-list__item__control__header">{{departurePoint}}</span>
+            <span class="modal__options-list__item__control__header">{{departurePoint.name}}</span>
             <button
                 @click="$emit('selectModal', 'departure-point')"
                 class="modal__options-list__item__control__button"
@@ -48,10 +48,11 @@
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator';
   import {Getter} from "vuex-class";
+  import DeparturePoint from "@/types/departurePoint";
 
   @Component
   export default class ModalChangeSelectionOptions extends Vue {
-    @Getter departurePoint!: string;
+    @Getter departurePoint!: DeparturePoint;
     @Getter travelWay!: string;
     @Getter service!: string;
   }

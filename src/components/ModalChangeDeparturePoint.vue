@@ -9,7 +9,7 @@
         <div class="modal__options-list__item">
           <h3 class="modal__options-list__item__header">Адрес отправления</h3>
           <div class="modal__options-list__item__control">
-            <span class="modal__options-list__item__control__header">{{departurePoint}}</span>
+            <span class="modal__options-list__item__control__header">{{departurePoint.name}}</span>
             <button class="modal__options-list__item__control__button">Изменить</button>
           </div>
         </div>
@@ -19,7 +19,7 @@
             @select="changeDeparturePoint"
             name="select-departure-point"
             class="modal__search__input"
-            :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"
+            :data="points.map((el) => el.name)"
         />
         <button
             @click="submit"
@@ -38,6 +38,7 @@
   import {Component, Vue} from "vue-property-decorator";
   import {Getter, Mutation} from "vuex-class";
   import BaseDatalist from "./BaseDatalist.vue";
+  import DeparturePoint from "@/types/departurePoint";
 
   @Component({
     components: {
@@ -45,12 +46,52 @@
     }
   })
   export default class ModalChangeDeparturePoint extends Vue {
-    @Getter departurePoint!: string;
-    @Mutation updateDeparturePoint!: (departurePoint: string) => void;
+    @Getter departurePoint!: DeparturePoint;
+    @Mutation updateDeparturePoint!: (departurePoint: DeparturePoint) => void;
+
+    private points: DeparturePoint[] = [
+      {
+        name: 'first',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },
+      {
+        name: 'second',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },
+      {
+        name: 'third',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },
+      {
+        name: 'fourth',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },
+      {
+        name: 'fifth',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },];
 
     private currentDeparturePoint = this.departurePoint;
 
-    private changeDeparturePoint(departurePoint: string) {
+    private changeDeparturePoint(pointName: string) {
+      const departurePoint = this.points.find((el) => el.name === pointName);
+      if (departurePoint === undefined) return;
+
       this.currentDeparturePoint = departurePoint;
     }
 

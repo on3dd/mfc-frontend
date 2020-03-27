@@ -10,7 +10,7 @@
       <BaseDatalist
           @select="changeDeparturePoint"
           name="select-service"
-          :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"
+          :data="points.map((el) => el.name)"
       />
     </div>
     <div class="button-group">
@@ -27,6 +27,7 @@
   import BaseDatalist from "./BaseDatalist.vue";
   import PrevButton from "./PrevButton.vue";
   import NextButton from "./NextButton.vue";
+  import DeparturePoint from "@/types/departurePoint";
 
   @Component({
     components: {
@@ -36,10 +37,50 @@
       NextButton,
     }
   })
-  export default class ScreenDeparturePoint extends Vue {
-    @Mutation updateDeparturePoint!: (departurePoint: string) => void;
+  export default class ScreenSelectDeparturePoint extends Vue {
+    @Mutation updateDeparturePoint!: (departurePoint: DeparturePoint) => void;
 
-    private changeDeparturePoint(departurePoint: string) {
+    private points: DeparturePoint[] = [
+      {
+        name: 'first',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },
+      {
+        name: 'second',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },
+      {
+        name: 'third',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },
+      {
+        name: 'fourth',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },
+      {
+        name: 'fifth',
+        position: {
+          lat: 43.118096,
+          lng: 131.891598
+        }
+      },];
+
+    private changeDeparturePoint(pointName: string) {
+      const departurePoint = this.points.find((el) => el.name === pointName);
+      if (departurePoint === undefined) return;
+
       this.updateDeparturePoint(departurePoint);
     }
   }

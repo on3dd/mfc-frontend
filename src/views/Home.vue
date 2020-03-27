@@ -12,7 +12,7 @@
         :key="screen"
         :class="{'screen': true, active: screen === 1}"
     >
-      <ScreenDeparturePoint/>
+      <ScreenSelectDeparturePoint/>
     </div>
     <div
         v-else-if="screen === 2"
@@ -60,7 +60,7 @@
   import {Component, Vue} from 'vue-property-decorator';
   import {Getter} from 'vuex-class';
   import ScreenHome from '@/components/ScreenHome.vue';
-  import ScreenDeparturePoint from '@/components/ScreenDeparturePoint.vue';
+  import ScreenSelectDeparturePoint from '@/components/ScreenSelectDeparturePoint.vue';
   import ScreenSelectTravelWay from '@/components/ScreenSelectTravelWay.vue';
   import ScreenSelectService from "@/components/ScreenSelectService.vue";
   import ScreenComputedResult from "@/components/ScreenComputedResult.vue";
@@ -73,7 +73,7 @@
   @Component({
     components: {
       ScreenHome,
-      ScreenDeparturePoint,
+      ScreenSelectDeparturePoint,
       ScreenSelectTravelWay,
       ScreenSelectService,
       ScreenComputedResult,

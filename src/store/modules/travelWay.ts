@@ -4,7 +4,7 @@ interface TravelWayState {
 
 export default {
   state: {
-    travelWay: 'afoot',
+    travelWay: 'walking',
   },
   mutations: {
     updateTravelWay(state: TravelWayState, travelWay: string) {

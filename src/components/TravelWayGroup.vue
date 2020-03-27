@@ -1,31 +1,31 @@
 <template>
   <div class="travel-ways-group">
     <IconTravelWay
-        name="afoot"
+        name="walking"
         @changeTravelWay="changeTravelWay($event)"
     >
       <img
-          :class="{'travel-ways-group__item__image': true, active: travelWay === 'afoot'}"
+          :class="{'travel-ways-group__item__image': true, active: travelWay === 'walking'}"
           src="../assets/images/afoot-icon.svg"
           alt="Пешком">
       <span class="travel-ways-group__item__text">Пешком</span>
     </IconTravelWay>
     <IconTravelWay
-        name="car"
+        name="driving"
         @changeTravelWay="changeTravelWay($event)"
     >
       <img
-          :class="{'travel-ways-group__item__image': true, active: travelWay === 'car'}"
+          :class="{'travel-ways-group__item__image': true, active: travelWay === 'driving'}"
           src="../assets/images/car-icon.svg"
           alt="На машине">
       <span class="travel-ways-group__item__text">Авто</span>
     </IconTravelWay>
     <IconTravelWay
-        name="bus"
+        name="transit"
         @changeTravelWay="changeTravelWay($event)"
     >
       <img
-          :class="{'travel-ways-group__item__image': true, active: travelWay === 'bus'}"
+          :class="{'travel-ways-group__item__image': true, active: travelWay === 'transit'}"
           src="../assets/images/bus-icon.svg"
           alt="Общественным транспортом">
       <span class="travel-ways-group__item__text">Общественный транспорт</span>
