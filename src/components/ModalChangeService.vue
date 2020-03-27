@@ -44,6 +44,7 @@
 
   .modal-wrapper {
     @include base-modal;
+    display: none;
   }
 
   .modal {

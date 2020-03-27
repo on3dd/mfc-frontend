@@ -7,7 +7,7 @@
       </h2>
     </div>
     <div class="input">
-      <BaseInput/>
+      <BaseDatalist name="select-service" :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"/>
     </div>
     <div class="button-group">
       <PrevButton/>
@@ -19,14 +19,14 @@
 <script>
   import {Component, Vue} from "vue-property-decorator";
   import MFCLogo from "./MFCLogo.vue";
-  import BaseInput from "./BaseInput.vue";
+  import BaseDatalist from "./BaseDatalist.vue";
   import PrevButton from "./PrevButton.vue";
   import NextButton from "./NextButton.vue";
 
   @Component({
     components: {
       MFCLogo,
-      BaseInput,
+      BaseDatalist,
       PrevButton,
       NextButton,
     }

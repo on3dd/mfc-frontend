@@ -10,7 +10,7 @@
       <h3 class="description__text">* ДЛЯ БОЛЕЕ ТОЧНОГО РАСЧЁТА ВРЕМЕНИ РЕКОМЕНДУЕТСЯ выбрать необходимую услугу</h3>
     </div>
     <div class="input">
-      <BaseInput/>
+      <BaseDatalist name="select-service" :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"/>
     </div>
     <div class="button-group">
       <PrevButton/>
@@ -23,6 +23,7 @@
   import {Component, Vue} from "vue-property-decorator";
   import MFCLogo from "./MFCLogo.vue";
   import BaseInput from "./BaseInput.vue";
+  import BaseDatalist from "./BaseDatalist.vue";
   import PrevButton from "./PrevButton.vue";
   import NextButton from "./NextButton.vue";
 
@@ -30,6 +31,7 @@
     components: {
       MFCLogo,
       BaseInput,
+      BaseDatalist,
       PrevButton,
       NextButton,
     }
