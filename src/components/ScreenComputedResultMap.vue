@@ -22,7 +22,7 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
-  import {Getter} from "vuex-class";
+  import {Getter, Mutation} from "vuex-class";
   import DeparturePoint from "@/types/departurePoint";
   import Position from "@/types/position";
   // TODO Add declarations
@@ -50,6 +50,7 @@
 
     @Getter departurePoint!: DeparturePoint;
     @Getter travelWay!: string;
+    @Mutation updateTime!: (mins: number) => void;
 
     private readonly zoom = 14;
 
@@ -124,12 +125,14 @@
           origin: this.departurePoint.position, // Can be coord or also a search query
           destination: this.destinationPoint,
           travelMode: this.travelWay.toUpperCase(),
-        }, (response: Response, status: any) => {
+        }, (response: any, status: any) => {
           if (status === 'OK') {
             vm.directionsDisplay.setDirections(response); // draws the polygon to the map
+            const estimatedTime = response.routes[0].legs[0].duration.text.split(" ")[0];
+            this.updateTime(estimatedTime);
             resolve();
           } else {
-            console.log('Directions request failed due to ' + status)
+            console.log('Directions request failed due to ' + status);
             reject();
           }
         })

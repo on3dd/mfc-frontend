@@ -14,7 +14,7 @@
           и
           <span class="big">получение услуги</span>
           займут около
-          <span class="time">~15 минут</span>
+          <span class="time">~{{time}} минут</span>
         </span>
       </div>
       <section class="info__data__statistics">
@@ -44,9 +44,13 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: "ScreenComputedResultInfo"
+<script lang="ts">
+  import {Component, Vue} from "vue-property-decorator";
+  import {Getter} from "vuex-class";
+
+  @Component
+  export default class ScreenComputedResultInfo extends Vue {
+    @Getter time!: number;
   }
 </script>
 
