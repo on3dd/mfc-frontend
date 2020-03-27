@@ -45,6 +45,7 @@
     changeActive(evt: MouseEvent) {
       this.$refs.input.value = (evt.target as HTMLElement).textContent!;
       this.isActive = false;
+      this.$emit('select', this.$refs.input.value);
     }
 
     // activeOptions(): string[] {

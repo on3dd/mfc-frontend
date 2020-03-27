@@ -7,7 +7,7 @@
       </h2>
     </div>
     <div class="input">
-      <BaseDatalist name="select-service" :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"/>
+      <BaseDatalist @select="changeDeparturePoint" name="select-service" :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"/>
     </div>
     <div class="button-group">
       <PrevButton/>
@@ -16,8 +16,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
+  import {Mutation} from "vuex-class";
   import MFCLogo from "./MFCLogo.vue";
   import BaseDatalist from "./BaseDatalist.vue";
   import PrevButton from "./PrevButton.vue";
@@ -31,7 +32,13 @@
       NextButton,
     }
   })
-  export default class ScreenDeparturePoint extends Vue {}
+  export default class ScreenDeparturePoint extends Vue {
+    @Mutation updateDeparturePoint!: (departurePoint: string) => void;
+
+    private changeDeparturePoint(departurePoint: string) {
+      this.updateDeparturePoint(departurePoint);
+    }
+  }
 </script>
 
 <style scoped lang="scss">
