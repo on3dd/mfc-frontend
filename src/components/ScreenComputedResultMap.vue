@@ -21,28 +21,24 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from "vue-property-decorator";
+  import {Component, Vue, Watch} from "vue-property-decorator";
   import {Getter, Mutation} from "vuex-class";
   import DeparturePoint from "@/types/departurePoint";
   import Position from "@/types/position";
   // TODO Add declarations
   // FIXME: Linter issues with global 'google' variable
+  // import google from 'vue2-google-maps'
+  import { google, googleMaps } from 'vue2-google-maps'
 
-  @Component({
-    watch: {
-      departurePoint: {
-        // deep: true,
-        handler() {
-          this.drawRoute();
-        }
-      },
-      travelWay: {
-        handler() {
-          this.drawRoute();
-        }
+  declare global {
+    interface Window {
+      google: {
+        maps: googleMaps,
       }
-    },
-  })
+    }
+  }
+
+  @Component
   export default class ScreenComputedResultMap extends Vue {
     $refs!: {
       map: any;
@@ -51,6 +47,17 @@
     @Getter departurePoint!: DeparturePoint;
     @Getter travelWay!: string;
     @Mutation updateTime!: (mins: number) => void;
+
+    @Watch('departurePoint')
+    onDeparturePointChange() {
+      this.drawRoute();
+    }
+
+    @Watch('travelWay')
+    onTravelWayChange() {
+      this.drawRoute();
+    }
+
 
     private readonly zoom = 14;
 
@@ -83,6 +90,7 @@
       scaledSize: {width: 36, height: 36, f: 'px', b: 'px'},
     };
 
+
     // Google Maps API stuff
     private trafficLayer!: any;
     private directionsService!: any;
@@ -100,16 +108,15 @@
 
     private initMap() {
       return new Promise((resolve, reject) => {
-        console.log('g:', google);
-
-        this.trafficLayer = new google.maps.TrafficLayer();
+        console.log('g:', window.google);
+        this.trafficLayer = new window.google.maps.TrafficLayer();
         console.log('trafficLayer:', this.directionsService);
         this.trafficLayer.setMap(this.$refs.map.$mapObject);
 
-        this.directionsService = new google.maps.DirectionsService();
+        this.directionsService = new window.google.maps.DirectionsService();
         console.log('directionsService:', this.directionsService);
 
-        this.directionsDisplay = new google.maps.DirectionsRenderer();
+        this.directionsDisplay = new window.google.maps.DirectionsRenderer();
         console.log('directionsDisplay:', this.directionsDisplay);
         this.directionsDisplay.setMap(this.$refs.map.$mapObject);
         this.directionsDisplay.setOptions({suppressMarkers: true});
@@ -125,7 +132,7 @@
           origin: this.departurePoint.position, // Can be coord or also a search query
           destination: this.destinationPoint,
           travelMode: this.travelWay.toUpperCase(),
-        }, (response: any, status: any) => {
+        } as google.maps.DirectionsRequest, (response: any, status: any) => {
           if (status === 'OK') {
             vm.directionsDisplay.setDirections(response); // draws the polygon to the map
             const estimatedTime = response.routes[0].legs[0].duration.text.split(" ")[0];
@@ -141,7 +148,7 @@
 
     private drawMFCMarkers() {
       return new Promise((resolse, reject) => {
-        this.geocoder = new google.maps.Geocoder();
+        this.geocoder = new window.google.maps.Geocoder();
 
         const mfcs = [
           '​100-летия Владивостока проспект, 44, Владивосток',
@@ -158,7 +165,8 @@
               {address: currentMFC},
               (results: any, status: any) => {
                 if (status === "OK") {
-                  const marker = new google.maps.Marker({
+                  //@ts-ignore
+                  const marker = new window.google.maps.Marker({
                     icon: this.marker(),
                     map: this.$refs.map.$mapObject,
                     position: results[0].geometry.location,
