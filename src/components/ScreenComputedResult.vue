@@ -15,7 +15,7 @@
         </button>
       </div>
       <div class="map-placeholder">
-        <ScreenComputedResultMap/>
+        <ScreenComputedResultMap ref="map"/>
       </div>
     </div>
   </div>

@@ -51,38 +51,38 @@
 
     private points: DeparturePoint[] = [
       {
-        name: 'first',
+        name: 'Сквер им. Суханова',
         position: {
           lat: 43.118096,
           lng: 131.891598
         }
       },
       {
-        name: 'second',
+        name: 'Покровский парк',
         position: {
-          lat: 43.118096,
-          lng: 131.891598
+          lat: 43.125259,
+          lng: 131.892088
         }
       },
       {
-        name: 'third',
+        name: 'Набережная Спортивной гавани',
         position: {
-          lat: 43.118096,
-          lng: 131.891598
+          lat: 43.117884,
+          lng: 131.877352
         }
       },
       {
-        name: 'fourth',
+        name: 'Сквер "Писательский"',
         position: {
-          lat: 43.118096,
-          lng: 131.891598
+          lat: 43.12988,
+          lng: 131.909459
         }
       },
       {
-        name: 'fifth',
+        name: 'Военно-исторический музей Тихоокеанского флота',
         position: {
-          lat: 43.118096,
-          lng: 131.891598
+          lat: 43.112769,
+          lng: 131.890472
         }
       },];
 

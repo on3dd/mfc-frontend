@@ -28,7 +28,21 @@
   // TODO Add declarations
   // FIXME: Linter issues with global 'google' variable
 
-  @Component({})
+  @Component({
+    watch: {
+      departurePoint: {
+        // deep: true,
+        handler() {
+          this.drawRoute();
+        }
+      },
+      travelWay: {
+        handler() {
+          this.drawRoute();
+        }
+      }
+    },
+  })
   export default class ScreenComputedResultMap extends Vue {
     $refs!: {
       map: any;
@@ -47,7 +61,7 @@
     private readonly userMarker = {
       url: require('../assets/images/human-geo-icon.svg'),
       size: {width: 52, height: 52, f: 'px', b: 'px'},
-      scaledSize: {width: 36, height: 36, f: 'px', b: 'px'},
+      // scaledSize: {width: 36, height: 36, f: 'px', b: 'px'},
     };
 
     private readonly mfcMarkerGreen = {
@@ -74,77 +88,91 @@
     private directionsDisplay!: any;
     private geocoder!: any;
 
-    mounted() {
+    async mounted() {
       // @ts-ignore
-      this.$gmapApiPromiseLazy().then(() => {
-        this.drawRoute();
-        this.drawMFCMarkers();
+      this.$gmapApiPromiseLazy().then(async () => {
+        await this.initMap();
+        await this.drawRoute();
+        await this.drawMFCMarkers();
       })
+    }
+
+    private initMap() {
+      return new Promise((resolve, reject) => {
+        console.log('g:', google);
+
+        this.trafficLayer = new google.maps.TrafficLayer();
+        console.log('trafficLayer:', this.directionsService);
+        this.trafficLayer.setMap(this.$refs.map.$mapObject);
+
+        this.directionsService = new google.maps.DirectionsService();
+        console.log('directionsService:', this.directionsService);
+
+        this.directionsDisplay = new google.maps.DirectionsRenderer();
+        console.log('directionsDisplay:', this.directionsDisplay);
+        this.directionsDisplay.setMap(this.$refs.map.$mapObject);
+        this.directionsDisplay.setOptions({suppressMarkers: true});
+
+        resolve();
+      });
     }
 
     private drawRoute() {
-      console.log('g:', google);
-
-      this.trafficLayer = new google.maps.TrafficLayer();
-      console.log('trafficLayer:', this.directionsService);
-      this.trafficLayer.setMap(this.$refs.map.$mapObject);
-
-      this.directionsService = new google.maps.DirectionsService();
-      console.log('directionsService:', this.directionsService);
-
-      this.directionsDisplay = new google.maps.DirectionsRenderer();
-      console.log('directionsDisplay:', this.directionsDisplay);
-      this.directionsDisplay.setMap(this.$refs.map.$mapObject);
-      this.directionsDisplay.setOptions({suppressMarkers: true});
-
-      const vm = this;
-      vm.directionsService.route({
-        origin: this.departurePoint.position, // Can be coord or also a search query
-        destination: this.destinationPoint,
-        travelMode: this.travelWay.toUpperCase(),
-      }, (response: Response, status: any) => {
-        if (status === 'OK') {
-          vm.directionsDisplay.setDirections(response) // draws the polygon to the map
-        } else {
-          console.log('Directions request failed due to ' + status)
-        }
-      })
+      return new Promise((resolve, reject) => {
+        const vm = this;
+        vm.directionsService.route({
+          origin: this.departurePoint.position, // Can be coord or also a search query
+          destination: this.destinationPoint,
+          travelMode: this.travelWay.toUpperCase(),
+        }, (response: Response, status: any) => {
+          if (status === 'OK') {
+            vm.directionsDisplay.setDirections(response); // draws the polygon to the map
+            resolve();
+          } else {
+            console.log('Directions request failed due to ' + status)
+            reject();
+          }
+        })
+      });
     }
 
     private drawMFCMarkers() {
-      this.geocoder = new google.maps.Geocoder();
+      return new Promise((resolse, reject) => {
+        this.geocoder = new google.maps.Geocoder();
 
-      const mfcs = [
-        '​100-летия Владивостока проспект, 44, Владивосток',
-        '​Невельского, 13, Владивосток',
-        '​Давыдова, 9, Владивосток',
-        '​Верхнепортовая, 76а, Владивосток',
-        '​Борисенко, 102, Владивосток',
-        'Экипажная, 10, пос. Русский, Владивостокский городской округ, Приморский край',
-      ];
+        const mfcs = [
+          '​100-летия Владивостока проспект, 44, Владивосток',
+          '​Невельского, 13, Владивосток',
+          '​Давыдова, 9, Владивосток',
+          '​Верхнепортовая, 76а, Владивосток',
+          '​Борисенко, 102, Владивосток',
+          'Экипажная, 10, пос. Русский, Владивостокский городской округ, Приморский край',
+        ];
 
-      mfcs.map(async (currentMFC: string) => {
-        console.log(currentMFC);
-        this.geocoder.geocode(
-            {address: currentMFC},
-            (results: any, status: any) => {
-              if (status === "OK") {
-                const marker = new google.maps.Marker({
-                  icon: this.marker(),
-                  map: this.$refs.map.$mapObject,
-                  position: results[0].geometry.location,
-                });
-              } else {
-                console.log("Address error:" + status);
+        mfcs.map(async (currentMFC: string) => {
+          console.log(currentMFC);
+          this.geocoder.geocode(
+              {address: currentMFC},
+              (results: any, status: any) => {
+                if (status === "OK") {
+                  const marker = new google.maps.Marker({
+                    icon: this.marker(),
+                    map: this.$refs.map.$mapObject,
+                    position: results[0].geometry.location,
+                  });
+                } else {
+                  console.log("Address error:" + status);
+                }
               }
-            }
-        );
+          );
+        });
+
+        resolse();
       });
     }
 
     marker() {
       const x = Math.round(Math.random() * 3);
-      console.log('x:', x);
 
       switch (x) {
         case 1:

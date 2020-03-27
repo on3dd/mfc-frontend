@@ -125,6 +125,7 @@
         border-bottom: 1px solid rgba(0,0,0,.1);
         transition: .1s background-color ease-out;
         cursor: pointer;
+        text-transform: capitalize;
 
         &:hover {
           background: rgba(0,0,0,.1);
