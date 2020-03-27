@@ -1,15 +1,33 @@
 <template>
-  <div class="travel-ways-group" ref="travelWaysGroup">
-    <IconTravelWay name="afoot" @changeTravelWay="changeTravelWay($event)">
-      <img class="travel-ways-group__item__image active" src="../assets/images/afoot-icon.svg" alt="Пешком">
+  <div class="travel-ways-group">
+    <IconTravelWay
+        name="afoot"
+        @changeTravelWay="changeTravelWay($event)"
+    >
+      <img
+          :class="{'travel-ways-group__item__image': true, active: travelWay === 'afoot'}"
+          src="../assets/images/afoot-icon.svg"
+          alt="Пешком">
       <span class="travel-ways-group__item__text">Пешком</span>
     </IconTravelWay>
-    <IconTravelWay name="car" @changeTravelWay="changeTravelWay($event)">
-      <img class="travel-ways-group__item__image" src="../assets/images/car-icon.svg" alt="Пешком">
+    <IconTravelWay
+        name="car"
+        @changeTravelWay="changeTravelWay($event)"
+    >
+      <img
+          :class="{'travel-ways-group__item__image': true, active: travelWay === 'car'}"
+          src="../assets/images/car-icon.svg"
+          alt="На машине">
       <span class="travel-ways-group__item__text">Авто</span>
     </IconTravelWay>
-    <IconTravelWay name="bus" @changeTravelWay="changeTravelWay($event)">
-      <img class="travel-ways-group__item__image" src="../assets/images/bus-icon.svg" alt="Пешком">
+    <IconTravelWay
+        name="bus"
+        @changeTravelWay="changeTravelWay($event)"
+    >
+      <img
+          :class="{'travel-ways-group__item__image': true, active: travelWay === 'bus'}"
+          src="../assets/images/bus-icon.svg"
+          alt="Общественным транспортом">
       <span class="travel-ways-group__item__text">Общественный транспорт</span>
     </IconTravelWay>
   </div>
@@ -17,7 +35,7 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
-  import {Mutation} from "vuex-class";
+  import {Getter, Mutation} from "vuex-class";
   import IconTravelWay from '@/components/IconTravelWay.vue'
 
   @Component({
@@ -26,15 +44,11 @@
     }
   })
   export default class TravelWayGroup extends Vue {
-    $refs!: {
-      travelWaysGroup: HTMLElement;
-    };
-
+    @Getter travelWay!: string;
     @Mutation updateTravelWay!: (name: string) => void;
 
     changeTravelWay(name: string) {
       this.updateTravelWay(name);
-      this.$refs.travelWaysGroup.querySelector('div > .active')!.classList.remove('active');
     }
   }
 </script>

@@ -7,7 +7,12 @@
       </div>
       <ScreenComputedResultInfo/>
       <div class="change-data">
-        <button class="change-data__button">Изменить данные для поиска</button>
+        <button
+            @click="$emit('showModal')"
+            class="change-data__button"
+        >
+          Изменить данные для поиска
+        </button>
       </div>
       <div class="map-placeholder"></div>
     </div>

@@ -9,22 +9,28 @@
         <div class="modal__options-list__item">
           <h3 class="modal__options-list__item__header">Способ передвижения</h3>
           <div class="modal__options-list__item__control">
-            <span class="modal__options-list__item__control__header">Текущий способ</span>
+            <span class="modal__options-list__item__control__header">{{travelWay}}</span>
             <button class="modal__options-list__item__control__button">Изменить</button>
           </div>
         </div>
       </div>
       <div class="modal__change-travel-way">
-        <TravelWayGroup class="modal__change-travel-way__group"></TravelWayGroup>
-        <button class="modal__change-travel-way__button-submit">Сохранить</button>
+        <TravelWayGroup class="modal__change-travel-way__group"/>
+        <button
+            class="modal__change-travel-way__button-submit"
+        >Сохранить</button>
       </div>
-      <button class="modal__button-close">x</button>
+      <button
+          @click="$emit('closeModal')"
+          class="modal__button-close"
+      >x</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
+  import {Getter} from "vuex-class";
   import TravelWayGroup from "@/components/TravelWayGroup.vue";
 
   @Component({
@@ -33,6 +39,7 @@
     }
   })
   export default class ModalChangeTravelWay extends Vue {
+    @Getter travelWay!: string;
   }
 </script>
 
@@ -44,7 +51,6 @@
 
   .modal-wrapper {
     @include base-modal;
-    display: none;
   }
 
   .modal {

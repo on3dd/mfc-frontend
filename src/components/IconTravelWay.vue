@@ -1,5 +1,5 @@
 <template>
-  <div :id="name" class="travel-ways-group__item" @click="clickHandler" ref="placeholder">
+  <div :id="name" class="travel-ways-group__item" @click="clickHandler">
     <slot></slot>
   </div>
 </template>
@@ -9,15 +9,10 @@
 
   @Component
   export default class IconTravelWay extends Vue {
-    $refs!: {
-      placeholder: HTMLDivElement;
-    };
-
     @Prop({type: String, required: true}) name!: string;
 
     private clickHandler() {
       this.$emit('changeTravelWay', this.name);
-      this.$refs.placeholder.querySelector('.travel-ways-group__item__image')!.classList.add('active');
     }
   }
 </script>

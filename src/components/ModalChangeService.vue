@@ -9,30 +9,54 @@
         <div class="modal__options-list__item">
           <h3 class="modal__options-list__item__header">Услуга</h3>
           <div class="modal__options-list__item__control">
-            <span class="modal__options-list__item__control__header">Текущая услуга</span>
+            <span class="modal__options-list__item__control__header">{{service}}</span>
             <button class="modal__options-list__item__control__button">Изменить</button>
           </div>
         </div>
       </div>
       <div class="modal__search">
-        <BaseInput class="modal__search__input"/>
-        <button class="modal__search__button-submit">Сохранить</button>
+        <BaseDatalist
+            @select="changeService"
+            name="select-service"
+            class="modal__search__input"
+            :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"
+        />
+        <button
+            @click="submit"
+            class="modal__search__button-submit"
+        >Сохранить</button>
       </div>
-      <button class="modal__button-close">x</button>
+      <button
+          @click="$emit('closeModal')"
+          class="modal__button-close"
+      >x</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
-  import BaseInput from "./BaseInput.vue";
+  import {Getter, Mutation} from "vuex-class";
+  import BaseDatalist from "./BaseDatalist.vue";
 
   @Component({
     components: {
-      BaseInput,
+      BaseDatalist,
     }
   })
   export default class ModalChangeService extends Vue {
+    @Getter service!: string;
+    @Mutation updateService!: (service: string) => void;
+
+    private currentService = this.service;
+
+    private changeService(service: string) {
+      this.currentService = service;
+    }
+
+    private submit() {
+      this.updateService(this.currentService);
+    }
   }
 </script>
 
@@ -44,7 +68,6 @@
 
   .modal-wrapper {
     @include base-modal;
-    display: none;
   }
 
   .modal {

@@ -7,7 +7,11 @@
       </h2>
     </div>
     <div class="input">
-      <BaseDatalist @select="changeDeparturePoint" name="select-service" :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"/>
+      <BaseDatalist
+          @select="changeDeparturePoint"
+          name="select-service"
+          :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"
+      />
     </div>
     <div class="button-group">
       <PrevButton/>

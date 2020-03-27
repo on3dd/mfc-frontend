@@ -33,13 +33,26 @@
         :key="screen"
         :class="{'screen': true, active: screen === 4}"
     >
-      <ScreenComputedResult/>
+      <ScreenComputedResult @showModal="showModal"/>
       <ScreenOtherOptions/>
     </div>
-    <ModalChangeSelectionOptions/>
-    <ModalChangeDeparturePoint/>
-    <ModalChangeTravelWay/>
-    <ModalChangeService/>
+    <ModalChangeSelectionOptions
+        v-if="isMainModalVisible"
+        @selectModal="selectModal"
+        @closeModal="closeModal"
+    />
+    <ModalChangeDeparturePoint
+        v-if="activeModal === 'departure-point'"
+        @closeModal="closeModal"
+    />
+    <ModalChangeTravelWay
+        v-if="activeModal === 'travel-way'"
+        @closeModal="closeModal"
+    />
+    <ModalChangeService
+        v-if="activeModal === 'service'"
+        @closeModal="closeModal"
+    />
   </div>
 </template>
 
@@ -73,6 +86,23 @@
   })
   export default class Home extends Vue {
     @Getter screen!: number;
+
+    private isMainModalVisible = false;
+    private activeModal = '';
+
+    private showModal() {
+      this.isMainModalVisible = true;
+    }
+
+    private selectModal(name: string) {
+      this.isMainModalVisible = false;
+      this.activeModal = name;
+    }
+
+    private closeModal() {
+      this.activeModal = '';
+      this.isMainModalVisible = false;
+    }
   }
 </script>
 
