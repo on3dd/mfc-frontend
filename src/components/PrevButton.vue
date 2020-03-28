@@ -18,16 +18,10 @@
   @import "../scss/colors";
 
   .button {
-    @include base-button;
-    background: $mfc-gray;
+    @include base-button($mfc-gray);
     line-height: 60px;
     padding: 0 30px;
     border-radius: 44px;
     font-size: 36px;
-    transition: all .1s ease-out;
-
-    &:hover {
-      background: darken($mfc-gray, 10%);
-    }
   }
 </style>

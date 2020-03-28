@@ -30,6 +30,7 @@ export default {
   mutations: {
     updateStatistics(state: StatisticsState, statistics: StatisticsItem) {
       state.statistics = statistics;
+      console.log(state.statistics);
     }
   },
   getters: {

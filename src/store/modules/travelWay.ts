@@ -9,6 +9,7 @@ export default {
   mutations: {
     updateTravelWay(state: TravelWayState, travelWay: string) {
       state.travelWay = travelWay;
+      console.log(state.travelWay);
     },
   },
   getters: {

@@ -1,12 +1,17 @@
-@mixin base-button {
+@mixin base-button($color) {
   margin: 0;
   padding: 0;
   color: #ffffff;
   border: none;
-  background: none;
+  background: $color;
   text-decoration: none;
   font-weight: 800;
   font-family: 'Circe Extra', sans-serif;
   text-transform: uppercase;
   cursor: pointer;
+  transition: all .2s ease-out;
+
+  &:hover {
+    background: darken($color, 10%);
+  }
 }

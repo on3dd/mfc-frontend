@@ -5,7 +5,7 @@
       <div class="ready">
         <h2 class="ready__text">Готово!</h2>
       </div>
-      <ScreenComputedResultInfo v-cloak/>
+      <ScreenComputedResultInfo/>
       <div class="change-data">
         <button
             @click="$emit('showModal')"
@@ -15,7 +15,7 @@
         </button>
       </div>
       <div class="map-placeholder">
-        <ScreenComputedResultMap v-cloak/>
+        <ScreenComputedResultMap/>
       </div>
     </div>
   </div>
@@ -67,8 +67,7 @@
       margin-bottom: 70px;
 
       &__button {
-        @include base-button;
-        background: $mfc-orange;
+        @include base-button($mfc-orange);
         border-radius: 20px;
         font-size: 44px;
         line-height: 1em;

@@ -9,6 +9,7 @@ export default {
   mutations: {
     updateService(state: ServiceState, service: string) {
       state.service = service;
+      console.log(state.service);
     },
   },
   getters: {

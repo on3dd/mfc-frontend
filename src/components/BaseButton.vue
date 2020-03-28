@@ -16,16 +16,10 @@
   @import "../scss/colors";
 
   .button {
-    @include base-button;
-    background: $mfc-orange;
+    @include base-button($mfc-orange);
     line-height: 60px;
-    padding: 0px 30px;
+    padding: 0 30px;
     border-radius: 44px;
     font-size: 36px;
-    transition: all .1s ease-out;
-
-    &:hover {
-      background: darken($mfc-orange, 10%);
-    }
   }
 </style>

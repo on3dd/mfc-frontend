@@ -66,10 +66,9 @@
       }
 
       &__button-submit {
-        @include base-button;
+        @include base-button($mfc-orange);
         font-size: 18px;
         line-height: 1.5em;
-        background: $mfc-orange;
         border-radius: 20px;
         padding: 0 10px;
       }

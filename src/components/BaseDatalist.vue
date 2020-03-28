@@ -11,14 +11,14 @@
     </div>
     <ul
         ref="datalist"
-        class="datalist"
-        :style="{display: isActive ? 'block' : 'none'}">
+        :class="['datalist', isActive ? 'active': '']">
       <li
           @click="changeActive"
           v-for="(item, idx) in activeOptions"
           :key="idx"
           class="datalist__item"
-      >{{item}}</li>
+      >{{item}}
+      </li>
     </ul>
   </div>
 </template>
@@ -54,7 +54,6 @@
 
     changeActive(evt: MouseEvent) {
       this.$refs.input.value = (evt.target as HTMLElement).textContent!;
-      this.isActive = false;
       this.$emit('select', this.$refs.input.value);
     }
   }
@@ -99,13 +98,13 @@
       $padding-top: 85 + $line-height * 0.5;
       $max-height: $item-height * 5 + $padding-top + 36px;
 
+      display: none;
       position: absolute;
       top: 0;
       width: inherit;
       font-size: inherit;
       list-style: none;
       margin: 0;
-      /*padding: 90px 1em .5em 1em;*/
       padding: $padding-top 0 1em 0;
       background: #ffffff;
       border: 4px solid $mfc-orange;
@@ -113,25 +112,34 @@
       max-height: $max-height;
       overflow-y: auto;
       overflow-x: hidden;
+      transition: all .2s ease-out;
+      box-shadow: 0 20px 20px 0 rgba(0,0,0,.25);
       z-index: 1;
 
+      /* Hide scrollbar for IE and MS Edge */
       -ms-overflow-style: none;
       /* Hide scrollbar for Chrome, Safari and Opera */
       &::-webkit-scrollbar {
         display: none;
       }
 
+      &.active {
+        display: block;
+      }
+
       &__item {
         width: inherit;
         padding: 0 1em;
         font-size: inherit;
-        border-bottom: 1px solid rgba(0,0,0,.1);
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
         transition: .1s background-color ease-out;
         cursor: pointer;
         text-transform: capitalize;
+        color: rgba(0, 0, 0, .5);
 
         &:hover {
-          background: rgba(0,0,0,.1);
+          color: rgba(0, 0, 0, .75);
+          background: rgba(0, 0, 0, .1);
         }
       }
     }

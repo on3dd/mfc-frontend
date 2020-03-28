@@ -89,7 +89,7 @@
     private currentDeparturePoint = this.departurePoint;
 
     private changeDeparturePoint(pointName: string) {
-      const departurePoint = this.points.find((el) => el.name === pointName);
+      const departurePoint = this.points.find((el) => el.name === pointName.trim());
       if (departurePoint === undefined) return;
 
       this.currentDeparturePoint = departurePoint;

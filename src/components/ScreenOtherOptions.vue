@@ -146,11 +146,10 @@
       }
 
       &__button {
-        @include base-button;
+        @include base-button($mfc-orange);
         @include bold-text;
         font-size: 24px;
         line-height: 1.5em;
-        background: $mfc-orange;
         border-radius: 80px;
         padding: 30px 60px;
         margin-bottom: 40px;
