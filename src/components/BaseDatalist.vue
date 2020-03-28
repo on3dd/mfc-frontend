@@ -93,16 +93,16 @@
     }
 
     .datalist {
-      $line-height: 36px;
-      $item-height: $line-height * 1.5;
-      $padding-top: 85 + $line-height * 0.5;
+      $font-size: 36px;
+      $item-height: $font-size * 1.5;
+      $padding-top: 85 + $font-size * 0.5;
       $max-height: $item-height * 5 + $padding-top + 36px;
 
       display: none;
       position: absolute;
       top: 0;
       width: inherit;
-      font-size: inherit;
+      font-size: $font-size;
       list-style: none;
       margin: 0;
       padding: $padding-top 0 1em 0;

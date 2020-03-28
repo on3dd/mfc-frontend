@@ -110,6 +110,16 @@
     private isMainModalVisible = false;
     private activeModal = '';
 
+    mounted() {
+      document.addEventListener('click', (evt: MouseEvent) => {
+        if (!(this.isMainModalVisible || (this.activeModal !== ''))) return;
+        if ((evt.target as HTMLElement).classList.contains('modal-wrapper')) {
+          this.isMainModalVisible = false;
+          this.activeModal = '';
+        }
+      });
+    }
+
     private showModal() {
       this.isMainModalVisible = true;
     }
@@ -131,8 +141,7 @@
     transition: opacity .25s
   }
 
-  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */
-  {
+  .fade-enter, .fade-leave-to {
     opacity: 0
   }
 

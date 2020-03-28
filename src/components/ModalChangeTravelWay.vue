@@ -9,7 +9,7 @@
         <div class="modal__options-list__item">
           <h3 class="modal__options-list__item__header">Способ передвижения</h3>
           <div class="modal__options-list__item__control">
-            <span class="modal__options-list__item__control__header">{{travelWay}}</span>
+            <span class="modal__options-list__item__control__header">{{localizedTravelWay}}</span>
             <button class="modal__options-list__item__control__button">Изменить</button>
           </div>
         </div>
@@ -40,6 +40,19 @@
   })
   export default class ModalChangeTravelWay extends Vue {
     @Getter travelWay!: string;
+
+    get localizedTravelWay(): string {
+      switch (this.travelWay.trim().toLowerCase()) {
+        case 'walking':
+          return 'пешком';
+        case 'driving':
+          return 'автомобиль';
+        case 'transit':
+          return 'общественный транспорт';
+        default:
+          return '';
+      }
+    }
   }
 </script>
 
