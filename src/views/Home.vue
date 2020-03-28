@@ -1,58 +1,78 @@
 <template>
   <div class="home">
-    <div
-        v-if="screen === 0"
-        :class="{'screen': true, active: screen === 0}"
-    >
-      <ScreenHome/>
-      <img class="mfc-logo" src="../assets/images/mfc-logo.svg" alt="Лого МФЦ">
-    </div>
-    <div
-        v-else-if="screen === 1"
-        :key="screen"
-        :class="{'screen': true, active: screen === 1}"
-    >
-      <ScreenSelectDeparturePoint/>
-    </div>
-    <div
-        v-else-if="screen === 2"
-        :key="screen"
-        :class="{'screen': true, active: screen === 2}"
-    >
-      <ScreenSelectTravelWay/>
-    </div>
-    <div
-        v-else-if="screen === 3"
-        :key="screen"
-        :class="{'screen': true, active: screen === 3}"
-    >
-      <ScreenSelectService/>
-    </div>
-    <div
-        v-else
-        :key="screen"
-        :class="{'screen': true, active: screen === 4}"
-    >
-      <ScreenComputedResult @showModal="showModal"/>
-      <ScreenOtherOptions/>
-    </div>
-    <ModalChangeSelectionOptions
-        v-if="isMainModalVisible"
-        @selectModal="selectModal"
-        @closeModal="closeModal"
-    />
-    <ModalChangeDeparturePoint
-        v-if="activeModal === 'departure-point'"
-        @closeModal="closeModal"
-    />
-    <ModalChangeTravelWay
-        v-if="activeModal === 'travel-way'"
-        @closeModal="closeModal"
-    />
-    <ModalChangeService
-        v-if="activeModal === 'service'"
-        @closeModal="closeModal"
-    />
+    <transition name="fade" mode="out-in">
+      <div
+          v-if="screen === 0"
+          :key="screen"
+          v-cloak
+          :class="['screen', screen === 0 ? 'active' : '']"
+      >
+        <ScreenHome/>
+        <img class="mfc-logo" src="../assets/images/mfc-logo.svg" alt="Лого МФЦ">
+      </div>
+      <div
+          v-else-if="screen === 1"
+          :key="screen"
+          v-cloak
+          :class="['screen', screen === 1 ? 'active' : '']"
+      >
+        <ScreenSelectDeparturePoint/>
+      </div>
+      <div
+          v-else-if="screen === 2"
+          :key="screen"
+          v-cloak
+          :class="['screen', screen === 2 ? 'active' : '']"
+      >
+        <ScreenSelectTravelWay/>
+      </div>
+      <div
+          v-else-if="screen === 3"
+          :key="screen"
+          v-cloak
+          :class="['screen', screen === 3 ? 'active' : '']"
+      >
+        <ScreenSelectService/>
+      </div>
+      <div
+          v-else
+          :key="screen"
+          v-cloak
+          :class="['screen', screen === 4 ? 'active' : '']"
+      >
+        <ScreenComputedResult
+            @showModal="showModal"
+            v-cloak
+        />
+        <ScreenOtherOptions v-cloak/>
+      </div>
+    </transition>
+    <transition name="fade" mode="out-in">
+      <ModalChangeSelectionOptions
+          v-if="isMainModalVisible"
+          v-cloak
+          @selectModal="selectModal"
+          @closeModal="closeModal"
+      />
+      <ModalChangeDeparturePoint
+          v-else-if="activeModal === 'departure-point'"
+          :key="activeModal"
+          v-cloak
+          @closeModal="closeModal"
+      />
+      <ModalChangeTravelWay
+          v-else-if="activeModal === 'travel-way'"
+          :key="activeModal"
+          v-cloak
+          @closeModal="closeModal"
+      />
+      <ModalChangeService
+          v-else-if="activeModal === 'service'"
+          :key="activeModal"
+          v-cloak
+          @closeModal="closeModal"
+      />
+    </transition>
   </div>
 </template>
 
@@ -107,17 +127,23 @@
 </script>
 
 <style scoped lang="scss">
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .25s
+  }
+
+  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */
+  {
+    opacity: 0
+  }
+
   .home {
     .screen {
       display: none;
-      opacity: 0;
-      transition: opacity .2s ease-out;
 
       &.active {
         display: flex;
         flex-direction: column;
         align-items: center;
-        opacity: 1;
       }
     }
 

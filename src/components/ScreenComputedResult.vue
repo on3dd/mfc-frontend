@@ -5,7 +5,7 @@
       <div class="ready">
         <h2 class="ready__text">Готово!</h2>
       </div>
-      <ScreenComputedResultInfo/>
+      <ScreenComputedResultInfo v-cloak/>
       <div class="change-data">
         <button
             @click="$emit('showModal')"
@@ -15,7 +15,7 @@
         </button>
       </div>
       <div class="map-placeholder">
-        <ScreenComputedResultMap ref="map"/>
+        <ScreenComputedResultMap v-cloak/>
       </div>
     </div>
   </div>
