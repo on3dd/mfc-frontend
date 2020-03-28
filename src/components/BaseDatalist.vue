@@ -4,12 +4,13 @@
       <img src="../assets/images/search-icon.svg" class="input__icon" alt="Поиск">
       <input
           @input="updateData"
-          @click="isActive = !isActive"
+          @click="isActive = true"
           ref="input"
           class="input"
           type="text">
     </div>
     <ul
+        ref="datalist"
         class="datalist"
         :style="{display: isActive ? 'block' : 'none'}">
       <li
@@ -29,6 +30,7 @@
   export default class BaseDatalist extends Vue {
     $refs!: {
       input: HTMLInputElement;
+      datalist: HTMLUListElement;
     };
 
     @Prop({type: String, required: true}) name!: string;
@@ -36,6 +38,14 @@
 
     private activeOptions = this.data;
     private isActive = false;
+
+    mounted() {
+      document.addEventListener('click', (evt: MouseEvent) => {
+        if (this.isActive && (evt.target !== this.$refs.datalist) && (evt.target !== this.$refs.input)) {
+          this.isActive = false;
+        }
+      })
+    }
 
     updateData() {
       this.activeOptions = this.data.filter((el: string) => el.includes(this.$refs.input.value));
@@ -47,13 +57,6 @@
       this.isActive = false;
       this.$emit('select', this.$refs.input.value);
     }
-
-    // activeOptions(): string[] {
-    //   if ((this.data.length === 0) || (this.$refs.input === undefined)) return [];
-    //   const data = this.data.filter((el: string) => el.includes(this.$refs.input.value));
-    //   console.log('data', data);
-    //   return data;
-    // }
   }
 </script>
 
