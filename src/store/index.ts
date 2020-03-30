@@ -7,6 +7,7 @@ import travelWay from "@/store/modules/travelWay";
 import service from "@/store/modules/service";
 import time from "@/store/modules/time";
 import statistics from "@/store/modules/statistics";
+import otherOptions from "@/store/modules/otherOptions";
 
 Vue.use(Vuex);
 
@@ -21,5 +22,6 @@ export default new Vuex.Store({
     service,
     time,
     statistics,
+    otherOptions,
   }
 })

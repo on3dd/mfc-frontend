@@ -17,7 +17,7 @@
   @Component
   export default class ScreenOtherOptionsItem extends Vue {
     @Prop({type: String, required: true}) street!: string;
-    @Prop({type: Number, required: true}) estimatedTime!: number;
+    @Prop({type: String, required: true}) estimatedTime!: number;
   }
 </script>
 

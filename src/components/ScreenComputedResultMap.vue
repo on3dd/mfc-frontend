@@ -44,15 +44,18 @@
     @Getter departurePoint!: DeparturePoint;
     @Getter travelWay!: string;
     @Mutation updateTime!: (mins: number) => void;
+    @Mutation updateOtherOptions!: (otherOptions: Array<Array<string | number>>) => void;
 
     @Watch('departurePoint')
     onDeparturePointChange() {
       this.drawRoute();
+      this.calculateOtherOptionsTime();
     }
 
     @Watch('travelWay')
     onTravelWayChange() {
       this.drawRoute();
+      this.calculateOtherOptionsTime();
     }
 
 
@@ -87,6 +90,15 @@
       scaledSize: {width: 36, height: 36, f: 'px', b: 'px'},
     };
 
+    private readonly mfcs = [
+      '​100-летия Владивостока проспект, 44, Владивосток',
+      '​Невельского, 13, Владивосток',
+      '​Давыдова, 9, Владивосток',
+      '​Верхнепортовая, 76а, Владивосток',
+      '​Борисенко, 102, Владивосток',
+      'Экипажная, 10, пос. Русский, Владивостокский городской округ, Приморский край',
+    ];
+
 
     // Google Maps API stuff
     private trafficLayer!: any;
@@ -100,10 +112,11 @@
         await this.initMap();
         await this.drawRoute();
         await this.drawMFCMarkers();
+        await this.calculateOtherOptionsTime();
       })
     }
 
-    private initMap() {
+    private async initMap() {
       return new Promise((resolve, reject) => {
         console.log('g:', window.google);
         this.trafficLayer = new window.google.maps.TrafficLayer();
@@ -122,7 +135,7 @@
       });
     }
 
-    private drawRoute() {
+    private async drawRoute() {
       return new Promise((resolve, reject) => {
         const vm = this;
         vm.directionsService.route({
@@ -143,31 +156,20 @@
       });
     }
 
-    private drawMFCMarkers() {
+    private async drawMFCMarkers() {
       return new Promise((resolse, reject) => {
         this.geocoder = new window.google.maps.Geocoder();
 
-        const mfcs = [
-          '​100-летия Владивостока проспект, 44, Владивосток',
-          '​Невельского, 13, Владивосток',
-          '​Давыдова, 9, Владивосток',
-          '​Верхнепортовая, 76а, Владивосток',
-          '​Борисенко, 102, Владивосток',
-          'Экипажная, 10, пос. Русский, Владивостокский городской округ, Приморский край',
-        ];
-
-        mfcs.map(async (currentMFC: string) => {
-          console.log(currentMFC);
+        this.mfcs.forEach(async (currentMFC: string) => {
           this.geocoder.geocode(
               {address: currentMFC},
               (results: any, status: any) => {
                 if (status === "OK") {
-                  //@ts-ignore
                   const marker = new window.google.maps.Marker({
                     icon: this.marker(),
                     map: this.$refs.map.$mapObject,
                     position: results[0].geometry.location,
-                  });
+                  } as unknown as google.maps.ReadonlyMarkerOptions);
                 } else {
                   console.log("Address error:" + status);
                 }
@@ -175,6 +177,42 @@
           );
         });
 
+        resolse();
+      });
+    }
+
+    private async calculateOtherOptionsTime(): Promise<void> {
+      return new Promise((resolse, reject) => {
+        const vm = this;
+        this.geocoder = new window.google.maps.Geocoder();
+
+        const otherOptions = Array<Array<string | number>>();
+        this.mfcs.forEach(async (currentMFC: string) => {
+          this.geocoder.geocode(
+              {address: currentMFC},
+              (results: any, status: any) => {
+                if (status === "OK") {
+                  vm.directionsService.route({
+                    origin: this.departurePoint.position, // Can be coord or also a search query
+                    destination: results[0].geometry.location,
+                    travelMode: this.travelWay.toUpperCase(),
+                  } as google.maps.DirectionsRequest, (response: any, status: any) => {
+                    if (status === 'OK') {
+                      const estimatedTime = response.routes[0].legs[0].duration.text.split(" ")[0];
+                      otherOptions.push([currentMFC, estimatedTime]);
+                      console.log(`${currentMFC} estimatedTime: ${estimatedTime}`);
+                    } else {
+                      console.log(`${currentMFC} directions request failed due to ${status}`);
+                    }
+                  })
+                } else {
+                  console.log(`${currentMFC} address error: ${status}`);
+                }
+              }
+          );
+        });
+
+        this.updateOtherOptions(otherOptions);
         resolse();
       });
     }

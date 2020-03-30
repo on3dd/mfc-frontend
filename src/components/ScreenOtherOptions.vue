@@ -3,10 +3,10 @@
     <h2 class="other-options__header">Другие варианты</h2>
     <div class="other-options__list">
       <ScreenOtherOptionsItem
-          v-for="(item, idx) in options"
+          v-for="(item, idx) in otherOptions"
           :key="idx"
-          :street="item.street"
-          :estimated-time="item.time"
+          :street="item[0].split(',').slice(0,2).join()"
+          :estimated-time="item[1]"
       />
     </div>
     <div class="appointment">
@@ -23,6 +23,7 @@
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator';
+  import {Getter} from "vuex-class";
   import ScreenOtherOptionsItem from "./ScreenOtherOptionsItem.vue";
 
   @Component({
@@ -31,6 +32,8 @@
     }
   })
   export default class ScreenOtherOptions extends Vue {
+    @Getter otherOptions!: Array<Array<string | number>>;
+
     private options = [
       {
         street: 'Верхнепортовая ул., 76А',
