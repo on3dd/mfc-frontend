@@ -15,7 +15,7 @@ export default {
   getters: {
     otherOptions: (state: OtherOptionsState) => {
       return state.otherOptions.sort((a: (string | number)[], b: (string | number)[]) => {
-        return a[1] < b[1] ? -1 : 1;
+        return a[1] < b[1] ? -1 : 0;
       }).slice(0, 4);
     },
   },

@@ -34,24 +34,11 @@
   export default class ScreenOtherOptions extends Vue {
     @Getter otherOptions!: Array<Array<string | number>>;
 
-    private options = [
-      {
-        street: 'Верхнепортовая ул., 76А',
-        time: 25,
-      },
-      {
-        street: 'Верхнепортовая ул., 76А',
-        time: 25,
-      },
-      {
-        street: 'Верхнепортовая ул., 76А',
-        time: 25,
-      },
-      {
-        street: 'Верхнепортовая ул., 76А',
-        time: 25,
-      },
-    ]
+    // get filteredOtherOptions(): Array<Array<string | number>> {
+    //   return this.otherOptions.map((el) => {
+    //     el[1] > 1 ?
+    //   });
+    // }
   }
 </script>
 
