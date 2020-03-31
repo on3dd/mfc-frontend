@@ -1,5 +1,5 @@
-import StatisticsError from "@/types/statisticsError";
-import StatisticsTicket from "@/types/statisticsTicket";
+import StatisticsError from "@/@types/statisticsError";
+import StatisticsTicket from "@/@types/statisticsTicket";
 
 export default interface StatisticsItem {
   id: string;

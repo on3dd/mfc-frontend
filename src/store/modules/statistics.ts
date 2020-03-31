@@ -1,4 +1,4 @@
-import StatisticsItem from "@/types/statisticsItem";
+import StatisticsItem from "@/@types/statisticsItem";
 import {Commit} from "vuex";
 
 interface StatisticsState {

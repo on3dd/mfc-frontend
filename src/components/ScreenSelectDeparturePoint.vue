@@ -28,7 +28,7 @@
   import BaseDatalist from "./BaseDatalist.vue";
   import PrevButton from "./PrevButton.vue";
   import NextButton from "./NextButton.vue";
-  import DeparturePoint from "@/types/departurePoint";
+  import DeparturePoint from "@/@types/departurePoint";
 
   @Component({
     components: {

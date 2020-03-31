@@ -1,4 +1,4 @@
-import DeparturePoint from "@/types/position";
+import DeparturePoint from "@/@types/position";
 
 interface DeparturePointState {
   departurePoint: DeparturePoint;

@@ -47,7 +47,7 @@
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
   import {Getter, Action} from "vuex-class";
-  import StatisticsItem from "@/types/statisticsItem";
+  import StatisticsItem from "@/@types/statisticsItem";
 
   @Component
   export default class ScreenComputedResultInfo extends Vue {

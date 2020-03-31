@@ -42,6 +42,7 @@
       padding: 20px;
       border: 4px solid #CB9B63;
       border-radius: 20px;
+      max-width: 340px;
 
       &__street {
         @include bold-text;

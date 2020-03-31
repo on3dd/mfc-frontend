@@ -23,8 +23,8 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {Getter, Mutation} from "vuex-class";
-  import DeparturePoint from "@/types/departurePoint";
-  import Position from "@/types/position";
+  import DeparturePoint from "@/@types/departurePoint";
+  import Position from "@/@types/position";
   import { google, googleMaps } from 'vue2-google-maps'
 
   declare global {

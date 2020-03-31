@@ -52,7 +52,7 @@
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator';
   import {Getter} from "vuex-class";
-  import DeparturePoint from "@/types/departurePoint";
+  import DeparturePoint from "@/@types/departurePoint";
 
   @Component
   export default class ModalChangeSelectionOptions extends Vue {

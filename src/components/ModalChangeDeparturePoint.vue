@@ -38,7 +38,7 @@
   import {Component, Vue} from "vue-property-decorator";
   import {Getter, Mutation} from "vuex-class";
   import BaseDatalist from "./BaseDatalist.vue";
-  import DeparturePoint from "@/types/departurePoint";
+  import DeparturePoint from "@/@types/departurePoint";
 
   @Component({
     components: {
