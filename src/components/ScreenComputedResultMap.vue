@@ -11,21 +11,16 @@
         :draggable="false"
         :icon="userMarker"
     />
-    <GmapMarker
-        :position="destinationPoint"
-        :clickable="false"
-        :draggable="false"
-        :icon="mfcMarkerGreen"
-    />
   </GmapMap>
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Watch} from "vue-property-decorator";
+  import {Component, Watch} from "vue-property-decorator";
   import {Getter, Mutation} from "vuex-class";
+  import {google, googleMaps} from 'vue2-google-maps';
+  import MFCMarkers from "@/components/MFCMarkers";
   import DeparturePoint from "@/@types/departurePoint";
-  import Position from "@/@types/position";
-  import { google, googleMaps } from 'vue2-google-maps'
+  import PossibleOption from "@/@types/possibleOption";
 
   declare global {
     interface Window {
@@ -36,61 +31,32 @@
   }
 
   @Component
-  export default class ScreenComputedResultMap extends Vue {
+  export default class ScreenComputedResultMap extends MFCMarkers {
     $refs!: {
       map: any;
     };
 
     @Getter departurePoint!: DeparturePoint;
     @Getter travelWay!: string;
-    @Mutation updateTime!: (mins: number) => void;
-    @Mutation updateOtherOptions!: (otherOptions: Array<Array<string | number>>) => void;
+    @Getter bestOption!: PossibleOption;
+    @Mutation updatePossibleOptions!: (possibleOptions: Array<PossibleOption>) => void;
 
     @Watch('departurePoint')
     onDeparturePointChange() {
-      this.drawRoute();
-      this.calculateOtherOptionsTime();
+      this.calculateOptionsTime()
+          .then(() => this.drawRoute());
     }
 
     @Watch('travelWay')
     onTravelWayChange() {
-      this.drawRoute();
-      this.calculateOtherOptionsTime();
+      this.calculateOptionsTime()
+          .then(() => this.drawRoute());
     }
-
 
     private readonly zoom = 14;
 
-    private readonly destinationPoint: Position = {
-      lat: 43.125979,
-      lng: 131.900173,
-    };
-
-    private readonly userMarker = {
-      url: require('../assets/images/human-geo-icon.svg'),
-      size: {width: 52, height: 52, f: 'px', b: 'px'},
-      // scaledSize: {width: 36, height: 36, f: 'px', b: 'px'},
-    };
-
-    private readonly mfcMarkerGreen = {
-      url: require('../assets/images/mfc-icon-green.svg'),
-      size: {width: 52, height: 52, f: 'px', b: 'px'},
-      scaledSize: {width: 36, height: 36, f: 'px', b: 'px'},
-    };
-
-    private readonly mfcMarkerYellow = {
-      url: require('../assets/images/mfc-icon-yellow.svg'),
-      size: {width: 52, height: 52, f: 'px', b: 'px'},
-      scaledSize: {width: 36, height: 36, f: 'px', b: 'px'},
-    };
-
-    private readonly mfcMarkerRed = {
-      url: require('../assets/images/mfc-icon-red.svg'),
-      size: {width: 52, height: 52, f: 'px', b: 'px'},
-      scaledSize: {width: 36, height: 36, f: 'px', b: 'px'},
-    };
-
     private readonly mfcs = [
+      'Партизанский просп., 28А, Владивосток',
       '​100-летия Владивостока проспект, 44, Владивосток',
       '​Невельского, 13, Владивосток',
       '​Давыдова, 9, Владивосток',
@@ -108,26 +74,25 @@
 
     async mounted() {
       // @ts-ignore
-      this.$gmapApiPromiseLazy().then(async () => {
-        await this.initMap();
-        await this.drawRoute();
-        await this.drawMFCMarkers();
-        await this.calculateOtherOptionsTime();
+      this.$gmapApiPromiseLazy().then(() => {
+        this.initMap();
+        this.calculateOptionsTime()
+            .then(() => this.drawRoute());
       })
     }
 
     private async initMap() {
       return new Promise((resolve, reject) => {
-        console.log('g:', window.google);
+        // console.log('g:', window.google);
         this.trafficLayer = new window.google.maps.TrafficLayer();
-        console.log('trafficLayer:', this.directionsService);
+        // console.log('trafficLayer:', this.directionsService);
         this.trafficLayer.setMap(this.$refs.map.$mapObject);
 
         this.directionsService = new window.google.maps.DirectionsService();
-        console.log('directionsService:', this.directionsService);
+        // console.log('directionsService:', this.directionsService);
 
         this.directionsDisplay = new window.google.maps.DirectionsRenderer();
-        console.log('directionsDisplay:', this.directionsDisplay);
+        // console.log('directionsDisplay:', this.directionsDisplay);
         this.directionsDisplay.setMap(this.$refs.map.$mapObject);
         this.directionsDisplay.setOptions({suppressMarkers: true});
 
@@ -135,18 +100,97 @@
       });
     }
 
+    private calculateOptionsTime(): Promise<void> {
+      return new Promise<void>(async (resolve) => {
+        const vm = this;
+        this.geocoder = new window.google.maps.Geocoder();
+
+        const possibleOptions = Array<PossibleOption>();
+
+        const geocodeAddress = (currentMFC: string) => {
+          return new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
+            this.geocoder.geocode(
+                {address: currentMFC},
+                (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+                  if (status === "OK") {
+                    resolve(results);
+                  } else {
+                    reject(status);
+                  }
+                }
+            )
+          })
+        };
+
+        const processAddress = (results: google.maps.GeocoderResult[]) => {
+          return new Promise<google.maps.DirectionsResult>((resolve, reject) => {
+            const marker = new window.google.maps.Marker({
+              icon: this.marker(),
+              map: this.$refs.map.$mapObject,
+              position: results[0].geometry.location,
+            } as unknown as google.maps.ReadonlyMarkerOptions);
+
+            this.directionsService.route({
+                  origin: this.departurePoint.position, // Can be coord or also a search query
+                  destination: results[0].geometry.location,
+                  travelMode: this.travelWay.toUpperCase(),
+                } as google.maps.DirectionsRequest,
+                (response: google.maps.DirectionsResult, status: google.maps.DirectionsStatus) => {
+                  if (status === "OK") {
+                    resolve(response);
+                  } else {
+                    reject(status);
+                  }
+                }
+            )
+          })
+        };
+
+        const buildRoute = (
+            currentMFC: string,
+            results: google.maps.GeocoderResult[],
+            response: google.maps.DirectionsResult
+        ) => {
+          return new Promise<any>((resolve) => {
+            const estimatedTime = response.routes[0].legs[0].duration.text.split(" ")[0];
+            possibleOptions.push({
+              name: currentMFC,
+              time: Number(estimatedTime),
+              position: {
+                lat: results[0].geometry.location.lat(),
+                lng: results[0].geometry.location.lng(),
+              },
+            });
+            console.log(`${currentMFC} estimatedTime: ${estimatedTime}`);
+
+            resolve();
+          })
+        };
+
+        for (const currentMFC of this.mfcs) {
+          const results = await geocodeAddress(currentMFC);
+          const response = await processAddress(results);
+          await buildRoute(currentMFC, results, response);
+        }
+
+        console.log('possibleOptions length:', possibleOptions.length);
+        this.updatePossibleOptions(possibleOptions);
+        resolve();
+      });
+    }
+
+    // TODO: refactor it with promises
     private async drawRoute() {
       return new Promise((resolve, reject) => {
         const vm = this;
+        console.log('drawRoute bestOption.position', this.bestOption.position);
         vm.directionsService.route({
           origin: this.departurePoint.position, // Can be coord or also a search query
-          destination: this.destinationPoint,
+          destination: this.bestOption.position,
           travelMode: this.travelWay.toUpperCase(),
         } as google.maps.DirectionsRequest, (response: any, status: any) => {
           if (status === 'OK') {
             vm.directionsDisplay.setDirections(response); // draws the polygon to the map
-            const estimatedTime = response.routes[0].legs[0].duration.text.split(" ")[0];
-            this.updateTime(estimatedTime);
             resolve();
           } else {
             console.log('Directions request failed due to ' + status);
@@ -154,80 +198,6 @@
           }
         })
       });
-    }
-
-    private async drawMFCMarkers() {
-      return new Promise((resolse, reject) => {
-        this.geocoder = new window.google.maps.Geocoder();
-
-        this.mfcs.forEach(async (currentMFC: string) => {
-          this.geocoder.geocode(
-              {address: currentMFC},
-              (results: any, status: any) => {
-                if (status === "OK") {
-                  const marker = new window.google.maps.Marker({
-                    icon: this.marker(),
-                    map: this.$refs.map.$mapObject,
-                    position: results[0].geometry.location,
-                  } as unknown as google.maps.ReadonlyMarkerOptions);
-                } else {
-                  console.log("Address error:" + status);
-                }
-              }
-          );
-        });
-
-        resolse();
-      });
-    }
-
-    private async calculateOtherOptionsTime(): Promise<void> {
-      return new Promise((resolse, reject) => {
-        const vm = this;
-        this.geocoder = new window.google.maps.Geocoder();
-
-        const otherOptions = Array<Array<string | number>>();
-        this.mfcs.forEach(async (currentMFC: string) => {
-          this.geocoder.geocode(
-              {address: currentMFC},
-              (results: any, status: any) => {
-                if (status === "OK") {
-                  vm.directionsService.route({
-                    origin: this.departurePoint.position, // Can be coord or also a search query
-                    destination: results[0].geometry.location,
-                    travelMode: this.travelWay.toUpperCase(),
-                  } as google.maps.DirectionsRequest, (response: any, status: any) => {
-                    if (status === 'OK') {
-                      const estimatedTime = response.routes[0].legs[0].duration.text.split(" ")[0];
-                      otherOptions.push([currentMFC, estimatedTime]);
-                      console.log(`${currentMFC} estimatedTime: ${estimatedTime}`);
-                    } else {
-                      console.log(`${currentMFC} directions request failed due to ${status}`);
-                    }
-                  })
-                } else {
-                  console.log(`${currentMFC} address error: ${status}`);
-                }
-              }
-          );
-        });
-
-        this.updateOtherOptions(otherOptions);
-        resolse();
-      });
-    }
-
-    marker() {
-      const x = Math.round(Math.random() * 3);
-
-      switch (x) {
-        case 1:
-          return this.mfcMarkerGreen;
-        case 2:
-          return this.mfcMarkerYellow;
-        default:
-          return this.mfcMarkerRed;
-      }
     }
   }
 </script>

@@ -3,10 +3,10 @@
     <h2 class="other-options__header">Другие варианты</h2>
     <div class="other-options__list">
       <ScreenOtherOptionsItem
-          v-for="(item, idx) in otherOptions"
+          v-for="(item, idx) in possibleOptions"
           :key="idx"
-          :street="item[0].split(',').slice(0,2).join()"
-          :estimated-time="item[1]"
+          :street="item.name.split(',').slice(0,2).join()"
+          :estimated-time="item.time"
       />
     </div>
     <div class="appointment">
@@ -25,6 +25,7 @@
   import {Component, Vue} from 'vue-property-decorator';
   import {Getter} from "vuex-class";
   import ScreenOtherOptionsItem from "./ScreenOtherOptionsItem.vue";
+  import PossibleOption from "@/@types/possibleOption";
 
   @Component({
     components: {
@@ -32,13 +33,7 @@
     }
   })
   export default class ScreenOtherOptions extends Vue {
-    @Getter otherOptions!: Array<Array<string | number>>;
-
-    // get filteredOtherOptions(): Array<Array<string | number>> {
-    //   return this.otherOptions.map((el) => {
-    //     el[1] > 1 ?
-    //   });
-    // }
+    @Getter possibleOptions!: Array<PossibleOption>;
   }
 </script>
 

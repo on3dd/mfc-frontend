@@ -23,9 +23,11 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
+  import {Getter} from "vuex-class";
   import MFCLogo from "./MFCLogo.vue";
   import ScreenComputedResultInfo from "./ScreenComputedResultInfo.vue";
   import ScreenComputedResultMap from "./ScreenComputedResultMap.vue";
+  import PossibleOption from "@/@types/possibleOption";
 
   @Component({
     components: {
@@ -34,7 +36,9 @@
       ScreenComputedResultMap,
     }
   })
-  export default class ScreenComputedResult extends Vue {}
+  export default class ScreenComputedResult extends Vue {
+    @Getter bestOption!: PossibleOption;
+  }
 </script>
 
 <style scoped lang="scss">

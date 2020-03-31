@@ -6,7 +6,7 @@
     <section class="info__data">
       <h2 class="info__data__header">Наиболее удобное отделение</h2>
       <div class="info__data__details">
-        <h3 class="info__data__details__header">Партизанский просп., 28А</h3>
+        <h3 class="info__data__details__header">{{bestOption.name.split(',').slice(0, 2).join()}}</h3>
         <span class="info__data__details__phone">+7 (423) 201-01-56</span>
         <span class="info__data__details__estimated-time">
           <span class="big">Дорога до отделения</span>
@@ -14,7 +14,7 @@
           и
           <span class="big">получение услуги</span>
           займут около
-          <span class="time">~{{time}} минут</span>
+          <span class="time">~{{bestOption.time}} минут</span>
         </span>
       </div>
       <section class="info__data__statistics">
@@ -48,12 +48,23 @@
   import {Component, Vue} from "vue-property-decorator";
   import {Getter, Action} from "vuex-class";
   import StatisticsItem from "@/@types/statisticsItem";
+  import PossibleOption from "@/@types/possibleOption";
 
   @Component
   export default class ScreenComputedResultInfo extends Vue {
-    @Getter time!: number;
+    @Getter bestOption!: PossibleOption | undefined;
     @Getter statistics!: StatisticsItem;
     @Action fetchStatistics!: () => void;
+
+    // private get name(): string {
+    //   if ((this.bestOption === undefined) || (this.bestOption.name === undefined)) return '';
+    //   return this.bestOption.name.split(',').slice(0,2).join();
+    // }
+
+    // private get time(): number {
+    //   if ((this.bestOption === undefined) || (this.bestOption.time === undefined)) return 0;
+    //   return this.bestOption.time;
+    // }
 
     async mounted() {
       this.fetchStatistics();
