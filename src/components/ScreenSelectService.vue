@@ -10,7 +10,12 @@
       <h3 class="description__text">* ДЛЯ БОЛЕЕ ТОЧНОГО РАСЧЁТА ВРЕМЕНИ РЕКОМЕНДУЕТСЯ выбрать необходимую услугу</h3>
     </div>
     <div class="input">
-      <BaseDatalist @select="changeService" name="select-service" :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"/>
+      <BaseDatalist
+          @select="changeService"
+          name="select-service"
+          :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"
+          placeholder="Выберите услугу"
+      />
     </div>
     <div class="button-group">
       <PrevButton/>

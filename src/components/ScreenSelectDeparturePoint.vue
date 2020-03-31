@@ -11,6 +11,7 @@
           @select="changeDeparturePoint"
           name="select-service"
           :data="points.map((el) => el.name)"
+          placeholder="Ваше местоположение"
       />
     </div>
     <div class="button-group">
@@ -40,7 +41,42 @@
   export default class ScreenSelectDeparturePoint extends Vue {
     @Mutation updateDeparturePoint!: (departurePoint: DeparturePoint) => void;
 
-    private points: DeparturePoint[] = [
+    mounted() {
+      this.fetchGeolocation();
+    }
+
+    private fetchGeolocation() {
+      const options: PositionOptions = {
+        enableHighAccuracy: true,
+        timeout: Infinity,
+        maximumAge: 0
+      };
+
+      const success = (pos: Position) => {
+        const crd = pos.coords;
+
+        console.log('Ваше текущее метоположение:');
+        console.log(`Широта: ${crd.latitude}`);
+        console.log(`Долгота: ${crd.longitude}`);
+        console.log(`Плюс-минус ${crd.accuracy} метров.`);
+
+        this.updateDeparturePoint({
+          name: 'Ваше местоположение',
+          position: {
+            lat: crd.latitude,
+            lng: crd.longitude,
+          }
+        });
+      };
+
+      const error = (err: PositionError) => {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+      };
+
+      navigator.geolocation.getCurrentPosition(success, error, options);
+    }
+
+    private readonly points: DeparturePoint[] = [
       {
         name: 'Сквер им. Суханова',
         position: {

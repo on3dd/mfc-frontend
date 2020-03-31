@@ -7,7 +7,9 @@
           @click="isActive = true"
           ref="input"
           class="input"
-          type="text">
+          type="text"
+          :placeholder="placeholder"
+      >
     </div>
     <ul
         ref="datalist"
@@ -35,6 +37,7 @@
 
     @Prop({type: String, required: true}) name!: string;
     @Prop({type: Array, required: true}) data!: string[];
+    @Prop({type: String, required: false}) placeholder!: string;
 
     private activeOptions = this.data;
     private isActive = false;
