@@ -42,7 +42,7 @@
         >
           <BasePreloader/>
         </section>
-        <section style="width: 100%;">
+        <section style="width: 100%;display:flex;flex-direction:column;align-items: center">
           <ScreenComputedResult @showModal="showModal"/>
           <ScreenOtherOptions/>
         </section>
