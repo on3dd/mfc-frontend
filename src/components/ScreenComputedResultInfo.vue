@@ -52,7 +52,7 @@
 
   @Component
   export default class ScreenComputedResultInfo extends Vue {
-    @Getter bestOption!: PossibleOption | undefined;
+    @Getter bestOption!: PossibleOption;
     @Getter statistics!: StatisticsItem;
     @Action fetchStatistics!: () => void;
 
