@@ -46,45 +46,9 @@
     }
   })
   export default class ModalChangeDeparturePoint extends Vue {
+    @Getter points!: DeparturePoint[];
     @Getter departurePoint!: DeparturePoint;
     @Mutation updateDeparturePoint!: (departurePoint: DeparturePoint) => void;
-
-    private points: DeparturePoint[] = [
-      {
-        name: 'Сквер им. Суханова',
-        position: {
-          lat: 43.118096,
-          lng: 131.891598
-        }
-      },
-      {
-        name: 'Покровский парк',
-        position: {
-          lat: 43.125259,
-          lng: 131.892088
-        }
-      },
-      {
-        name: 'Набережная Спортивной гавани',
-        position: {
-          lat: 43.117884,
-          lng: 131.877352
-        }
-      },
-      {
-        name: 'Сквер "Писательский"',
-        position: {
-          lat: 43.12988,
-          lng: 131.909459
-        }
-      },
-      {
-        name: 'Военно-исторический музей Тихоокеанского флота',
-        position: {
-          lat: 43.112769,
-          lng: 131.890472
-        }
-      },];
 
     private currentDeparturePoint = this.departurePoint;
 

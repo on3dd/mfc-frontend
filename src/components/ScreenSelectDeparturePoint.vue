@@ -10,7 +10,7 @@
       <BaseDatalist
           @select="changeDeparturePoint"
           name="select-service"
-          :data="points.map((el) => el.name)"
+          :data="pointNames"
           placeholder="Ваше местоположение"
       />
     </div>
@@ -23,7 +23,7 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
-  import {Mutation} from "vuex-class";
+  import {Getter, Mutation} from "vuex-class";
   import MFCLogo from "./MFCLogo.vue";
   import BaseDatalist from "./BaseDatalist.vue";
   import PrevButton from "./PrevButton.vue";
@@ -39,6 +39,8 @@
     }
   })
   export default class ScreenSelectDeparturePoint extends Vue {
+    @Getter points!: DeparturePoint[];
+    @Getter pointNames!: string[];
     @Mutation updateDeparturePoint!: (departurePoint: DeparturePoint) => void;
 
     mounted() {
@@ -61,12 +63,14 @@
         console.log(`Плюс-минус ${crd.accuracy} метров.`);
 
         this.updateDeparturePoint({
-          name: 'Ваше местоположение',
+          name: 'Мое местоположение - определено автоматически',
           position: {
             lat: crd.latitude,
             lng: crd.longitude,
           }
         });
+
+        this.$set(this.$store, 'points', [])
       };
 
       const error = (err: PositionError) => {
@@ -75,43 +79,6 @@
 
       navigator.geolocation.getCurrentPosition(success, error, options);
     }
-
-    private readonly points: DeparturePoint[] = [
-      {
-        name: 'Сквер им. Суханова',
-        position: {
-          lat: 43.118096,
-          lng: 131.891598
-        }
-      },
-      {
-        name: 'Покровский парк',
-        position: {
-          lat: 43.125259,
-          lng: 131.892088
-        }
-      },
-      {
-        name: 'Набережная Спортивной гавани',
-        position: {
-          lat: 43.117884,
-          lng: 131.877352
-        }
-      },
-      {
-        name: 'Сквер "Писательский"',
-        position: {
-          lat: 43.12988,
-          lng: 131.909459
-        }
-      },
-      {
-        name: 'Военно-исторический музей Тихоокеанского флота',
-        position: {
-          lat: 43.112769,
-          lng: 131.890472
-        }
-      },];
 
     private changeDeparturePoint(pointName: string) {
       const departurePoint = this.points.find((el) => el.name === pointName.trim());

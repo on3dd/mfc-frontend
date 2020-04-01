@@ -47,6 +47,10 @@
     @Getter travelWay!: string;
     @Mutation updateTravelWay!: (name: string) => void;
 
+    mounted() {
+      this.updateTravelWay('walking');
+    }
+
     changeTravelWay(name: string) {
       this.updateTravelWay(name);
     }

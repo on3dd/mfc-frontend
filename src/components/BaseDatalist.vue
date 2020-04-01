@@ -5,6 +5,7 @@
       <input
           @input="updateData"
           @click="isActive = true"
+          v-model="currentOption"
           ref="input"
           class="input"
           type="text"
@@ -41,8 +42,11 @@
 
     private activeOptions = this.data;
     private isActive = false;
+    private currentOption = this.data[0];
 
     mounted() {
+      this.$emit('select', this.currentOption);
+
       document.addEventListener('click', (evt: MouseEvent) => {
         if (this.isActive && (evt.target !== this.$refs.datalist) && (evt.target !== this.$refs.input)) {
           this.isActive = false;
@@ -51,13 +55,13 @@
     }
 
     updateData() {
-      this.activeOptions = this.data.filter((el: string) => el.includes(this.$refs.input.value));
+      this.activeOptions = this.data.filter((el: string) => el.includes(this.currentOption));
       this.isActive = true;
     }
 
     changeActive(evt: MouseEvent) {
-      this.$refs.input.value = (evt.target as HTMLElement).textContent!;
-      this.$emit('select', this.$refs.input.value);
+      this.currentOption = (evt.target as HTMLElement).textContent!;
+      this.$emit('select', this.currentOption);
     }
   }
 </script>

@@ -7,7 +7,11 @@
           :class="['screen', screen === 0 ? 'active' : '']"
       >
         <ScreenHome/>
-        <img class="mfc-logo" src="../assets/images/mfc-logo.svg" alt="Лого МФЦ">
+        <img
+            class="mfc-logo"
+            src="../assets/images/mfc-logo.svg"
+            alt="Лого МФЦ"
+        >
       </section>
       <section
           v-else-if="screen === 1"
