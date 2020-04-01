@@ -73,8 +73,7 @@
     private geocoder!: google.maps.Geocoder;
 
     async mounted() {
-      // @ts-ignore
-      await this.$gmapApiPromiseLazy();
+      await this.$refs.map.$mapPromise;
       await this.initMap();
       await this.calculateOptionsTime();
       await this.drawRoute();
@@ -145,7 +144,9 @@
           response: google.maps.DirectionsResult
       ) => {
         return new Promise<void>((resolve) => {
-          const estimatedTime = response.routes[0].legs[0].duration.text.split(" ")[0];
+          const estimatedTime = Math.ceil(response.routes[0].legs[0].duration.value / 60);
+          console.log(`${currentMFC} estimatedTime: ${estimatedTime} minutes`);
+
           possibleOptions.push({
             name: currentMFC,
             time: Number(estimatedTime),
@@ -154,7 +155,6 @@
               lng: results[0].geometry.location.lng(),
             },
           });
-          console.log(`${currentMFC} estimatedTime: ${estimatedTime}`);
 
           resolve();
         })
