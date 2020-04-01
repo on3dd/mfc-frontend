@@ -7,6 +7,7 @@ import travelWay from "@/store/modules/travelWay";
 import service from "@/store/modules/service";
 import statistics from "@/store/modules/statistics";
 import possibleOptions from "@/store/modules/possibleOptions";
+import lockingPool from "@/store/modules/lockingPool";
 
 Vue.use(Vuex);
 
@@ -21,5 +22,6 @@ export default new Vuex.Store({
     service,
     statistics,
     possibleOptions,
+    lockingPool,
   }
 })

@@ -1,75 +1,72 @@
 <template>
   <div class="home">
     <transition name="fade" mode="out-in">
-      <div
+      <section
           v-if="screen === 0"
           :key="screen"
-          v-cloak
           :class="['screen', screen === 0 ? 'active' : '']"
       >
         <ScreenHome/>
         <img class="mfc-logo" src="../assets/images/mfc-logo.svg" alt="Лого МФЦ">
-      </div>
-      <div
+      </section>
+      <section
           v-else-if="screen === 1"
           :key="screen"
-          v-cloak
           :class="['screen', screen === 1 ? 'active' : '']"
       >
         <ScreenSelectDeparturePoint/>
-      </div>
-      <div
+      </section>
+      <section
           v-else-if="screen === 2"
           :key="screen"
-          v-cloak
           :class="['screen', screen === 2 ? 'active' : '']"
       >
         <ScreenSelectTravelWay/>
-      </div>
-      <div
+      </section>
+      <section
           v-else-if="screen === 3"
           :key="screen"
-          v-cloak
           :class="['screen', screen === 3 ? 'active' : '']"
       >
         <ScreenSelectService/>
-      </div>
-      <div
+      </section>
+      <section
           v-else
           :key="screen"
-          v-cloak
           :class="['screen', screen === 4 ? 'active' : '']"
       >
-        <ScreenComputedResult
-            @showModal="showModal"
-            v-cloak
-        />
-        <ScreenOtherOptions v-cloak/>
-      </div>
+        <section
+            v-if="isUILocked"
+            :key="isUILocked"
+            style="width: 100%;z-index: 100;"
+        >
+          <BasePreloader/>
+        </section>
+        <section style="width: 100%;">
+          <ScreenComputedResult @showModal="showModal"/>
+          <ScreenOtherOptions/>
+        </section>
+      </section>
     </transition>
     <transition name="fade" mode="out-in">
       <ModalChangeSelectionOptions
           v-if="isMainModalVisible"
-          v-cloak
           @selectModal="selectModal"
           @closeModal="closeModal"
       />
       <ModalChangeDeparturePoint
           v-else-if="activeModal === 'departure-point'"
           :key="activeModal"
-          v-cloak
           @closeModal="closeModal"
       />
       <ModalChangeTravelWay
           v-else-if="activeModal === 'travel-way'"
           :key="activeModal"
-          v-cloak
           @closeModal="closeModal"
       />
       <ModalChangeService
           v-else-if="activeModal === 'service'"
           :key="activeModal"
-          v-cloak
           @closeModal="closeModal"
       />
     </transition>
@@ -89,6 +86,7 @@
   import ModalChangeDeparturePoint from "@/components/ModalChangeDeparturePoint.vue";
   import ModalChangeTravelWay from "@/components/ModalChangeTravelWay.vue";
   import ModalChangeService from "@/components/ModalChangeService.vue";
+  import BasePreloader from "@/components/BasePreloader.vue";
 
   @Component({
     components: {
@@ -102,10 +100,12 @@
       ModalChangeDeparturePoint,
       ModalChangeTravelWay,
       ModalChangeService,
+      BasePreloader,
     }
   })
   export default class Home extends Vue {
     @Getter screen!: number;
+    @Getter isUILocked!: boolean;
 
     private isMainModalVisible = false;
     private activeModal = '';

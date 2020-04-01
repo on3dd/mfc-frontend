@@ -40,17 +40,23 @@
     @Getter travelWay!: string;
     @Getter bestOption!: PossibleOption;
     @Mutation updatePossibleOptions!: (possibleOptions: Array<PossibleOption>) => void;
+    @Mutation lockUI!: () => void;
+    @Mutation unlockUI!: () => void;
 
     @Watch('departurePoint')
     async onDeparturePointChange() {
+      this.lockUI();
       await this.calculateOptionsTime();
       await this.drawRoute();
+      this.unlockUI();
     }
 
     @Watch('travelWay')
     async onTravelWayChange() {
+      this.lockUI();
       await this.calculateOptionsTime();
       await this.drawRoute();
+      this.unlockUI();
     }
 
     private readonly zoom = 14;
@@ -73,10 +79,12 @@
     private geocoder!: google.maps.Geocoder;
 
     async mounted() {
+      this.lockUI();
       await this.$refs.map.$mapPromise;
       await this.initMap();
       await this.calculateOptionsTime();
       await this.drawRoute();
+      this.unlockUI();
     }
 
     private async initMap() {
