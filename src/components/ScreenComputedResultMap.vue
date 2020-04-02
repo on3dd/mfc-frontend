@@ -114,7 +114,17 @@
     private async calculateOptionsTime() {
       const storedPossibleOptions = sessionStorage.getItem('possibleOptions');
       if (storedPossibleOptions !== null) {
-        this.updatePossibleOptions(JSON.parse(storedPossibleOptions));
+        const possibleOptions = JSON.parse(storedPossibleOptions);
+
+        possibleOptions.forEach((option: PossibleOption) => {
+          new window.google.maps.Marker({
+            icon: this.marker(),
+            map: this.$refs.map.$mapObject,
+            position: option.position,
+          } as unknown as google.maps.ReadonlyMarkerOptions);
+        });
+
+        this.updatePossibleOptions(possibleOptions);
       } else {
         this.geocoder = new window.google.maps.Geocoder();
 
