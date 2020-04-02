@@ -48,7 +48,6 @@ export default {
     ],
   },
   mutations: {
-    // TODO: Fix reactivity issue
     updateDeparturePoint(state: DeparturePointState, point: DeparturePoint) {
       state.departurePoint = point;
       console.log('current departure point:', state.departurePoint);

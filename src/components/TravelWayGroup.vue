@@ -50,6 +50,8 @@
     changeTravelWay(travelWay: string) {
       this.updateTravelWay(travelWay);
       sessionStorage.setItem('travelWay', travelWay);
+
+      this.$emit('select');
     }
   }
 </script>

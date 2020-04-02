@@ -17,9 +17,9 @@
       <div class="modal__search">
         <BaseDatalist
             @select="changeDeparturePoint"
+            :data="points.map((el) => el.name)"
             name="select-departure-point"
             class="modal__search__input"
-            :data="points.map((el) => el.name)"
         />
         <button
             @click="submit"

@@ -1,5 +1,9 @@
 <template>
-  <button @click="increaseScreen" class="button">Далее</button>
+  <button
+      @click="increaseScreen"
+      :disabled="isDisabled"
+      class="button"
+  >Далее</button>
 </template>
 
 <script lang="ts">
@@ -23,5 +27,9 @@
     padding: 0 30px;
     border-radius: 44px;
     font-size: 36px;
+
+    &[disabled] {
+      background: $mfc-gray;
+    }
   }
 </style>

@@ -5,10 +5,12 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from "vue-property-decorator";
+  import {Component, Vue, Prop} from "vue-property-decorator";
 
   @Component
-  export default class BaseButton extends Vue {}
+  export default class BaseButton extends Vue {
+    @Prop({type: Boolean, required: false}) isDisabled!: boolean;
+  }
 </script>
 
 <style scoped lang="scss">

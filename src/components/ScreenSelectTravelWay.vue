@@ -6,10 +6,10 @@
         Выбор способа передвижения
       </h2>
     </div>
-    <TravelWayGroup/>
+    <TravelWayGroup @select="isDisabled = false"/>
     <div class="button-group">
       <PrevButton/>
-      <NextButton/>
+      <NextButton :isDisabled="isDisabled"/>
     </div>
   </div>
 </template>
@@ -32,7 +32,15 @@
     }
   })
   export default class ScreenSelectTravelWay extends Vue {
+    private isNextButtonDisabled = sessionStorage.getItem('travelWay') === null;
 
+    private get isDisabled(): boolean {
+      return this.isNextButtonDisabled;
+    }
+
+    private set isDisabled(val: boolean) {
+      this.isNextButtonDisabled = val;
+    }
   }
 </script>
 
