@@ -62,13 +62,16 @@
         console.log(`Долгота: ${crd.longitude}`);
         console.log(`Плюс-минус ${crd.accuracy} метров.`);
 
-        this.updateDeparturePoint({
+        const departurePoint = {
           name: 'Мое местоположение - определено автоматически',
           position: {
             lat: crd.latitude,
             lng: crd.longitude,
           }
-        });
+        };
+
+        this.updateDeparturePoint(departurePoint);
+        sessionStorage.setItem('departurePoint', JSON.stringify(departurePoint))
       };
 
       const error = (err: PositionError) => {
@@ -83,6 +86,7 @@
       if (departurePoint === undefined) return;
 
       this.updateDeparturePoint(departurePoint);
+      sessionStorage.setItem('departurePoint', JSON.stringify(departurePoint))
     }
   }
 </script>

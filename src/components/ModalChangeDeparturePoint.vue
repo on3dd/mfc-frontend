@@ -61,6 +61,7 @@
 
     private submit() {
       this.updateDeparturePoint(this.currentDeparturePoint);
+      sessionStorage.setItem('departurePoint', JSON.stringify(this.currentDeparturePoint));
     }
   }
 </script>

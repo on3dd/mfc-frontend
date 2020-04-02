@@ -2,7 +2,7 @@
   <div class="home">
     <transition name="fade" mode="out-in">
       <section
-          v-if="screen === 0"
+          v-if="(screen === 0) && !hasCachedData"
           :key="screen"
           :class="['screen', screen === 0 ? 'active' : '']"
       >
@@ -14,21 +14,21 @@
         >
       </section>
       <section
-          v-else-if="screen === 1"
+          v-else-if="(screen === 1) && !hasCachedData"
           :key="screen"
           :class="['screen', screen === 1 ? 'active' : '']"
       >
         <ScreenSelectDeparturePoint/>
       </section>
       <section
-          v-else-if="screen === 2"
+          v-else-if="(screen === 2) && !hasCachedData"
           :key="screen"
           :class="['screen', screen === 2 ? 'active' : '']"
       >
         <ScreenSelectTravelWay/>
       </section>
       <section
-          v-else-if="screen === 3"
+          v-else-if="(screen === 3) && !hasCachedData"
           :key="screen"
           :class="['screen', screen === 3 ? 'active' : '']"
       >
@@ -36,8 +36,7 @@
       </section>
       <section
           v-else
-          :key="screen"
-          :class="['screen', screen === 4 ? 'active' : '']"
+          :class="['screen', (screen === 4) || hasCachedData ? 'active' : '']"
       >
         <section
             v-if="isUILocked"
@@ -79,7 +78,7 @@
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator';
-  import {Getter} from 'vuex-class';
+  import {Getter, Mutation} from 'vuex-class';
   import ScreenHome from '@/components/ScreenHome.vue';
   import ScreenSelectDeparturePoint from '@/components/ScreenSelectDeparturePoint.vue';
   import ScreenSelectTravelWay from '@/components/ScreenSelectTravelWay.vue';
@@ -91,6 +90,7 @@
   import ModalChangeTravelWay from "@/components/ModalChangeTravelWay.vue";
   import ModalChangeService from "@/components/ModalChangeService.vue";
   import BasePreloader from "@/components/BasePreloader.vue";
+  import DeparturePoint from "@/@types/departurePoint";
 
   @Component({
     components: {
@@ -110,9 +110,25 @@
   export default class Home extends Vue {
     @Getter screen!: number;
     @Getter isUILocked!: boolean;
+    @Mutation updateDeparturePoint!: (departurePoint: DeparturePoint) => void;
+    @Mutation updateTravelWay!: (travelWay: string) => void;
+    @Mutation updateService!: (service: string) => void;
 
     private isMainModalVisible = false;
     private activeModal = '';
+
+    created() {
+      const departurePoint = sessionStorage.getItem('departurePoint');
+      if (departurePoint !== null) this.updateDeparturePoint(JSON.parse(departurePoint));
+
+      const travelWay = sessionStorage.getItem('travelWay');
+      if (travelWay !== null) this.updateTravelWay(travelWay);
+
+      const service = sessionStorage.getItem('service');
+      if (service !== null) this.updateService(service);
+
+      console.log('hasCachedData:', this.hasCachedData);
+    }
 
     mounted() {
       document.addEventListener('click', (evt: MouseEvent) => {
@@ -136,6 +152,15 @@
     private closeModal() {
       this.activeModal = '';
       this.isMainModalVisible = false;
+    }
+
+    private get hasCachedData(): boolean {
+      return (
+          (sessionStorage.getItem('possibleOptions') !== null) &&
+          (sessionStorage.getItem('departurePoint') !== null) &&
+          (sessionStorage.getItem('travelWay') !== null) &&
+          (sessionStorage.getItem('service') !== null)
+      );
     }
   }
 </script>

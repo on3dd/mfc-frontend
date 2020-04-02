@@ -45,14 +45,11 @@
   })
   export default class TravelWayGroup extends Vue {
     @Getter travelWay!: string;
-    @Mutation updateTravelWay!: (name: string) => void;
+    @Mutation updateTravelWay!: (travelWay: string) => void;
 
-    mounted() {
-      this.updateTravelWay('walking');
-    }
-
-    changeTravelWay(name: string) {
-      this.updateTravelWay(name);
+    changeTravelWay(travelWay: string) {
+      this.updateTravelWay(travelWay);
+      sessionStorage.setItem('travelWay', travelWay);
     }
   }
 </script>

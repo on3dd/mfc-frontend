@@ -47,6 +47,7 @@
 
     private changeService(service: string) {
       this.updateService(service);
+      sessionStorage.setItem('service', service);
     }
   }
 </script>

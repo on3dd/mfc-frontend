@@ -56,6 +56,7 @@
 
     private submit() {
       this.updateService(this.currentService);
+      sessionStorage.setItem('service', JSON.stringify(this.currentService));
     }
   }
 </script>

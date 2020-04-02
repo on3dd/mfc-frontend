@@ -38,25 +38,25 @@
 
     @Getter departurePoint!: DeparturePoint;
     @Getter travelWay!: string;
+    @Getter service!: string;
     @Getter bestOption!: PossibleOption;
     @Mutation updatePossibleOptions!: (possibleOptions: Array<PossibleOption>) => void;
     @Mutation lockUI!: () => void;
     @Mutation unlockUI!: () => void;
 
     @Watch('departurePoint')
-    async onDeparturePointChange() {
-      this.lockUI();
-      await this.calculateOptionsTime();
-      await this.drawRoute();
-      this.unlockUI();
+    onDeparturePointChange() {
+      this.recalculate();
     }
 
     @Watch('travelWay')
-    async onTravelWayChange() {
-      this.lockUI();
-      await this.calculateOptionsTime();
-      await this.drawRoute();
-      this.unlockUI();
+    onTravelWayChange() {
+      this.recalculate();
+    }
+
+    @Watch('service')
+    onServiceChange() {
+      this.recalculate();
     }
 
     private readonly zoom = 14;
@@ -102,80 +102,96 @@
       });
     }
 
-    private async calculateOptionsTime(): Promise<void> {
-      this.geocoder = new window.google.maps.Geocoder();
+    private async recalculate() {
+      sessionStorage.removeItem('possibleOptions');
 
-      const possibleOptions = Array<PossibleOption>();
+      this.lockUI();
+      await this.calculateOptionsTime();
+      await this.drawRoute();
+      this.unlockUI();
+    }
 
-      const geocodeAddress = (currentMFC: string) => {
-        return new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
-          this.geocoder.geocode(
-              {address: currentMFC},
-              (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
-                if (status === "OK") {
-                  resolve(results);
-                } else {
-                  reject(status);
+    private async calculateOptionsTime() {
+      const storedPossibleOptions = sessionStorage.getItem('possibleOptions');
+      if (storedPossibleOptions !== null) {
+        this.updatePossibleOptions(JSON.parse(storedPossibleOptions));
+      } else {
+        this.geocoder = new window.google.maps.Geocoder();
+
+        const possibleOptions = Array<PossibleOption>();
+
+        const geocodeAddress = (currentMFC: string) => {
+          return new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
+            this.geocoder.geocode(
+                {address: currentMFC},
+                (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+                  if (status === "OK") {
+                    resolve(results);
+                  } else {
+                    reject(status);
+                  }
                 }
-              }
-          )
-        })
-      };
+            )
+          })
+        };
 
-      const processAddress = (results: google.maps.GeocoderResult[]) => {
-        return new Promise<google.maps.DirectionsResult>((resolve, reject) => {
-          new window.google.maps.Marker({
-            icon: this.marker(),
-            map: this.$refs.map.$mapObject,
-            position: results[0].geometry.location,
-          } as unknown as google.maps.ReadonlyMarkerOptions);
+        const processAddress = (results: google.maps.GeocoderResult[]) => {
+          return new Promise<google.maps.DirectionsResult>((resolve, reject) => {
+            new window.google.maps.Marker({
+              icon: this.marker(),
+              map: this.$refs.map.$mapObject,
+              position: results[0].geometry.location,
+            } as unknown as google.maps.ReadonlyMarkerOptions);
 
-          this.directionsService.route({
-                origin: this.departurePoint.position, // Can be coord or also a search query
-                destination: results[0].geometry.location,
-                travelMode: this.travelWay.toUpperCase(),
-              } as google.maps.DirectionsRequest,
-              (response: google.maps.DirectionsResult, status: google.maps.DirectionsStatus) => {
-                if (status === "OK") {
-                  resolve(response);
-                } else {
-                  reject(status);
+            this.directionsService.route({
+                  origin: this.departurePoint.position, // Can be coord or also a search query
+                  destination: results[0].geometry.location,
+                  travelMode: this.travelWay.toUpperCase(),
+                } as google.maps.DirectionsRequest,
+                (response: google.maps.DirectionsResult, status: google.maps.DirectionsStatus) => {
+                  if (status === "OK") {
+                    resolve(response);
+                  } else {
+                    reject(status);
+                  }
                 }
-              }
-          )
-        })
-      };
+            )
+          })
+        };
 
-      const buildRoute = (
-          currentMFC: string,
-          results: google.maps.GeocoderResult[],
-          response: google.maps.DirectionsResult
-      ) => {
-        return new Promise<void>((resolve) => {
-          const estimatedTime = Math.ceil(response.routes[0].legs[0].duration.value / 60);
-          console.log(`${currentMFC} estimatedTime: ${estimatedTime} minutes`);
+        const buildRoute = (
+            currentMFC: string,
+            results: google.maps.GeocoderResult[],
+            response: google.maps.DirectionsResult
+        ) => {
+          return new Promise<void>((resolve) => {
+            const estimatedTime = Math.ceil(response.routes[0].legs[0].duration.value / 60);
+            console.log(`${currentMFC} estimatedTime: ${estimatedTime} minutes`);
 
-          possibleOptions.push({
-            name: currentMFC,
-            time: Number(estimatedTime),
-            position: {
-              lat: results[0].geometry.location.lat(),
-              lng: results[0].geometry.location.lng(),
-            },
-          });
+            possibleOptions.push({
+              name: currentMFC,
+              time: Number(estimatedTime),
+              position: {
+                lat: results[0].geometry.location.lat(),
+                lng: results[0].geometry.location.lng(),
+              },
+            });
 
-          resolve();
-        })
-      };
+            resolve();
+          })
+        };
 
-      for (const currentMFC of this.mfcs) {
-        const results = await geocodeAddress(currentMFC);
-        const response = await processAddress(results);
-        await buildRoute(currentMFC, results, response);
+        for (const currentMFC of this.mfcs) {
+          const results = await geocodeAddress(currentMFC);
+          const response = await processAddress(results);
+          await buildRoute(currentMFC, results, response);
+        }
+
+        console.log('possibleOptions length:', possibleOptions.length);
+        this.updatePossibleOptions(possibleOptions);
+
+        sessionStorage.setItem('possibleOptions', JSON.stringify(possibleOptions));
       }
-
-      console.log('possibleOptions length:', possibleOptions.length);
-      this.updatePossibleOptions(possibleOptions);
     }
 
     private async drawRoute() {
