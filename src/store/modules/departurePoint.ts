@@ -59,7 +59,7 @@ export default {
       } else {
         Vue.set(state.points, userPositionIdx, point);
       }
-      console.log('all departure points:', state.points);
+      // console.log('all departure points:', state.points);
     },
   },
   getters: {

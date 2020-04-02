@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Prop} from "vue-property-decorator";
+  import {Component, Vue, Prop, Watch} from "vue-property-decorator";
 
   @Component
   export default class BaseDatalist extends Vue {
@@ -39,6 +39,14 @@
     @Prop({type: String, required: true}) name!: string;
     @Prop({type: Array, required: true}) data!: string[];
     @Prop({type: String, required: false}) placeholder!: string;
+
+    @Watch('data')
+    onDataChange(data: string[], oldData: string[]) {
+      if (data.length === oldData.length) return;
+
+      this.activeOptions = this.data;
+      this.currentOption = this.data[0];
+    }
 
     private activeOptions = this.data;
     private isActive = false;
@@ -120,7 +128,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       transition: all .2s ease-out;
-      box-shadow: 0 20px 20px 0 rgba(0,0,0,.25);
+      box-shadow: 0 20px 20px 0 rgba(0, 0, 0, .25);
       z-index: 1;
 
       /* Hide scrollbar for IE and MS Edge */

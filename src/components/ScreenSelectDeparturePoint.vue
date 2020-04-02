@@ -69,8 +69,6 @@
             lng: crd.longitude,
           }
         });
-
-        this.$set(this.$store, 'points', [])
       };
 
       const error = (err: PositionError) => {
