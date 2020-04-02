@@ -42,29 +42,47 @@
   @import '../scss/bold-text';
   @import '../scss/button';
   @import '../scss/colors';
+  @import '../scss/breakpoints';
 
   .other-options {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 60px;
+    padding: 20px 40px;
     background: $mfc-beige;
+
+    @media (min-width: $breakpoint-desktop) {
+      padding: 60px;
+
+    }
 
     &__header {
       @include bold-text;
-      font-size: 36px;
+      font-size: 14px;
+      margin-bottom: 16px;
       line-height: 1.5em;
       text-align: center;
-      margin-bottom: 43px;
+
+      @media (min-width: $breakpoint-desktop) {
+        font-size: 36px;
+        margin-bottom: 43px;
+      };
     }
 
     &__list {
       display: flex;
+      flex-direction: column;
       flex-wrap: wrap;
-      max-width: 1200px;
       justify-content: center;
-      margin-bottom: 120px;
+      align-items: center;
+      margin-bottom: 30px;
+
+      @media (min-width: $breakpoint-desktop) {
+        flex-direction: row;
+        max-width: 1200px;
+        margin-bottom: 120px;
+      }
     }
 
     .appointment {
@@ -74,20 +92,32 @@
 
       &__header {
         @include bold-text;
-        font-size: 24px;
+        font-size: 14px;
         line-height: 1.5em;
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+
+        @media (min-width: $breakpoint-desktop) {
+          font-size: 24px;
+          margin-bottom: 10px;
+        }
       }
 
       &__button {
         @include base-button($mfc-orange);
         @include bold-text;
-        font-size: 24px;
-        line-height: 1.5em;
-        border-radius: 80px;
-        padding: 30px 60px;
+        font-size: 14px;
+        line-height: 1em;
+        border-radius: 20px;
+        padding: 10px 20px;
         margin-bottom: 40px;
+
+        @media (min-width: $breakpoint-desktop) {
+          font-size: 24px;
+          line-height: 1.5em;
+          border-radius: 80px;
+          padding: 30px 60px;
+        }
       }
     }
   }

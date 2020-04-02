@@ -16,12 +16,19 @@
 <style scoped lang="scss">
   @import "../scss/button";
   @import "../scss/colors";
+  @import "../scss/breakpoints";
 
   .button {
     @include base-button($mfc-gray);
-    line-height: 60px;
-    padding: 0 30px;
+    padding: 0 25px;
+    line-height: 40px;
     border-radius: 44px;
-    font-size: 36px;
+    font-size: 24px;
+
+    @media (min-width: $breakpoint-desktop) {
+      font-size: 36px;
+      line-height: 60px;
+      padding: 0 30px;
+    }
   }
 </style>

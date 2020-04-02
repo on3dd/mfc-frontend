@@ -1,6 +1,6 @@
 <template>
   <div class="screen-inner">
-    <MFCLogo style="margin-bottom: 100px;"/>
+    <MFCLogo/>
     <div class="title">
       <h2 class="title__text">
         Выбор услуги
@@ -60,8 +60,21 @@
   .screen-inner {
     @include screen-inner;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     .title {
+      margin-top: 55px;
+      margin-bottom: 1rem;
+      max-width: 90%;
+      align-self: center;
+
+      @media (min-width: $breakpoint-desktop) {
+        margin-top: 105px;
+        margin-bottom: 30px;
+      }
+
       &__text {
         @include bold-text;
         color: #000000;
@@ -72,17 +85,26 @@
     }
 
     .description {
-      margin-bottom: 50px;
+      margin-bottom: 45px;
+
+      @media (min-width: $breakpoint-desktop) {
+        margin-bottom: 50px;
+      }
 
       &__text {
         @include bold-text;
         display: block;
-        font-size: 28px;
         font-family: 'Circe', sans-serif;
-        line-height: 1.5em;
+        font-size: 14px;
+        line-height: 1.2em;
         text-align: center;
         text-transform: lowercase;
         color: $mfc-light-gray;
+
+        @media (min-width: $breakpoint-desktop) {
+          font-size: 28px;
+          line-height: 1.5em;
+        }
       }
     }
   }

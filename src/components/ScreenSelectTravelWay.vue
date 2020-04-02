@@ -1,6 +1,6 @@
 <template>
   <div class="screen-inner">
-    <MFCLogo style="margin-bottom: 100px;"/>
+    <MFCLogo/>
     <div class="title">
       <h2 class="title__text">
         Выбор способа передвижения
@@ -52,16 +52,32 @@
   .screen-inner {
     @include screen-inner;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     .title {
-      margin-bottom: 30px;
+      margin-top: 55px;
+      margin-bottom: 40px;
+      max-width: 90%;
+      align-self: center;
+
+      @media (min-width: $breakpoint-desktop) {
+        margin-top: 105px;
+        margin-bottom: 30px;
+      }
 
       &__text {
         @include bold-text;
         color: #000000;
-        font-size: 36px;
-        line-height: 1.5em;
+        font-size: 28px;
+        line-height: 32px;
         text-align: center;
+
+        @media (min-width: $breakpoint-desktop) {
+          font-size: 36px;
+          line-height: 1.5em;
+        }
       }
     }
   }

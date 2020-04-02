@@ -166,6 +166,8 @@
 </script>
 
 <style scoped lang="scss">
+  @import '../scss/breakpoints';
+
   .fade-enter-active, .fade-leave-active {
     transition: opacity .25s
   }
@@ -187,10 +189,17 @@
 
     .mfc-logo {
       position: absolute;
-      top: 50%;
+      top: -10px;
       right: 0;
-      transform: translateY(-50%);
       z-index: -1;
+      height: 300px;
+
+      @media (min-width: $breakpoint-desktop) {
+        height: 730px;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
     }
   }
 </style>

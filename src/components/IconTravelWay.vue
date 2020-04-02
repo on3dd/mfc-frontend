@@ -19,16 +19,30 @@
 
 <style scoped lang="scss">
   @import "../scss/bold-text";
+  @import "../scss/breakpoints";
 
   .travel-ways-group__item {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-content: space-between;
+    max-width: 86px;
+
+    @media (min-width: $breakpoint-desktop) {
+      max-width: 256px;
+    }
 
     &__image {
+      height: 86px;
+      width: 86px;
       margin-bottom: 13px;
       cursor: pointer;
       transition: all .1s ease-out;
+
+
+      @media (min-width: $breakpoint-desktop) {
+        height: 256px;
+        width: 256px;
+      }
 
       &:hover {
         filter: brightness(90%);
@@ -42,10 +56,16 @@
     &__text {
       @include bold-text;
       display: block;
-      font-size: 24px;
+      font-size: 14px;
+      line-height: 12px;
       text-align: center;
       text-transform: lowercase;
-      max-width: 170px;
+
+      @media (min-width: $breakpoint-desktop) {
+        font-size: 24px;
+        line-height: 1.5rem;
+        max-width: 170px;
+      }
     }
   }
 </style>

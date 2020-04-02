@@ -26,7 +26,8 @@
             </span>
             <div class="info__data__statistics__list__item__data">
               <img src="../assets/images/human-icon.svg" alt="" class="info__data__statistics__list__item__data__image">
-              <span class="info__data__statistics__list__item__data__amount">{{statistics.pendingTicketsCount || 0}}</span>
+              <span
+                  class="info__data__statistics__list__item__data__amount">{{statistics.pendingTicketsCount || 0}}</span>
             </div>
           </div>
           <div class="info__data__statistics__list__item">
@@ -35,7 +36,8 @@
             </span>
             <div class="info__data__statistics__list__item__data">
               <img src="../assets/images/human-icon.svg" alt="" class="info__data__statistics__list__item__data__image">
-              <span class="info__data__statistics__list__item__data__amount">{{statistics.completedTicketsCount || 0}}</span>
+              <span
+                  class="info__data__statistics__list__item__data__amount">{{statistics.completedTicketsCount || 0}}</span>
             </div>
           </div>
         </div>
@@ -56,18 +58,8 @@
     @Getter statistics!: StatisticsItem;
     @Action fetchStatistics!: () => void;
 
-    // private get name(): string {
-    //   if ((this.bestOption === undefined) || (this.bestOption.name === undefined)) return '';
-    //   return this.bestOption.name.split(',').slice(0,2).join();
-    // }
-
-    // private get time(): number {
-    //   if ((this.bestOption === undefined) || (this.bestOption.time === undefined)) return 0;
-    //   return this.bestOption.time;
-    // }
-
     async mounted() {
-      this.fetchStatistics();
+      await this.fetchStatistics();
     }
   }
 </script>
@@ -76,53 +68,111 @@
   @import '../scss/screen-inner';
   @import '../scss/bold-text';
   @import '../scss/colors';
+  @import '../scss/breakpoints';
 
   .info {
     display: flex;
     justify-content: center;
-    margin-bottom: 84px;
+    margin-bottom: 20px;
+    /*max-width: calc(100% );*/
+
+    @media (min-width: $breakpoint-desktop) {
+      margin-bottom: 84px;
+    }
 
     &__logo {
-      margin-right: 65px;
+      display: none;
+      /*width: 100%;*/
+      margin-right: 20px;
+
+      @media (min-width: $breakpoint-phone) {
+        display: block;
+      }
+
+      @media (min-width: $breakpoint-desktop) {
+        margin-right: 65px;
+      }
 
       &__image {
-        max-width: 325px;
+        @media (min-width: $breakpoint-phone) {
+          max-width: 90px;
+        }
+
+        @media (min-width: $breakpoint-desktop) {
+          max-width: 325px;
+        }
+
       }
     }
 
     &__data {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+
       &__header {
         @include bold-text;
         color: #000000;
-        font-size: 40px;
+        font-size: 18px;
         line-height: 1.5em;
         margin-bottom: 20px;
+
+        @media (max-width: $breakpoint-phone) {
+          text-align: center;
+        }
+
+        @media (min-width: $breakpoint-desktop) {
+          font-size: 40px;
+        }
       }
 
       &__details {
-        padding: 30px;
+        padding: 15px;
         color: #ffffff;
         background: $mfc-orange;
         border-radius: 20px;
         margin-bottom: 35px;
+        display: inline-block;
+
+        @media (max-width: $breakpoint-phone) {
+          text-align: center;
+        }
+
+        @media (min-width: $breakpoint-desktop) {
+          padding: 30px;
+        }
 
         &__header {
           @include bold-text;
           display: block;
-          font-size: 42px;
-          line-height: 1.5em;
+          font-size: 18px;
+          line-height: 1.2em;
+
+          @media (min-width: $breakpoint-desktop) {
+            font-size: 42px;
+            line-height: 1.5em;
+          }
         }
 
         &__phone {
           display: block;
-          font-size: 36px;
+          font-size: 14px;
           line-height: 1.5em;
+
+          @media (min-width: $breakpoint-desktop) {
+            font-size: 36px;
+          }
         }
 
         &__estimated-time {
           display: block;
-          font-size: 24px;
-          line-height: 28px;
+          font-size: 14px;
+          line-height: 1.1em;
+
+          @media (min-width: $breakpoint-desktop) {
+            font-size: 24px;
+          }
 
           .big {
             @include bold-text;
@@ -131,47 +181,99 @@
           .time {
             @include bold-text;
             display: block;
-            font-size: 72px;
+            font-size: 24px;
             line-height: 1.5em;
             text-transform: none;
+
+            @media (min-width: $breakpoint-desktop) {
+              font-size: 72px;
+              /*line-height: 1.5em;*/
+            }
           }
         }
       }
 
       &__statistics {
-
         &__header {
           @include bold-text;
-          font-size: 28px;
+          font-size: 18px;
           line-height: 1.5em;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
+
+          @media (max-width: $breakpoint-phone) {
+            text-align: center;
+          }
+
+          @media (min-width: $breakpoint-desktop) {
+            font-size: 28px;
+            margin-bottom: 8px;
+          }
         }
 
         &__list {
           display: flex;
 
+          @media (max-width: $breakpoint-phone) {
+            justify-content: center;
+          }
+
           &__item {
-            margin-right: 68px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            &:first-child {
+              margin-right: 23px;
+
+              @media (min-width: $breakpoint-desktop) {
+                margin-right: 68px;
+              }
+            }
+
+            @media (max-width: $breakpoint-phone) {
+              flex-basis: 100%;
+              align-items: center;
+            }
 
             &__header {
-              font-size: 24px;
+              font-size: 14px;
               line-height: 1.5em;
               text-transform: uppercase;
+
+              @media (max-width: $breakpoint-phone) {
+                text-align: center;
+              }
+
+              @media (min-width: $breakpoint-desktop) {
+                font-size: 24px;
+              }
             }
-            
+
             &__data {
-              display: flex;
+              display: inline-flex;
               align-items: center;
 
               &__image {
                 margin-left: -20px;
                 margin-right: 5px;
+                height: 54px;
+                width: 54px;
+
+                @media (min-width: $breakpoint-desktop) {
+                  height: 106px;
+                  width: 106px;
+                }
               }
 
               &__amount {
                 @include bold-text;
-                font-size: 72px;
+                font-size: 36px;
                 line-height: 1.5em;
+
+                @media (min-width: $breakpoint-desktop) {
+                  font-size: 72px;
+
+                }
               }
             }
           }

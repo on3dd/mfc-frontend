@@ -76,12 +76,18 @@
 
 <style scoped lang="scss">
   @import "../scss/colors";
+  @import "../scss/breakpoints";
 
   .datalist-placeholder {
     position: relative;
     width: 100%;
-    height: 90px;
-    font-size: 36px;
+    height: 32px;
+    font-size: 14px;
+
+    @media (min-width: $breakpoint-desktop) {
+      height: 90px;
+      font-size: 36px;
+    }
 
     .input-placeholder {
       position: absolute;
@@ -94,37 +100,44 @@
         width: inherit;
         height: inherit;
         border-radius: 80px;
-        border: 4px solid $mfc-orange;
+        border: 2px solid $mfc-orange;
         font-size: inherit;
-        padding: 0 1em 0 3em;
+        padding: 0 1em 0 2.75em;
+
+        @media (min-width: $breakpoint-desktop) {
+          border-width: 4px;
+        }
 
         &__icon {
           position: absolute;
           top: 50%;
           left: 1em;
           transform: translateY(-50%);
+          height: 1.25em;
+          width: 1.25em;
         }
       }
     }
 
     .datalist {
-      $font-size: 36px;
-      $item-height: $font-size * 1.5;
-      $padding-top: 85 + $font-size * 0.5;
-      $max-height: $item-height * 5 + $padding-top + 36px;
+      // doesn't work anymore
+      // $font-size: 36px;
+      // $item-height: $font-size * 1.5;
+      // $padding-top: 85 + $font-size * 0.5;
+      // $max-height: $item-height * 5 + $padding-top + 36px;
 
       display: none;
       position: absolute;
       top: 0;
       width: inherit;
-      font-size: $font-size;
+      font-size: 14px;
       list-style: none;
       margin: 0;
-      padding: $padding-top 0 1em 0;
+      padding: calc(27px + 14px * 0.5) 0 1em 0;
       background: #ffffff;
-      border: 4px solid $mfc-orange;
-      border-radius: 50px;
-      max-height: $max-height;
+      border: 2px solid $mfc-orange;
+      border-radius: 20px;
+      max-height: calc(1.5 * 14px * 5 + 27 + 14px * 0.5);
       overflow-y: auto;
       overflow-x: hidden;
       transition: all .2s ease-out;
@@ -140,6 +153,14 @@
 
       &.active {
         display: block;
+      }
+
+      @media (min-width: $breakpoint-desktop) {
+        font-size: 36px;
+        padding: calc(85px + 36px * 0.5) 0 1em 0;
+        max-height: calc(1.5 * 36px * 5 + 27 + 36px * 0.5);
+        border-width: 4px;
+        border-radius: 50px;
       }
 
       &__item {

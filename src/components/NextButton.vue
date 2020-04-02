@@ -20,13 +20,21 @@
 <style scoped lang="scss">
   @import "../scss/button";
   @import "../scss/colors";
+  @import "../scss/breakpoints";
 
   .button {
     @include base-button($mfc-orange);
-    line-height: 60px;
     padding: 0 30px;
+    line-height: 40px;
     border-radius: 44px;
-    font-size: 36px;
+    font-size: 24px;
+    margin-left: 12px;
+
+    @media (min-width: $breakpoint-desktop) {
+      font-size: 36px;
+      line-height: 60px;
+      padding: 0 30px;
+    }
 
     &[disabled] {
       background: $mfc-gray;

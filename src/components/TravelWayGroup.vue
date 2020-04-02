@@ -83,15 +83,6 @@
           filter: none;
         }
       }
-
-      &__text {
-        @include bold-text;
-        display: block;
-        font-size: 24px;
-        text-align: center;
-        text-transform: lowercase;
-        max-width: 170px;
-      }
     }
   }
 </style>

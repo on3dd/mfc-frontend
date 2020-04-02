@@ -1,15 +1,37 @@
+@import "breakpoints";
+
 @mixin screen-inner {
   margin: 0;
-  padding: 90px 120px;
   width: 100%;
   max-width: 1440px;
   height: 100vh;
+  font-size: 14px;
+
+  padding: 30px 30px;
+
+  @media (min-width: $breakpoint-desktop) {
+    padding: 90px 120px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
 
   .button-group {
-    position: absolute;
-    bottom: 90px;
     display: flex;
-    width: calc(100% - 240px);
-    justify-content: space-between;
+    width: 100%;
+    margin-top: auto;
+    justify-self: flex-end;
+    align-self: flex-end;
+    justify-content: center;
+
+    @media (min-width: $breakpoint-desktop) {
+      bottom: 90px;
+      width: 100%;
+      justify-content: space-between;
+    }
   }
 }
