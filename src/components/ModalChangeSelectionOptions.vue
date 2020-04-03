@@ -83,8 +83,13 @@
 
   .modal-wrapper {
     @include base-modal;
-  }
 
-  .modal {
+    .modal {
+      .modal__options-list__item {
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
   }
 </style>

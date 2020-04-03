@@ -61,6 +61,7 @@
   @import '../scss/button';
   @import '../scss/colors';
   @import '../scss/modal';
+  @import '../scss/breakpoints';
 
   .modal-wrapper {
     @include base-modal;
@@ -73,17 +74,25 @@
       align-items: center;
 
       &__group {
-        /*width: 100%;*/
-        /*display: flex;*/
-        /*justify-content: space-between;*/
+        margin-bottom: 10px;
+
+        @media (min-width: $breakpoint-desktop) {
+          margin-bottom: 0;
+        }
       }
 
       &__button-submit {
         @include base-button($mfc-orange);
-        font-size: 18px;
+        font-size: 12px;
         line-height: 1.5em;
         border-radius: 20px;
         padding: 0 10px;
+
+        @media (min-width: $breakpoint-desktop) {
+          font-size: 18px;
+          border-radius: 20px;
+          padding: 0 10px;
+        }
       }
     }
   }
