@@ -2,6 +2,7 @@
   <GmapMap
       :center="departurePoint.position"
       :zoom="zoom"
+      :options="mapOptions"
       style="width: 100%; height: 100%"
       ref="map"
   >
@@ -60,6 +61,14 @@
     }
 
     private readonly zoom = 14;
+    private readonly mapOptions = {
+      zoomControl: true,
+      mapTypeControl: false,
+      scaleControl: true,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: false
+    };
 
     private readonly mfcs = [
       'Партизанский просп., 28А, Владивосток',
