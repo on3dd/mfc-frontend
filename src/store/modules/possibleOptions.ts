@@ -1,20 +1,32 @@
 import PossibleOption from "@/@types/possibleOption";
+import StatisticsItemExtended from "@/@types/statisticsItemExtended";
 
 interface PossibleOptionsState {
   possibleOptions: Array<PossibleOption>;
+  nearestCenters: Array<StatisticsItemExtended>
 }
 
 export default {
   state: {
     possibleOptions: [],
+    nearestCenters: [],
+  },
+  actions: {
+
   },
   mutations: {
     updatePossibleOptions(state: PossibleOptionsState, options: Array<PossibleOption>) {
       state.possibleOptions = options.sort((a: PossibleOption, b: PossibleOption) => a.time - b.time);
       console.log('state.possibleOptions:', state.possibleOptions);
     },
+    updateNearestCenters(state: PossibleOptionsState, centers: Array<StatisticsItemExtended>) {
+      state.nearestCenters = centers;
+      console.log('state.nearestCenters:', state.nearestCenters);
+    }
   },
   getters: {
+    nearestCenters: (state: PossibleOptionsState) => state.nearestCenters,
+
     possibleOptions: (state: PossibleOptionsState) => {
       console.log('possible options current state:', state.possibleOptions);
       return state.possibleOptions.slice(1, 5);
@@ -30,7 +42,6 @@ export default {
 
       return state.possibleOptions[0];
     },
-
     length: (state: PossibleOptionsState) => {
       return state.possibleOptions.length;
     }

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import DeparturePoint from "@/@types/departurePoint";
 
-interface DeparturePointState {
+export interface DeparturePointState {
   departurePoint: DeparturePoint;
   points: DeparturePoint[];
 }

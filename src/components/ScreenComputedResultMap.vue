@@ -22,6 +22,7 @@
   import MFCMarkers from "@/components/MFCMarkers";
   import DeparturePoint from "@/@types/departurePoint";
   import PossibleOption from "@/@types/possibleOption";
+  import StatisticsItemExtended from "@/@types/statisticsItemExtended";
 
   declare global {
     interface Window {
@@ -40,6 +41,7 @@
     @Getter departurePoint!: DeparturePoint;
     @Getter travelWay!: string;
     @Getter service!: string;
+    @Getter nearestCenters!: StatisticsItemExtended[];
     @Getter bestOption!: PossibleOption;
     @Mutation updatePossibleOptions!: (possibleOptions: Array<PossibleOption>) => void;
     @Mutation lockUI!: () => void;
@@ -139,32 +141,22 @@
 
         const possibleOptions = Array<PossibleOption>();
 
-        const geocodeAddress = (currentMFC: string) => {
-          return new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
-            this.geocoder.geocode(
-                {address: currentMFC},
-                (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
-                  if (status === "OK") {
-                    resolve(results);
-                  } else {
-                    reject(status);
-                  }
-                }
-            )
-          })
-        };
-
-        const processAddress = (results: google.maps.GeocoderResult[]) => {
+        const processAddress = (center: StatisticsItemExtended) => {
           return new Promise<google.maps.DirectionsResult>((resolve, reject) => {
+            const position = {
+              lat: center.lat,
+              lng: center.lan,
+            };
+
             new window.google.maps.Marker({
               icon: this.marker(),
               map: this.$refs.map.$mapObject,
-              position: results[0].geometry.location,
+              position: position,
             } as unknown as google.maps.ReadonlyMarkerOptions);
 
             this.directionsService.route({
                   origin: this.departurePoint.position, // Can be coord or also a search query
-                  destination: results[0].geometry.location,
+                  destination: position,
                   travelMode: this.travelWay.toUpperCase(),
                 } as google.maps.DirectionsRequest,
                 (response: google.maps.DirectionsResult, status: google.maps.DirectionsStatus) => {
@@ -180,7 +172,7 @@
 
         const buildRoute = (
             currentMFC: string,
-            results: google.maps.GeocoderResult[],
+            center: StatisticsItemExtended,
             response: google.maps.DirectionsResult
         ) => {
           return new Promise<void>((resolve) => {
@@ -191,8 +183,8 @@
               name: currentMFC,
               time: Number(estimatedTime),
               position: {
-                lat: results[0].geometry.location.lat(),
-                lng: results[0].geometry.location.lng(),
+                lat: center.lat,
+                lng: center.lan,
               },
             });
 
@@ -200,15 +192,12 @@
           })
         };
 
-        for (const currentMFC of this.mfcs) {
-          const results = await geocodeAddress(currentMFC);
-          const response = await processAddress(results);
-          await buildRoute(currentMFC, results, response);
+        for (let i = 0; i < this.nearestCenters.length; i++) {
+          const response = await processAddress(this.nearestCenters[i]);
+          await buildRoute(this.nearestCenters[i].organizationAddress, this.nearestCenters[i], response);
         }
 
-        console.log('possibleOptions length:', possibleOptions.length);
         this.updatePossibleOptions(possibleOptions);
-
         sessionStorage.setItem('possibleOptions', JSON.stringify(possibleOptions));
       }
     }
