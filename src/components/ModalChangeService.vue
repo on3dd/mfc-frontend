@@ -70,8 +70,4 @@
   .modal-wrapper {
     @include base-modal;
   }
-
-  .modal {
-
-  }
 </style>

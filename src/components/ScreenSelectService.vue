@@ -70,7 +70,7 @@
       max-width: 90%;
       align-self: center;
 
-      @media (min-width: $breakpoint-desktop) {
+      @media (min-width: $breakpoint-tablet) {
         margin-top: 105px;
         margin-bottom: 30px;
       }
@@ -78,16 +78,21 @@
       &__text {
         @include bold-text;
         color: #000000;
-        font-size: 36px;
-        line-height: 1.5em;
+        font-size: 28px;
+        line-height: 32px;
         text-align: center;
+
+        @media (min-width: $breakpoint-tablet) {
+          font-size: 36px;
+          line-height: 1.5em;
+        }
       }
     }
 
     .description {
       margin-bottom: 45px;
 
-      @media (min-width: $breakpoint-desktop) {
+      @media (min-width: $breakpoint-tablet) {
         margin-bottom: 50px;
       }
 
@@ -101,9 +106,17 @@
         text-transform: lowercase;
         color: $mfc-light-gray;
 
+        @media (min-width: $breakpoint-tablet) {
+          font-size: 18px;
+          line-height: 1.5em;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          font-size: 24px;
+        }
+
         @media (min-width: $breakpoint-desktop) {
           font-size: 28px;
-          line-height: 1.5em;
         }
       }
     }

@@ -58,6 +58,14 @@
     .title {
       margin-bottom: 20px;
 
+      @media (min-width: $breakpoint-tablet) {
+        margin-bottom: 35px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        margin-bottom: 50px;
+      }
+
       @media (min-width: $breakpoint-desktop) {
         margin-bottom: 65px;
       }
@@ -68,6 +76,16 @@
 
         font-size: 30px;
         line-height: 1em;
+
+        @media (min-width: $breakpoint-tablet) {
+          font-size: 60px;
+          line-height: 45px;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          font-size: 75px;
+          line-height: 60px;
+        }
 
         @media (min-width: $breakpoint-desktop) {
           font-size: 90px;
@@ -89,6 +107,16 @@
         font-size: 14px;
         line-height: 17px;
         width: 65vw;
+
+        @media (min-width: $breakpoint-tablet) {
+          font-size: 30px;
+          line-height: 36px;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          font-size: 40px;
+          line-height: 45px;
+        }
 
         @media (min-width: $breakpoint-desktop) {
           font-size: 50px;

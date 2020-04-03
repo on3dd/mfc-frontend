@@ -52,9 +52,16 @@
     padding: 20px 40px;
     background: $mfc-beige;
 
+    @media (min-width: $breakpoint-tablet) {
+      padding: 25px 45px;
+    }
+
+    @media (min-width: $breakpoint-laptop) {
+      padding: 30px 50px;
+    }
+
     @media (min-width: $breakpoint-desktop) {
       padding: 60px;
-
     }
 
     &__header {
@@ -64,10 +71,20 @@
       line-height: 1.5em;
       text-align: center;
 
+      @media (min-width: $breakpoint-tablet) {
+        font-size: 22px;
+        margin-bottom: 25px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        font-size: 28px;
+        margin-bottom: 34px;
+      }
+
       @media (min-width: $breakpoint-desktop) {
         font-size: 36px;
         margin-bottom: 43px;
-      };
+      }
     }
 
     &__list {
@@ -78,8 +95,11 @@
       align-items: center;
       margin-bottom: 30px;
 
-      @media (min-width: $breakpoint-desktop) {
+      @media (min-width: $breakpoint-tablet) {
         flex-direction: row;
+      }
+
+      @media (min-width: $breakpoint-desktop) {
         max-width: 1200px;
         margin-bottom: 120px;
       }
@@ -97,9 +117,17 @@
         text-align: center;
         margin-bottom: 5px;
 
+        @media (min-width: $breakpoint-tablet) {
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          font-size: 22px;
+        }
+
         @media (min-width: $breakpoint-desktop) {
           font-size: 24px;
-          margin-bottom: 10px;
         }
       }
 
@@ -112,9 +140,21 @@
         padding: 10px 20px;
         margin-bottom: 40px;
 
+        @media (min-width: $breakpoint-tablet) {
+          font-size: 18px;
+          line-height: 1.5em;
+          border-radius: 40px;
+          padding: 17.5px 40px;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          font-size: 22px;
+          border-radius: 60px;
+          padding: 25px 50px;
+        }
+
         @media (min-width: $breakpoint-desktop) {
           font-size: 24px;
-          line-height: 1.5em;
           border-radius: 80px;
           padding: 30px 60px;
         }

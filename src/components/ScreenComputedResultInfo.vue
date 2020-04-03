@@ -14,7 +14,7 @@
           и
           <span class="big">получение услуги</span>
           займут около
-          <span class="time">~{{bestOption.time}} минут</span>
+          <span class="time">~{{bestOption.time}} {{wordDeclension}}</span>
         </span>
       </div>
       <section class="info__data__statistics">
@@ -61,6 +61,21 @@
     async mounted() {
       await this.fetchStatistics();
     }
+
+    private get wordDeclension(): string {
+      switch (this.bestOption.time % 10) {
+        case 1:
+          return 'минута';
+
+        case 2:
+        case 3:
+        case 4:
+          return 'минуты';
+
+        default:
+          return 'минут';
+      }
+    }
   }
 </script>
 
@@ -89,6 +104,14 @@
         display: block;
       }
 
+      @media (min-width: $breakpoint-tablet) {
+        margin-right: 35px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        margin-right: 50px;
+      }
+
       @media (min-width: $breakpoint-desktop) {
         margin-right: 65px;
       }
@@ -96,6 +119,14 @@
       &__image {
         @media (min-width: $breakpoint-phone) {
           max-width: 90px;
+        }
+
+        @media (min-width: $breakpoint-tablet) {
+          max-width: 145px;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          max-width: 225px;
         }
 
         @media (min-width: $breakpoint-desktop) {
@@ -122,6 +153,14 @@
           text-align: center;
         }
 
+        @media (min-width: $breakpoint-tablet) {
+          font-size: 24px;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          font-size: 32px;
+        }
+
         @media (min-width: $breakpoint-desktop) {
           font-size: 40px;
         }
@@ -139,6 +178,14 @@
           text-align: center;
         }
 
+        @media (min-width: $breakpoint-tablet) {
+          padding: 20px;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          padding: 25px;
+        }
+
         @media (min-width: $breakpoint-desktop) {
           padding: 30px;
         }
@@ -149,9 +196,17 @@
           font-size: 18px;
           line-height: 1.2em;
 
+          @media (min-width: $breakpoint-tablet) {
+            font-size: 24px;
+            line-height: 1.5em;
+          }
+
+          @media (min-width: $breakpoint-laptop) {
+            font-size: 32px;
+          }
+
           @media (min-width: $breakpoint-desktop) {
             font-size: 42px;
-            line-height: 1.5em;
           }
         }
 
@@ -159,6 +214,14 @@
           display: block;
           font-size: 14px;
           line-height: 1.5em;
+
+          @media (min-width: $breakpoint-tablet) {
+            font-size: 20px;
+          }
+
+          @media (min-width: $breakpoint-laptop) {
+            font-size: 28px;
+          }
 
           @media (min-width: $breakpoint-desktop) {
             font-size: 36px;
@@ -169,6 +232,14 @@
           display: block;
           font-size: 14px;
           line-height: 1.1em;
+
+          @media (min-width: $breakpoint-tablet) {
+            font-size: 18px;
+          }
+
+          @media (min-width: $breakpoint-laptop) {
+            font-size: 20px;
+          }
 
           @media (min-width: $breakpoint-desktop) {
             font-size: 24px;
@@ -185,9 +256,16 @@
             line-height: 1.5em;
             text-transform: none;
 
+            @media (min-width: $breakpoint-tablet) {
+              font-size: 42px;
+            }
+
+            @media (min-width: $breakpoint-laptop) {
+              font-size: 54px;
+            }
+
             @media (min-width: $breakpoint-desktop) {
               font-size: 72px;
-              /*line-height: 1.5em;*/
             }
           }
         }
@@ -204,9 +282,17 @@
             text-align: center;
           }
 
+          @media (min-width: $breakpoint-tablet) {
+            font-size: 22px;
+            margin-bottom: 8px;
+          }
+
+          @media (min-width: $breakpoint-laptop) {
+            font-size: 24px;
+          }
+
           @media (min-width: $breakpoint-desktop) {
             font-size: 28px;
-            margin-bottom: 8px;
           }
         }
 
@@ -224,6 +310,14 @@
 
             &:first-child {
               margin-right: 23px;
+
+              @media (min-width: $breakpoint-tablet) {
+                margin-right: 40px;
+              }
+
+              @media (min-width: $breakpoint-laptop) {
+                margin-right: 54px;
+              }
 
               @media (min-width: $breakpoint-desktop) {
                 margin-right: 68px;
@@ -244,6 +338,14 @@
                 text-align: center;
               }
 
+              @media (min-width: $breakpoint-tablet) {
+                font-size: 18px;
+              }
+
+              @media (min-width: $breakpoint-laptop) {
+                font-size: 22px;
+              }
+
               @media (min-width: $breakpoint-desktop) {
                 font-size: 24px;
               }
@@ -258,6 +360,16 @@
                 margin-right: 5px;
                 height: 54px;
                 width: 54px;
+
+                @media (min-width: $breakpoint-tablet) {
+                  height: 72px;
+                  width: 72px;
+                }
+
+                @media (min-width: $breakpoint-laptop) {
+                  height: 90px;
+                  width: 90px;
+                }
 
                 @media (min-width: $breakpoint-desktop) {
                   height: 106px;

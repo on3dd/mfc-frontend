@@ -59,6 +59,14 @@
       font-size: 28px;
       margin-bottom: 1em;
 
+      @media (min-width: $breakpoint-tablet) {
+        font-size: 34px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        font-size: 40px;
+      }
+
       @media (min-width: $breakpoint-desktop) {
         margin-top: 25px;
         font-size: 48px;
@@ -78,6 +86,14 @@
       justify-content: center;
       margin-bottom: 20px;
 
+      @media (min-width: $breakpoint-tablet) {
+        margin-bottom: 35px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        margin-bottom: 50px;
+      }
+
       @media (min-width: $breakpoint-desktop) {
         margin-bottom: 70px;
       }
@@ -88,6 +104,16 @@
         font-size: 14px;
         line-height: 1em;
         padding: 10px 15px;
+
+        @media (min-width: $breakpoint-tablet) {
+          padding: 12.5px 20px;
+          font-size: 24px;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          padding: 15px 25px;
+          font-size: 32px;
+        }
 
         @media (min-width: $breakpoint-desktop) {
           padding: 20px 30px;
@@ -101,9 +127,19 @@
       height: 360px;
       overflow: hidden;
       margin-bottom: 40px;
+      border-radius: 20px;
+
+      @media (min-width: $breakpoint-tablet) {
+        height: 440px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        height: 520px;
+        border-radius: 30px;
+      }
 
       @media (min-width: $breakpoint-desktop) {
-        height: 622px;
+        height: 620px;
         border-radius: 40px;
       }
     }

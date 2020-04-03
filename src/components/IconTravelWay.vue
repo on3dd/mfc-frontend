@@ -27,6 +27,14 @@
     align-content: space-between;
     max-width: 86px;
 
+    @media (min-width: $breakpoint-tablet) {
+      max-width: 125px;
+    }
+
+    @media (min-width: $breakpoint-laptop) {
+      max-width: 180px;
+    }
+
     @media (min-width: $breakpoint-desktop) {
       max-width: 256px;
     }
@@ -38,6 +46,16 @@
       cursor: pointer;
       transition: all .1s ease-out;
 
+
+      @media (min-width: $breakpoint-tablet) {
+        height: 172px;
+        width: 172px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        height: 228px;
+        width: 228px;
+      }
 
       @media (min-width: $breakpoint-desktop) {
         height: 256px;
@@ -61,7 +79,7 @@
       text-align: center;
       text-transform: lowercase;
 
-      @media (min-width: $breakpoint-desktop) {
+      @media (min-width: $breakpoint-tablet) {
         font-size: 24px;
         line-height: 1.5rem;
         max-width: 170px;

@@ -33,6 +33,10 @@
     align-items: center;
     margin-bottom: 50px;
 
+    @media (min-width: $breakpoint-laptop) {
+      margin-right: 20px;
+    }
+
     @media (min-width: $breakpoint-desktop) {
       margin-right: 50px;
     }
@@ -40,6 +44,16 @@
     &__image {
       max-width: 40px;
       margin-right: 20px;
+
+      @media (min-width: $breakpoint-tablet) {
+        max-width: 60px;
+        margin-right: 25px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        max-width: 80px;
+        margin-right: 30px;
+      }
 
       @media (min-width: $breakpoint-desktop) {
         max-width: 100px;
@@ -56,7 +70,7 @@
       border: 4px solid #CB9B63;
       border-radius: 20px;
 
-      @media (min-width: $breakpoint-desktop) {
+      @media (min-width: $breakpoint-tablet) {
         max-width: 340px;
       }
 
@@ -66,9 +80,17 @@
         line-height: 1.5em;
         margin-bottom: 5px;
 
+        @media (min-width: $breakpoint-tablet) {
+          font-size: 18px;
+          margin-bottom: 9px;
+        }
+
+        @media (min-width: $breakpoint-laptop) {
+          font-size: 20px;
+        }
+
         @media (min-width: $breakpoint-desktop) {
           font-size: 22px;
-          margin-bottom: 9px;
         }
       }
 
@@ -77,6 +99,10 @@
         line-height: 1em;
         color: #060505;
         text-transform: uppercase;
+
+        @media (min-width: $breakpoint-tablet) {
+          line-height: 1.5em;
+        }
 
         @media (min-width: $breakpoint-desktop) {
           line-height: 2em;
@@ -89,10 +115,18 @@
           line-height: 1em;
           margin-top: 5px;
 
-          @media (min-width: $breakpoint-desktop) {
-            font-size: 36px;
+          @media (min-width: $breakpoint-tablet) {
+            font-size: 24px;
             line-height: 1.5em;
             margin-top: 0;
+          }
+
+          @media (min-width: $breakpoint-laptop) {
+            font-size: 30px;
+          }
+
+          @media (min-width: $breakpoint-desktop) {
+            font-size: 36px;
           }
         }
       }

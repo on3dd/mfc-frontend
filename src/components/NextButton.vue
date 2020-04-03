@@ -25,10 +25,19 @@
   .button {
     @include base-button($mfc-orange);
     padding: 0 30px;
-    line-height: 40px;
     border-radius: 44px;
     font-size: 24px;
+    line-height: 1.5em;
     margin-left: 12px;
+
+    @media (min-width: $breakpoint-tablet) {
+      font-size: 28px;
+      padding: 5px 30px;
+    }
+
+    @media (min-width: $breakpoint-laptop) {
+      font-size: 32px;
+    }
 
     @media (min-width: $breakpoint-desktop) {
       font-size: 36px;

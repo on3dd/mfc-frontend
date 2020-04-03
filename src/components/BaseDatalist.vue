@@ -84,6 +84,16 @@
     height: 32px;
     font-size: 14px;
 
+    @media (min-width: $breakpoint-tablet) {
+      height: 45px;
+      font-size: 18px;
+    }
+
+    @media (min-width: $breakpoint-laptop) {
+      height: 60px;
+      font-size: 24px;
+    }
+
     @media (min-width: $breakpoint-desktop) {
       height: 90px;
       font-size: 36px;
@@ -120,7 +130,7 @@
     }
 
     .datalist {
-      // doesn't work anymore
+      // doesn't work anymore - only for reference
       // $font-size: 36px;
       // $item-height: $font-size * 1.5;
       // $padding-top: 85 + $font-size * 0.5;
@@ -141,7 +151,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       transition: all .2s ease-out;
-      box-shadow: 0 20px 20px 0 rgba(0, 0, 0, .25);
+      box-shadow: 0 20px 20px 0 rgba(0, 0, 0, .1);
       z-index: 1;
 
       /* Hide scrollbar for IE and MS Edge */
@@ -155,10 +165,24 @@
         display: block;
       }
 
+      @media (min-width: $breakpoint-tablet) {
+        font-size: 18px;
+        padding: calc(40px + 18px * 0.5) 0 1em 0;
+        max-height: calc(1.5 * 18px * 5 + 18px + 18px * 0.5);
+        border-radius: 30px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        font-size: 24px;
+        padding: calc(55px + 24px * 0.5) 0 1em 0;
+        max-height: calc(1.5 * 24px * 5 + 24px + 24px * 0.5);
+        border-radius: 40px;
+      }
+
       @media (min-width: $breakpoint-desktop) {
         font-size: 36px;
         padding: calc(85px + 36px * 0.5) 0 1em 0;
-        max-height: calc(1.5 * 36px * 5 + 27 + 36px * 0.5);
+        max-height: calc(1.5 * 36px * 5 + 36px + 36px * 0.5);
         border-width: 4px;
         border-radius: 50px;
       }

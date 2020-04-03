@@ -45,7 +45,7 @@
         >
           <BasePreloader/>
         </section>
-        <section style="width: 100%;display:flex;flex-direction:column;align-items: center">
+        <section style="width: 100%;display:flex;flex-direction:column;align-items:center">
           <ScreenComputedResult @showModal="showModal"/>
           <ScreenOtherOptions/>
         </section>
@@ -193,6 +193,16 @@
       right: 0;
       z-index: -1;
       height: 300px;
+
+      @media (min-width: $breakpoint-tablet) {
+        top: -15px;
+        height: 450px;
+      }
+
+      @media (min-width: $breakpoint-laptop) {
+        top: -20px;
+        height: 600px;
+      }
 
       @media (min-width: $breakpoint-desktop) {
         height: 730px;

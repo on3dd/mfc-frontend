@@ -110,7 +110,7 @@
       margin-top: 55px;
       margin-bottom: 75px;
 
-      @media (min-width: $breakpoint-desktop) {
+      @media (min-width: $breakpoint-tablet) {
         margin-top: 105px;
         margin-bottom: 65px;
       }
@@ -122,7 +122,7 @@
         line-height: 32px;
         text-align: center;
 
-        @media (min-width: $breakpoint-desktop) {
+        @media (min-width: $breakpoint-tablet) {
           font-size: 36px;
           line-height: 1.5em;
         }

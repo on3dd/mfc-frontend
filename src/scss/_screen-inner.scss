@@ -9,6 +9,14 @@
 
   padding: 30px 30px;
 
+  @media (min-width: $breakpoint-tablet) {
+    padding: 45px 45px;
+  }
+
+  @media (min-width: $breakpoint-laptop) {
+    padding: 60px 90px;
+  }
+
   @media (min-width: $breakpoint-desktop) {
     padding: 90px 120px;
   }
@@ -28,10 +36,13 @@
     align-self: flex-end;
     justify-content: center;
 
+    @media (min-width: $breakpoint-tablet) {
+      justify-content: space-between;
+    }
+
     @media (min-width: $breakpoint-desktop) {
       bottom: 90px;
       width: 100%;
-      justify-content: space-between;
     }
   }
 }
