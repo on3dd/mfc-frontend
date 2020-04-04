@@ -1,4 +1,4 @@
-interface ServiceState {
+export interface ServiceState {
   service: string;
 }
 

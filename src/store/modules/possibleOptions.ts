@@ -1,15 +1,12 @@
 import PossibleOption from "@/@types/possibleOption";
-import StatisticsItemExtended from "@/@types/statisticsItemExtended";
 
-interface PossibleOptionsState {
+export interface PossibleOptionsState {
   possibleOptions: Array<PossibleOption>;
-  nearestCenters: Array<StatisticsItemExtended>
 }
 
 export default {
   state: {
     possibleOptions: [],
-    nearestCenters: [],
   },
   actions: {
 
@@ -19,14 +16,8 @@ export default {
       state.possibleOptions = options.sort((a: PossibleOption, b: PossibleOption) => a.time - b.time);
       console.log('state.possibleOptions:', state.possibleOptions);
     },
-    updateNearestCenters(state: PossibleOptionsState, centers: Array<StatisticsItemExtended>) {
-      state.nearestCenters = centers;
-      console.log('state.nearestCenters:', state.nearestCenters);
-    }
   },
   getters: {
-    nearestCenters: (state: PossibleOptionsState) => state.nearestCenters,
-
     possibleOptions: (state: PossibleOptionsState) => {
       console.log('possible options current state:', state.possibleOptions);
       return state.possibleOptions.slice(1, 5);
@@ -35,13 +26,14 @@ export default {
     bestOption: (state: PossibleOptionsState) => {
       if (state.possibleOptions.length === 0) {
         return {
-          name: 'Неизвестная, 99, Владивосток',
+          name: 'Владивосток, Неизвестная, 99',
           time: 99,
         }
       }
 
       return state.possibleOptions[0];
     },
+
     length: (state: PossibleOptionsState) => {
       return state.possibleOptions.length;
     }

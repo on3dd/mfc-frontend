@@ -1,4 +1,4 @@
-interface TravelWayState {
+export interface TravelWayState {
   travelWay: string;
 }
 
