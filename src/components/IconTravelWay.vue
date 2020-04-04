@@ -74,7 +74,12 @@
 
       &.active {
         filter: brightness(75%);
-      };
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        filter: brightness(150%);
+      }
     }
 
     &__text {

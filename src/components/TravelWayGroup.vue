@@ -8,7 +8,7 @@
         name="walking"
     >
       <img
-          :class="{'travel-ways-group__item__image': true, active: travelWay === 'walking'}"
+          :class="{'travel-ways-group__item__image': true, 'active': travelWay === 'walking', 'disabled': isDisabled}"
           src="../assets/images/afoot-icon.svg"
           alt="Пешком">
       <span class="travel-ways-group__item__text">Пешком</span>
@@ -19,7 +19,7 @@
         name="driving"
     >
       <img
-          :class="{'travel-ways-group__item__image': true, active: travelWay === 'driving'}"
+          :class="{'travel-ways-group__item__image': true, 'active': travelWay === 'driving', 'disabled': isDisabled}"
           src="../assets/images/car-icon.svg"
           alt="На машине">
       <span class="travel-ways-group__item__text">Авто</span>
@@ -30,7 +30,7 @@
         name="transit"
     >
       <img
-          :class="{'travel-ways-group__item__image': true, active: travelWay === 'transit'}"
+          :class="{'travel-ways-group__item__image': true, 'active': travelWay === 'transit', 'disabled': isDisabled}"
           src="../assets/images/bus-icon.svg"
           alt="Общественным транспортом">
       <span class="travel-ways-group__item__text">Общественный транспорт</span>
