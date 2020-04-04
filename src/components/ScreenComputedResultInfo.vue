@@ -48,19 +48,14 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
-  import {Getter, Action} from "vuex-class";
-  import StatisticsItem from "@/@types/statisticsItem";
+  import {Getter} from "vuex-class";
   import PossibleOption from "@/@types/possibleOption";
+  import StatisticsItem from "@/@types/statisticsItem";
 
   @Component
   export default class ScreenComputedResultInfo extends Vue {
     @Getter bestOption!: PossibleOption;
     @Getter statistics!: StatisticsItem;
-    @Action fetchStatistics!: () => void;
-
-    async mounted() {
-      await this.fetchStatistics();
-    }
 
     private get wordDeclension(): string {
       const dozens = Math.floor(this.bestOption.time / 10);

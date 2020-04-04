@@ -70,7 +70,10 @@
     }
 
     changeActive(evt: MouseEvent) {
-      this.currentOption = (evt.target as HTMLElement).textContent!;
+      const textContent = (evt.target as HTMLElement).textContent;
+      if ((textContent === undefined) || (textContent === null)) return;
+
+      this.currentOption = textContent;
       this.$emit('select', this.currentOption);
     }
   }

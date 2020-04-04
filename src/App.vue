@@ -6,8 +6,5 @@
 
 <style lang="scss">
   @import "./scss/index.scss";
-
-  #app {
-
-  }
+  @import "./scss/pac.scss";
 </style>

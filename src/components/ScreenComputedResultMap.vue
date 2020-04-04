@@ -17,7 +17,7 @@
 
 <script lang="ts">
   import {Component, Watch} from "vue-property-decorator";
-  import {Getter, Mutation} from "vuex-class";
+  import {Action, Getter, Mutation} from "vuex-class";
   import {google, googleMaps} from 'vue2-google-maps';
   import MFCMarkers from "@/components/MFCMarkers";
   import DeparturePoint from "@/@types/departurePoint";
@@ -35,7 +35,7 @@
   @Component
   export default class ScreenComputedResultMap extends MFCMarkers {
     $refs!: {
-      map: any;
+      map: google.maps.Map & HTMLElement;
     };
 
     @Getter departurePoint!: DeparturePoint;
@@ -46,6 +46,7 @@
     @Mutation updatePossibleOptions!: (possibleOptions: Array<PossibleOption>) => void;
     @Mutation lockUI!: () => void;
     @Mutation unlockUI!: () => void;
+    @Action fetchStatistics!: () => void;
 
     @Watch('departurePoint')
     onDeparturePointChange() {
@@ -72,17 +73,6 @@
       fullscreenControl: false
     };
 
-    private readonly mfcs = [
-      'Партизанский просп., 28А, Владивосток',
-      '​100-летия Владивостока проспект, 44, Владивосток',
-      '​Невельского, 13, Владивосток',
-      '​Давыдова, 9, Владивосток',
-      '​Верхнепортовая, 76а, Владивосток',
-      '​Борисенко, 102, Владивосток',
-      'Экипажная, 10, пос. Русский, Владивостокский городской округ, Приморский край',
-    ];
-
-
     // Google Maps API stuff
     private trafficLayer!: google.maps.TrafficLayer;
     private directionsService!: google.maps.DirectionsService;
@@ -92,6 +82,7 @@
     async mounted() {
       this.lockUI();
       await this.$refs.map.$mapPromise;
+      await this.fetchStatistics();
       await this.initMap();
       await this.calculateOptionsTime();
       await this.drawRoute();
@@ -219,6 +210,8 @@
               })
         });
       };
+
+      console.log('drawRoute bestOption:', this.bestOption);
 
       const response = await processRoute();
       this.directionsDisplay.setDirections(response); // draws the polygon to the map

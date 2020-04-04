@@ -7,12 +7,9 @@
           Откуда вы планируете добираться?
         </h2>
       </div>
-      <div class="input">
-        <BaseDatalist
-            @select="changeDeparturePoint"
-            name="select-service"
-            :data="pointNames"
-            placeholder="Ваше местоположение"
+      <div class="input-section">
+        <BaseInputWithAutocomplete
+          @select="changeDeparturePoint"
         />
       </div>
       <div class="button-group">
@@ -27,14 +24,25 @@
   import {Component, Vue} from "vue-property-decorator";
   import {Getter, Mutation} from "vuex-class";
   import MFCLogo from "./MFCLogo.vue";
+  import BaseInputWithAutocomplete from "./BaseInputWithAutocomplete.vue";
   import BaseDatalist from "./BaseDatalist.vue";
   import PrevButton from "./PrevButton.vue";
   import NextButton from "./NextButton.vue";
   import DeparturePoint from "@/@types/departurePoint";
+  import {google, googleMaps} from "vue2-google-maps";
+
+  declare global {
+    interface Window {
+      google: {
+        maps: googleMaps;
+      };
+    }
+  }
 
   @Component({
     components: {
       MFCLogo,
+      BaseInputWithAutocomplete,
       BaseDatalist,
       PrevButton,
       NextButton,
@@ -45,8 +53,18 @@
     @Getter pointNames!: string[];
     @Mutation updateDeparturePoint!: (departurePoint: DeparturePoint) => void;
 
-    mounted() {
-      this.fetchGeolocation();
+    private geocoder!: google.maps.Geocoder;
+    private declare $gmapApiPromiseLazy: () => Promise<void>;
+
+    async mounted() {
+      console.log('this:', this);
+      this.$gmapApiPromiseLazy().then(() => {
+        console.log('google', window.google);
+        this.geocoder = new window.google.maps.Geocoder();
+        console.log('geocoder:', this.geocoder);
+        this.fetchGeolocation();
+      });
+
     }
 
     private fetchGeolocation() {
@@ -56,7 +74,7 @@
         maximumAge: 0
       };
 
-      const success = (pos: Position) => {
+      const success = async (pos: Position) => {
         const crd = pos.coords;
 
         console.log('Ваше текущее метоположение:');
@@ -83,10 +101,7 @@
       navigator.geolocation.getCurrentPosition(success, error, options);
     }
 
-    private changeDeparturePoint(pointName: string) {
-      const departurePoint = this.points.find((el) => el.name === pointName.trim());
-      if (departurePoint === undefined) return;
-
+    private changeDeparturePoint(departurePoint: DeparturePoint) {
       this.updateDeparturePoint(departurePoint);
       sessionStorage.setItem('departurePoint', JSON.stringify(departurePoint))
     }

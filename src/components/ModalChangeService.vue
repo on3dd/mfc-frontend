@@ -29,8 +29,11 @@
         />
         <button
             @click="submit"
+            :disabled="!isChanging"
             class="modal__search__button-submit"
-        >Сохранить</button>
+        >
+          Сохранить
+        </button>
       </div>
       <button
           @click="$emit('closeModal')"

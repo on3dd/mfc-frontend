@@ -6,7 +6,10 @@
         Выбор способа передвижения
       </h2>
     </div>
-    <TravelWayGroup @select="isDisabled = false"/>
+    <TravelWayGroup
+        @select="isDisabled = false"
+        :is-disabled="false"
+    />
     <div class="button-group">
       <PrevButton/>
       <NextButton :is-disabled="isDisabled"/>
