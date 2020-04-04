@@ -5,7 +5,7 @@
       <h3 class="other-options__list__item__info__street">{{street}}</h3>
       <span class="other-options__list__item__info__estimated-time">
         получение услуги займет примерно
-        <span class="time">~{{estimatedTime}} минут</span>
+        <span class="time">~{{estimatedTime}} {{wordDeclension}}</span>
       </span>
     </div>
   </div>
@@ -18,6 +18,22 @@
   export default class ScreenOtherOptionsItem extends Vue {
     @Prop({type: String, required: true}) street!: string;
     @Prop({type: Number, required: true}) estimatedTime!: number;
+
+    private get wordDeclension(): string {
+      const dozens = Math.floor(this.estimatedTime / 10);
+      switch (this.estimatedTime % 10) {
+        case 1:
+          if (dozens === 1) return 'минут';
+          return 'минута';
+        case 2:
+        case 3:
+        case 4:
+          if (dozens === 1) return 'минут';
+          return 'минуты';
+        default:
+          return 'минут';
+      }
+    }
   }
 </script>
 

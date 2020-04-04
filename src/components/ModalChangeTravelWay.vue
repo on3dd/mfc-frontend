@@ -10,15 +10,27 @@
           <h3 class="modal__options-list__item__header">Способ передвижения</h3>
           <div class="modal__options-list__item__control">
             <span class="modal__options-list__item__control__header">{{localizedTravelWay}}</span>
-            <button class="modal__options-list__item__control__button">Изменить</button>
+            <button
+                @click="isChanging = !isChanging"
+                class="modal__options-list__item__control__button"
+            >
+              Изменить
+            </button>
           </div>
         </div>
       </div>
       <div class="modal__change-travel-way">
-        <TravelWayGroup class="modal__change-travel-way__group"/>
+        <TravelWayGroup
+            :is-disabled="!isChanging"
+            class="modal__change-travel-way__group"
+        />
         <button
+            @click="isChanging = !isChanging"
+            :disabled="!isChanging"
             class="modal__change-travel-way__button-submit"
-        >Сохранить</button>
+        >
+          Сохранить
+        </button>
       </div>
       <button
           @click="$emit('closeModal')"
@@ -29,16 +41,17 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from "vue-property-decorator";
+  import {Component} from "vue-property-decorator";
   import {Getter} from "vuex-class";
   import TravelWayGroup from "@/components/TravelWayGroup.vue";
+  import BaseModal from "@/components/BaseModal.vue";
 
   @Component({
     components: {
       TravelWayGroup,
     }
   })
-  export default class ModalChangeTravelWay extends Vue {
+  export default class ModalChangeTravelWay extends BaseModal {
     @Getter travelWay!: string;
 
     get localizedTravelWay(): string {
@@ -92,6 +105,11 @@
           font-size: 18px;
           border-radius: 20px;
           padding: 0 10px;
+        }
+
+        &[disabled] {
+          cursor: not-allowed;
+          background-color: $mfc-gray;
         }
       }
     }

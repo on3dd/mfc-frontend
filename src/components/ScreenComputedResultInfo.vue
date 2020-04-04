@@ -63,15 +63,16 @@
     }
 
     private get wordDeclension(): string {
+      const dozens = Math.floor(this.bestOption.time / 10);
       switch (this.bestOption.time % 10) {
         case 1:
+          if (dozens === 1) return 'минут';
           return 'минута';
-
         case 2:
         case 3:
         case 4:
+          if (dozens === 1) return 'минут';
           return 'минуты';
-
         default:
           return 'минут';
       }

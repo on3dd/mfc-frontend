@@ -9,7 +9,7 @@
     <TravelWayGroup @select="isDisabled = false"/>
     <div class="button-group">
       <PrevButton/>
-      <NextButton :isDisabled="isDisabled"/>
+      <NextButton :is-disabled="isDisabled"/>
     </div>
   </div>
 </template>

@@ -10,16 +10,22 @@
           <h3 class="modal__options-list__item__header">Услуга</h3>
           <div class="modal__options-list__item__control">
             <span class="modal__options-list__item__control__header">{{service}}</span>
-            <button class="modal__options-list__item__control__button">Изменить</button>
+            <button
+                @click="isChanging = !isChanging"
+                class="modal__options-list__item__control__button"
+            >
+              Изменить
+            </button>
           </div>
         </div>
       </div>
       <div class="modal__search">
         <BaseDatalist
             @select="changeService"
+            :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"
+            :is-disabled="!isChanging"
             name="select-service"
             class="modal__search__input"
-            :data="['first', 'second', 'third', 'fourth', 'fifth', 'sixth']"
         />
         <button
             @click="submit"
@@ -35,16 +41,17 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from "vue-property-decorator";
+  import {Component} from "vue-property-decorator";
   import {Getter, Mutation} from "vuex-class";
   import BaseDatalist from "./BaseDatalist.vue";
+  import BaseModal from "@/components/BaseModal.vue";
 
   @Component({
     components: {
       BaseDatalist,
     }
   })
-  export default class ModalChangeService extends Vue {
+  export default class ModalChangeService extends BaseModal {
     @Getter service!: string;
     @Mutation updateService!: (service: string) => void;
 
@@ -57,6 +64,7 @@
     private submit() {
       this.updateService(this.currentService);
       sessionStorage.setItem('service', JSON.stringify(this.currentService));
+      this.isChanging = false;
     }
   }
 </script>

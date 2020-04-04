@@ -1,5 +1,9 @@
 <template>
-  <div :id="name" class="travel-ways-group__item" @click="clickHandler">
+  <div
+      @click="clickHandler"
+      :id="name"
+      class="travel-ways-group__item"
+  >
     <slot></slot>
   </div>
 </template>
@@ -10,8 +14,10 @@
   @Component
   export default class IconTravelWay extends Vue {
     @Prop({type: String, required: true}) name!: string;
+    @Prop({type: Boolean, required: true}) isDisabled!: boolean;
 
     private clickHandler() {
+      if (this.isDisabled) return;
       this.$emit('changeTravelWay', this.name);
     }
   }
