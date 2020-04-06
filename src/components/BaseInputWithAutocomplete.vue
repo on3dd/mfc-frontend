@@ -4,21 +4,17 @@ import {PlaceResult} from "vue2-google-maps";
     <img src="../assets/images/search-icon.svg" class="input__icon" alt="Поиск">
     <gmap-autocomplete
         class="input"
-        :types="['address']"
         :componentRestrictions="{country:'ru'}"
-        @place_changed="getAddressData">
-      <template v-slot:input="slotProps">
-        <BaseInput
-            ref="input"
-            @listeners="slotProps.listeners"
-            @attrs="slotProps.attrs"/>
-      </template>
+        @place_changed="getAddressData"
+        :value="value"
+    >
+        <BaseInput ref="input"/>
     </gmap-autocomplete>
   </div>
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from "vue-property-decorator";
+  import {Component, Vue, Prop} from "vue-property-decorator";
   import {google} from "vue2-google-maps";
   import BaseInput from "@/components/BaseInput.vue";
 
@@ -31,6 +27,8 @@ import {PlaceResult} from "vue2-google-maps";
     $refs!: {
       input: HTMLInputElement;
     };
+
+    @Prop({type: String, required: false}) value!: string;
 
     private getAddressData(result: google.maps.places.PlaceResult) {
       console.log('getAddressData result', result);

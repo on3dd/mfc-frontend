@@ -9,7 +9,8 @@
       </div>
       <div class="input-section">
         <BaseInputWithAutocomplete
-          @select="changeDeparturePoint"
+            @select="changeDeparturePoint"
+            :value="inputValue"
         />
       </div>
       <div class="button-group">
@@ -53,18 +54,19 @@
     @Getter pointNames!: string[];
     @Mutation updateDeparturePoint!: (departurePoint: DeparturePoint) => void;
 
+    private inputValue = '';
+
     private geocoder!: google.maps.Geocoder;
     private declare $gmapApiPromiseLazy: () => Promise<void>;
 
+
     async mounted() {
-      console.log('this:', this);
       this.$gmapApiPromiseLazy().then(() => {
-        console.log('google', window.google);
+        // console.log('google', window.google);
         this.geocoder = new window.google.maps.Geocoder();
-        console.log('geocoder:', this.geocoder);
+        // console.log('geocoder:', this.geocoder);
         this.fetchGeolocation();
       });
-
     }
 
     private fetchGeolocation() {
@@ -77,21 +79,47 @@
       const success = async (pos: Position) => {
         const crd = pos.coords;
 
-        console.log('Ваше текущее метоположение:');
-        console.log(`Широта: ${crd.latitude}`);
-        console.log(`Долгота: ${crd.longitude}`);
-        console.log(`Плюс-минус ${crd.accuracy} метров.`);
+        // console.log('Ваше текущее метоположение:');
+        // console.log(`Широта: ${crd.latitude}`);
+        // console.log(`Долгота: ${crd.longitude}`);
+        console.log(`Geocoding accuracy: ${crd.accuracy} meters.`);
 
+        const geocodeDeparturePoint = ({lat, lng}: { lat: number; lng: number }) => {
+          return new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
+            this.geocoder.geocode(
+                {
+                  location: {
+                    lat,
+                    lng
+                  }
+                },
+                (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+                  if (status === "OK") {
+                    resolve(results);
+                  } else {
+                    reject(status);
+                  }
+                }
+            )
+          })
+        };
+
+        const results = await geocodeDeparturePoint({lat: crd.latitude, lng: crd.longitude});
+        // console.log('reverse geocoding results:', results);
+
+        const address = results[0].formatted_address.split(',').slice(0, 3).join(',');
         const departurePoint = {
-          name: 'Мое местоположение - определено автоматически',
+          name: address,
           position: {
-            lat: crd.latitude,
-            lng: crd.longitude,
+            lat: results[0].geometry.location.lat(),
+            lng: results[0].geometry.location.lng(),
           }
         };
 
         this.updateDeparturePoint(departurePoint);
-        sessionStorage.setItem('departurePoint', JSON.stringify(departurePoint))
+        sessionStorage.setItem('departurePoint', JSON.stringify(departurePoint));
+
+        this.inputValue = address;
       };
 
       const error = (err: PositionError) => {

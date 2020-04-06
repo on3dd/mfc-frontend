@@ -1,7 +1,9 @@
 <template>
   <div class="input-placeholder">
     <img src="../assets/images/search-icon.svg" class="input__icon" alt="Поиск">
-    <input type="text">
+    <input
+        type="text"
+    >
   </div>
 </template>
 
@@ -9,8 +11,7 @@
   import {Component, Vue} from "vue-property-decorator";
 
   @Component
-  export default class BaseInput extends Vue {
-  }
+  export default class BaseInput extends Vue {}
 </script>
 
 <style scoped lang="scss">
