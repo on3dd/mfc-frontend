@@ -10,12 +10,7 @@
           <h3 class="modal__options-list__item__header">Адрес отправления</h3>
           <div class="modal__options-list__item__control">
             <span class="modal__options-list__item__control__header">{{departurePoint.name}}</span>
-            <button
-                class="modal__options-list__item__control__button"
-                @click="isChanging = !isChanging"
-            >
-              Изменить
-            </button>
+            <button class="modal__options-list__item__control__button">Изменить</button>
           </div>
         </div>
       </div>
@@ -23,31 +18,25 @@
         <BaseDatalist
             @select="changeDeparturePoint"
             :data="points.map((el) => el.name)"
-            :is-disabled="!isChanging"
             name="select-departure-point"
             class="modal__search__input"
         />
         <button
             @click="submit"
-            :disabled="!isChanging"
             class="modal__search__button-submit"
-        >Сохранить
-        </button>
+        >Сохранить</button>
       </div>
       <button
           @click="$emit('closeModal')"
           class="modal__button-close"
-      >
-        x
-      </button>
+      >x</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import {Component} from "vue-property-decorator";
+  import {Component, Vue} from "vue-property-decorator";
   import {Getter, Mutation} from "vuex-class";
-  import BaseModal from "./BaseModal.vue";
   import BaseDatalist from "./BaseDatalist.vue";
   import DeparturePoint from "@/@types/departurePoint";
 
@@ -56,7 +45,7 @@
       BaseDatalist,
     }
   })
-  export default class ModalChangeDeparturePoint extends BaseModal {
+  export default class ModalChangeDeparturePoint extends Vue {
     @Getter points!: DeparturePoint[];
     @Getter departurePoint!: DeparturePoint;
     @Mutation updateDeparturePoint!: (departurePoint: DeparturePoint) => void;
@@ -73,7 +62,6 @@
     private submit() {
       this.updateDeparturePoint(this.currentDeparturePoint);
       sessionStorage.setItem('departurePoint', JSON.stringify(this.currentDeparturePoint));
-      this.isChanging = false;
     }
   }
 </script>

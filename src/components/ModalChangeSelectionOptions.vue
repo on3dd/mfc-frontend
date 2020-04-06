@@ -50,13 +50,12 @@
 </template>
 
 <script lang="ts">
-  import {Component} from 'vue-property-decorator';
+  import {Component, Vue} from 'vue-property-decorator';
   import {Getter} from "vuex-class";
   import DeparturePoint from "@/@types/departurePoint";
-  import BaseModal from "@/components/BaseModal.vue";
 
   @Component
-  export default class ModalChangeSelectionOptions extends BaseModal {
+  export default class ModalChangeSelectionOptions extends Vue {
     @Getter departurePoint!: DeparturePoint;
     @Getter travelWay!: string;
     @Getter service!: string;

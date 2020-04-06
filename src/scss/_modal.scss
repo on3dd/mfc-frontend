@@ -207,11 +207,6 @@
         @media (min-width: $breakpoint-tablet) {
           font-size: 18px;
         }
-
-        &[disabled] {
-          cursor: not-allowed;
-          background-color: $mfc-gray;
-        }
       }
     }
 

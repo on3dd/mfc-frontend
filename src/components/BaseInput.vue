@@ -1,24 +1,39 @@
 <template>
   <div class="input-placeholder">
     <img src="../assets/images/search-icon.svg" class="input__icon" alt="Поиск">
-    <input
-        type="text"
-    >
+    <input class="input" type="text">
   </div>
 </template>
 
-<script lang="ts">
-  import {Component, Vue} from "vue-property-decorator";
-
-  @Component
-  export default class BaseInput extends Vue {}
+<script>
+  export default {
+    name: "BaseInput"
+  }
 </script>
 
 <style scoped lang="scss">
   @import "../scss/colors";
-  @import "../scss/input";
 
   .input-placeholder {
-    @include base-input;
+    position: relative;
+    width: 100%;
+    height: 90px;
+    font-size: 36px;
+
+    .input {
+      width: inherit;
+      height: inherit;
+      border-radius: 80px;
+      border: 4px solid $mfc-orange;
+      font-size: 1em;
+      padding: 0 1em 0 3em;
+
+      &__icon {
+        position: absolute;
+        top: 50%;
+        left: 1em;
+        transform: translateY(-50%);
+      }
+    }
   }
 </style>

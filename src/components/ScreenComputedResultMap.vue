@@ -17,12 +17,11 @@
 
 <script lang="ts">
   import {Component, Watch} from "vue-property-decorator";
-  import {Action, Getter, Mutation} from "vuex-class";
+  import {Getter, Mutation} from "vuex-class";
   import {google, googleMaps} from 'vue2-google-maps';
   import MFCMarkers from "@/components/MFCMarkers";
   import DeparturePoint from "@/@types/departurePoint";
   import PossibleOption from "@/@types/possibleOption";
-  import StatisticsItemExtended from "@/@types/statisticsItemExtended";
 
   declare global {
     interface Window {
@@ -35,18 +34,16 @@
   @Component
   export default class ScreenComputedResultMap extends MFCMarkers {
     $refs!: {
-      map: google.maps.Map & HTMLElement;
+      map: any;
     };
 
     @Getter departurePoint!: DeparturePoint;
     @Getter travelWay!: string;
     @Getter service!: string;
-    @Getter nearestCenters!: StatisticsItemExtended[];
     @Getter bestOption!: PossibleOption;
     @Mutation updatePossibleOptions!: (possibleOptions: Array<PossibleOption>) => void;
     @Mutation lockUI!: () => void;
     @Mutation unlockUI!: () => void;
-    @Action fetchStatistics!: () => void;
 
     @Watch('departurePoint')
     onDeparturePointChange() {
@@ -73,6 +70,17 @@
       fullscreenControl: false
     };
 
+    private readonly mfcs = [
+      'Партизанский просп., 28А, Владивосток',
+      '​100-летия Владивостока проспект, 44, Владивосток',
+      '​Невельского, 13, Владивосток',
+      '​Давыдова, 9, Владивосток',
+      '​Верхнепортовая, 76а, Владивосток',
+      '​Борисенко, 102, Владивосток',
+      'Экипажная, 10, пос. Русский, Владивостокский городской округ, Приморский край',
+    ];
+
+
     // Google Maps API stuff
     private trafficLayer!: google.maps.TrafficLayer;
     private directionsService!: google.maps.DirectionsService;
@@ -82,7 +90,6 @@
     async mounted() {
       this.lockUI();
       await this.$refs.map.$mapPromise;
-      await this.fetchStatistics();
       await this.initMap();
       await this.calculateOptionsTime();
       await this.drawRoute();
@@ -132,22 +139,32 @@
 
         const possibleOptions = Array<PossibleOption>();
 
-        const processAddress = (center: StatisticsItemExtended) => {
-          return new Promise<google.maps.DirectionsResult>((resolve, reject) => {
-            const position = {
-              lat: center.lat,
-              lng: center.lan,
-            };
+        const geocodeAddress = (currentMFC: string) => {
+          return new Promise<google.maps.GeocoderResult[]>((resolve, reject) => {
+            this.geocoder.geocode(
+                {address: currentMFC},
+                (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+                  if (status === "OK") {
+                    resolve(results);
+                  } else {
+                    reject(status);
+                  }
+                }
+            )
+          })
+        };
 
+        const processAddress = (results: google.maps.GeocoderResult[]) => {
+          return new Promise<google.maps.DirectionsResult>((resolve, reject) => {
             new window.google.maps.Marker({
               icon: this.marker(),
               map: this.$refs.map.$mapObject,
-              position: position,
+              position: results[0].geometry.location,
             } as unknown as google.maps.ReadonlyMarkerOptions);
 
             this.directionsService.route({
                   origin: this.departurePoint.position, // Can be coord or also a search query
-                  destination: position,
+                  destination: results[0].geometry.location,
                   travelMode: this.travelWay.toUpperCase(),
                 } as google.maps.DirectionsRequest,
                 (response: google.maps.DirectionsResult, status: google.maps.DirectionsStatus) => {
@@ -163,7 +180,7 @@
 
         const buildRoute = (
             currentMFC: string,
-            center: StatisticsItemExtended,
+            results: google.maps.GeocoderResult[],
             response: google.maps.DirectionsResult
         ) => {
           return new Promise<void>((resolve) => {
@@ -174,8 +191,8 @@
               name: currentMFC,
               time: Number(estimatedTime),
               position: {
-                lat: center.lat,
-                lng: center.lan,
+                lat: results[0].geometry.location.lat(),
+                lng: results[0].geometry.location.lng(),
               },
             });
 
@@ -183,12 +200,15 @@
           })
         };
 
-        for (let i = 0; i < this.nearestCenters.length; i++) {
-          const response = await processAddress(this.nearestCenters[i]);
-          await buildRoute(this.nearestCenters[i].organizationAddress, this.nearestCenters[i], response);
+        for (const currentMFC of this.mfcs) {
+          const results = await geocodeAddress(currentMFC);
+          const response = await processAddress(results);
+          await buildRoute(currentMFC, results, response);
         }
 
+        console.log('possibleOptions length:', possibleOptions.length);
         this.updatePossibleOptions(possibleOptions);
+
         sessionStorage.setItem('possibleOptions', JSON.stringify(possibleOptions));
       }
     }
@@ -210,8 +230,6 @@
               })
         });
       };
-
-      console.log('drawRoute bestOption:', this.bestOption);
 
       const response = await processRoute();
       this.directionsDisplay.setDirections(response); // draws the polygon to the map
