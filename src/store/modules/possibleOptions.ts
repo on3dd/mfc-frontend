@@ -1,15 +1,12 @@
 import PossibleOption from "@/@types/possibleOption";
 
-export interface PossibleOptionsState {
+interface PossibleOptionsState {
   possibleOptions: Array<PossibleOption>;
 }
 
 export default {
   state: {
     possibleOptions: [],
-  },
-  actions: {
-
   },
   mutations: {
     updatePossibleOptions(state: PossibleOptionsState, options: Array<PossibleOption>) {
@@ -26,7 +23,7 @@ export default {
     bestOption: (state: PossibleOptionsState) => {
       if (state.possibleOptions.length === 0) {
         return {
-          name: 'Владивосток, Неизвестная, 99',
+          name: 'Неизвестная, 99, Владивосток',
           time: 99,
         }
       }
