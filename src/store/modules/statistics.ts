@@ -17,7 +17,7 @@ export default {
   },
   actions: {
     async fetchStatistics({commit, rootState}: { commit: Commit; rootState: RootState }) {
-      const data = await fetch('http://localhost:8080/api/mfcs');
+      const data = await fetch('/api/mfcs');
       const body = await data.json() as HttpResponse;
       const statistics = body.body;
       console.log('statistics:', statistics);
