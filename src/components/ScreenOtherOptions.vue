@@ -5,7 +5,7 @@
       <ScreenOtherOptionsItem
           v-for="(item, idx) in possibleOptions"
           :key="idx"
-          :street="item.name.split(',').slice(1, 3).join(', ').replace('ул.', '')"
+          :street="item.name.split(',').slice(0,2).join()"
           :estimated-time="item.time"
       />
     </div>

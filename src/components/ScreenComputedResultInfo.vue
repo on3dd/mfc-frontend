@@ -6,7 +6,7 @@
     <section class="info__data">
       <h2 class="info__data__header">Наиболее удобное отделение</h2>
       <div class="info__data__details">
-        <h3 class="info__data__details__header">{{bestOption.name.split(',').slice(1, 3).join(', ').replace('ул.', '')}}</h3>
+        <h3 class="info__data__details__header">{{bestOption.name.split(',').slice(0, 2).join()}}</h3>
         <span class="info__data__details__phone">+7 (423) 201-01-56</span>
         <span class="info__data__details__estimated-time">
           <span class="big">Дорога до отделения</span>
@@ -48,26 +48,30 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
-  import {Getter} from "vuex-class";
-  import PossibleOption from "@/@types/possibleOption";
+  import {Getter, Action} from "vuex-class";
   import StatisticsItem from "@/@types/statisticsItem";
+  import PossibleOption from "@/@types/possibleOption";
 
   @Component
   export default class ScreenComputedResultInfo extends Vue {
     @Getter bestOption!: PossibleOption;
     @Getter statistics!: StatisticsItem;
+    @Action fetchStatistics!: () => void;
+
+    async mounted() {
+      await this.fetchStatistics();
+    }
 
     private get wordDeclension(): string {
-      const dozens = Math.floor(this.bestOption.time / 10);
       switch (this.bestOption.time % 10) {
         case 1:
-          if (dozens === 1) return 'минут';
           return 'минута';
+
         case 2:
         case 3:
         case 4:
-          if (dozens === 1) return 'минут';
           return 'минуты';
+
         default:
           return 'минут';
       }

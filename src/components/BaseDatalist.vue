@@ -10,7 +10,6 @@
           class="input"
           type="text"
           :placeholder="placeholder"
-          :disabled="isDisabled"
       >
     </div>
     <ul
@@ -40,7 +39,6 @@
     @Prop({type: String, required: true}) name!: string;
     @Prop({type: Array, required: true}) data!: string[];
     @Prop({type: String, required: false}) placeholder!: string;
-    @Prop({type: Boolean, required: false}) isDisabled!: boolean;
 
     @Watch('data')
     onDataChange(data: string[], oldData: string[]) {
@@ -70,10 +68,7 @@
     }
 
     changeActive(evt: MouseEvent) {
-      const textContent = (evt.target as HTMLElement).textContent;
-      if ((textContent === undefined) || (textContent === null)) return;
-
-      this.currentOption = textContent;
+      this.currentOption = (evt.target as HTMLElement).textContent!;
       this.$emit('select', this.currentOption);
     }
   }
@@ -118,14 +113,9 @@
         border: 2px solid $mfc-orange;
         font-size: inherit;
         padding: 0 1em 0 2.75em;
-        transition: all .2s ease-out;
 
         @media (min-width: $breakpoint-desktop) {
           border-width: 4px;
-        }
-
-        &[disabled] {
-          border-color: $mfc-light-gray;
         }
 
         &__icon {
