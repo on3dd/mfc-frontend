@@ -1,36 +1,31 @@
 <template>
-  <div
-      :class="['travel-ways-group', isDisabled ? 'disabled' : '']"
-  >
+  <div class="travel-ways-group">
     <IconTravelWay
-        @changeTravelWay="changeTravelWay($event)"
-        :is-disabled="isDisabled"
         name="walking"
+        @changeTravelWay="changeTravelWay($event)"
     >
       <img
-          :class="{'travel-ways-group__item__image': true, 'active': travelWay === 'walking', 'disabled': isDisabled}"
+          :class="{'travel-ways-group__item__image': true, active: travelWay === 'walking'}"
           src="../assets/images/afoot-icon.svg"
           alt="Пешком">
       <span class="travel-ways-group__item__text">Пешком</span>
     </IconTravelWay>
     <IconTravelWay
-        @changeTravelWay="changeTravelWay($event)"
-        :is-disabled="isDisabled"
         name="driving"
+        @changeTravelWay="changeTravelWay($event)"
     >
       <img
-          :class="{'travel-ways-group__item__image': true, 'active': travelWay === 'driving', 'disabled': isDisabled}"
+          :class="{'travel-ways-group__item__image': true, active: travelWay === 'driving'}"
           src="../assets/images/car-icon.svg"
           alt="На машине">
       <span class="travel-ways-group__item__text">Авто</span>
     </IconTravelWay>
     <IconTravelWay
-        @changeTravelWay="changeTravelWay($event)"
-        :is-disabled="isDisabled"
         name="transit"
+        @changeTravelWay="changeTravelWay($event)"
     >
       <img
-          :class="{'travel-ways-group__item__image': true, 'active': travelWay === 'transit', 'disabled': isDisabled}"
+          :class="{'travel-ways-group__item__image': true, active: travelWay === 'transit'}"
           src="../assets/images/bus-icon.svg"
           alt="Общественным транспортом">
       <span class="travel-ways-group__item__text">Общественный транспорт</span>
@@ -39,7 +34,7 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Prop} from "vue-property-decorator";
+  import {Component, Vue} from "vue-property-decorator";
   import {Getter, Mutation} from "vuex-class";
   import IconTravelWay from '@/components/IconTravelWay.vue'
 
@@ -49,8 +44,6 @@
     }
   })
   export default class TravelWayGroup extends Vue {
-    @Prop({type: Boolean, required: true}) isDisabled!: boolean;
-
     @Getter travelWay!: string;
     @Mutation updateTravelWay!: (travelWay: string) => void;
 
@@ -70,11 +63,6 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
-    transition: all .1s ease-out;
-
-    &.disabled {
-      filter: grayscale(100%);
-    }
 
     &__item {
       display: flex;

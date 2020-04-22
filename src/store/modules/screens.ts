@@ -1,4 +1,4 @@
-export interface ScreensState {
+interface ScreensState {
   screen: number;
 }
 

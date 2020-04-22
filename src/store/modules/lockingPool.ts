@@ -1,4 +1,4 @@
-export interface LockingPoolState {
+interface LockingPoolState {
   lockingPool: boolean;
 }
 
